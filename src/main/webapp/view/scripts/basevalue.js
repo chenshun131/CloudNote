@@ -1,1 +1,1 @@
-var path = "http://localhost:8080/StudyApp";
+var path = "http://localhost:8080/CloudNote/";
