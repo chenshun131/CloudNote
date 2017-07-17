@@ -15,7 +15,7 @@ import java.lang.reflect.*;
  */
 public class ReflectionUtils {
 
-    private static Logger logger = LoggerFactory.getLogger(ReflectionUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(ReflectionUtils.class);
 
     private static final String SETTER_PREFIX = "set";
 

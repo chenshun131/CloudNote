@@ -82,7 +82,7 @@ public class CollectionUtil {
      */
     public static <T> List<T> sortPageAll(int pageNo, int numPerPage, Comparator<T> comparator, Collection<T>...
             colls) {
-        final List<T> result = new ArrayList<T>();
+        final List<T> result = new ArrayList<>();
         for (Collection<T> coll : colls) {
             result.addAll(coll);
         }
@@ -114,7 +114,7 @@ public class CollectionUtil {
     @SafeVarargs
     public static <T> List<T> sortPageAll2(int pageNo, int numPerPage, Comparator<T> comparator,
                                            Collection<T>... colls) {
-        BoundedPriorityQueue<T> queue = new BoundedPriorityQueue<T>(pageNo * numPerPage);
+        BoundedPriorityQueue<T> queue = new BoundedPriorityQueue<>(pageNo * numPerPage);
         for (Collection<T> coll : colls) {
             queue.addAll(coll);
         }
@@ -136,7 +136,7 @@ public class CollectionUtil {
      * @return 排序后的Set
      */
     public static List<Map.Entry<Long, Long>> sortEntrySetToList(Set<Map.Entry<Long, Long>> set) {
-        List<Map.Entry<Long, Long>> list = new LinkedList<Map.Entry<Long, Long>>(set);
+        List<Map.Entry<Long, Long>> list = new LinkedList<>(set);
         Collections.sort(list, new Comparator<Map.Entry<Long, Long>>() {
             @Override
             public int compare(Map.Entry<Long, Long> o1, Map.Entry<Long, Long> o2) {
@@ -168,7 +168,7 @@ public class CollectionUtil {
             return null;
         }
 
-        final List<T> currentAlaDatas = new ArrayList<T>();
+        final List<T> currentAlaDatas = new ArrayList<>();
         int size = surplusAlaDatas.size();
         // 切割
         if (size > partSize) {
@@ -199,7 +199,7 @@ public class CollectionUtil {
             return null;
         }
 
-        final List<T> currentAlaDatas = new ArrayList<T>();
+        final List<T> currentAlaDatas = new ArrayList<>();
         int size = surplusAlaDatas.size();
         // 切割
         if (size > partSize) {
@@ -220,7 +220,7 @@ public class CollectionUtil {
      * @return HashMap对象
      */
     public static <T, K> HashMap<T, K> newHashMap() {
-        return new HashMap<T, K>();
+        return new HashMap<>();
     }
 
     /**
@@ -231,7 +231,7 @@ public class CollectionUtil {
      * @return HashMap对象
      */
     public static <T, K> HashMap<T, K> newHashMap(int size) {
-        return new HashMap<T, K>((int) (size / 0.75));
+        return new HashMap<>((int) (size / 0.75));
     }
 
     /**
@@ -240,7 +240,7 @@ public class CollectionUtil {
      * @return HashSet对象
      */
     public static <T> HashSet<T> newHashSet() {
-        return new HashSet<T>();
+        return new HashSet<>();
     }
 
     /**
@@ -250,7 +250,7 @@ public class CollectionUtil {
      */
     @SafeVarargs
     public static <T> HashSet<T> newHashSet(T... ts) {
-        HashSet<T> set = new HashSet<T>();
+        HashSet<T> set = new HashSet<>();
         for (T t : ts) {
             set.add(t);
         }
@@ -263,7 +263,7 @@ public class CollectionUtil {
      * @return ArrayList对象
      */
     public static <T> ArrayList<T> newArrayList() {
-        return new ArrayList<T>();
+        return new ArrayList<>();
     }
 
     /**
@@ -273,7 +273,7 @@ public class CollectionUtil {
      */
     @SafeVarargs
     public static <T> ArrayList<T> newArrayList(T... values) {
-        return new ArrayList<T>(Arrays.asList(values));
+        return new ArrayList<>(Arrays.asList(values));
     }
 
     /**
@@ -502,7 +502,7 @@ public class CollectionUtil {
         if (list == null || list.isEmpty()) {
             return null;
         }
-        return sub(new ArrayList<T>(list), start, end);
+        return sub(new ArrayList<>(list), start, end);
     }
 
     /**
@@ -524,7 +524,7 @@ public class CollectionUtil {
      * @return 是否为非空
      */
     public static <T> boolean isNotEmpty(T[] array) {
-        return false == isEmpty(array);
+        return !isEmpty(array);
     }
 
     /**
@@ -546,7 +546,7 @@ public class CollectionUtil {
      * @return 是否为非空
      */
     public static boolean isNotEmpty(Collection<?> collection) {
-        return false == isEmpty(collection);
+        return !isEmpty(collection);
     }
 
     /**
@@ -568,7 +568,7 @@ public class CollectionUtil {
      * @return 是否为非空
      */
     public static <T> boolean isNotEmpty(Map<?, ?> map) {
-        return false == isEmpty(map);
+        return !isEmpty(map);
     }
 
     /**
@@ -591,7 +591,7 @@ public class CollectionUtil {
         }
 
         final int size = Math.min(keys.length, values.length);
-        final Map<T, K> map = new HashMap<T, K>((int) (size / 0.75));
+        final Map<T, K> map = new HashMap<>((int) (size / 0.75));
         for (int i = 0; i < size; i++) {
             map.put(keys[i], values[i]);
         }
@@ -666,7 +666,7 @@ public class CollectionUtil {
         for (T t : array) {
             if (t == value) {
                 return true;
-            } else if (false == isPrimitive && null != value && value.equals(t)) {
+            } else if (!isPrimitive && null != value && value.equals(t)) {
                 return true;
             }
         }
@@ -681,7 +681,7 @@ public class CollectionUtil {
      * @return Map
      */
     public static <T, K> HashMap<T, K> toMap(Collection<Map.Entry<T, K>> entryCollection) {
-        HashMap<T, K> map = new HashMap<T, K>();
+        HashMap<T, K> map = new HashMap<>();
         for (Map.Entry<T, K> entry : entryCollection) {
             map.put(entry.getKey(), entry.getValue());
         }
@@ -698,7 +698,7 @@ public class CollectionUtil {
      * @return treeSet
      */
     public static <T> TreeSet<T> toTreeSet(Collection<T> collection, Comparator<T> comparator) {
-        final TreeSet<T> treeSet = new TreeSet<T>(comparator);
+        final TreeSet<T> treeSet = new TreeSet<>(comparator);
         for (T t : collection) {
             treeSet.add(t);
         }
@@ -715,7 +715,7 @@ public class CollectionUtil {
      * @return treeSet
      */
     public static <T> List<T> sort(Collection<T> collection, Comparator<T> comparator) {
-        List<T> list = new ArrayList<T>(collection);
+        List<T> list = new ArrayList<>(collection);
         Collections.sort(list, comparator);
         return list;
     }

@@ -1,7 +1,5 @@
 package com.chenshun.utils.date;
 
-import com.chenshun.utils.validate.Func;
-
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -232,9 +230,8 @@ public class DateUtil {
     public static int getDiffYear(String startTime, String endTime) {
         DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            int years = (int) (((fmt.parse(endTime).getTime() - fmt.parse(startTime).getTime()) /
+            return (int) (((fmt.parse(endTime).getTime() - fmt.parse(startTime).getTime()) /
                     (1000 * 60 * 60 * 24)) / 365);
-            return years;
         } catch (Exception e) {
             // 如果throw java.text.ParseException或者NullPointerException，就说明格式不对
             return 0;
@@ -281,9 +278,7 @@ public class DateUtil {
         Date date = canlendar.getTime();
 
         SimpleDateFormat sdfd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateStr = sdfd.format(date);
-
-        return dateStr;
+        return sdfd.format(date);
     }
 
     /**
@@ -300,9 +295,8 @@ public class DateUtil {
         Date date = canlendar.getTime();
 
         SimpleDateFormat sdf = new SimpleDateFormat("E");
-        String dateStr = sdf.format(date);
 
-        return dateStr;
+        return sdf.format(date);
     }
 
     public static void main(String[] args) {

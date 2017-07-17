@@ -29,7 +29,7 @@ import java.util.Map;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Resource
     private UserMapper userMapper;

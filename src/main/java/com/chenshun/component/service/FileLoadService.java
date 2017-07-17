@@ -19,9 +19,9 @@ import java.util.Map;
  */
 public class FileLoadService {
 
-    private static Logger log = LoggerFactory.getLogger(FileLoadService.class);
+    private static final Logger log = LoggerFactory.getLogger(FileLoadService.class);
 
-    private static Map<String, String> mime = new HashMap<>();
+    private static final Map<String, String> mime = new HashMap<>();
 
     static {
         mime.put("png", "image/png");

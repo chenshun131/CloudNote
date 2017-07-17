@@ -30,13 +30,13 @@ import java.util.*;
 @SuppressWarnings("unchecked")
 public class SimpleHibernateDao<T, PK extends Serializable> {
 
-    public Logger logger = LoggerFactory.getLogger(getClass());
+    public final Logger logger = LoggerFactory.getLogger(getClass());
 
     public SessionFactory sessionFactory;
 
-    public Class<T> entityClass;
+    public final Class<T> entityClass;
 
-    public Set<String> aliases = new HashSet<String>();
+    public Set<String> aliases = new HashSet<>();
 
     /**
      * 用于Dao层子类使用的构造函数.

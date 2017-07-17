@@ -18,9 +18,9 @@ import java.net.SocketException;
  */
 public final class FtpUtil {
 
-    public static Log ftpLog = LogFactory.getLog("FTP");
+    public static final Log ftpLog = LogFactory.getLog("FTP");
 
-    private ThreadLocal<FTPClient> ftpClientThreadLocal = new ThreadLocal<>();
+    private final ThreadLocal<FTPClient> ftpClientThreadLocal = new ThreadLocal<>();
 
     /** FTP 登录用户名 */
     private String userName;
@@ -119,7 +119,7 @@ public final class FtpUtil {
      * @throws SocketException
      * @throws IOException
      */
-    private FTPClient connect(FTPClient client) throws SocketException, IOException {
+    private FTPClient connect(FTPClient client) throws IOException {
         if (client == null) {
             client = new FTPClient();
             ftpLog.info("FTPUtils对象中的连接方法中创建ftp client对象引用成功[FtpUtil inst addr:" + this + "; ftp client inst addr:"
@@ -236,8 +236,7 @@ public final class FtpUtil {
         FTPClient client = null;
         try {
             client = getFtpClient();
-            InputStream inputStream = client.retrieveFileStream(remoteFileName);
-            return inputStream;
+            return client.retrieveFileStream(remoteFileName);
         } catch (Exception e) {
             ftpLog.error("获取下载文件流失败", e);
         }
@@ -326,8 +325,8 @@ public final class FtpUtil {
             if (files == null || files.length == 0) {
                 ftpLog.info("没有任何文件");
             } else {
-                for (int i = 0; i < files.length; i++) {
-                    ftpLog.info(files[i]);
+                for (String file : files) {
+                    ftpLog.info(file);
                 }
             }
         } catch (Exception e) {
@@ -347,8 +346,8 @@ public final class FtpUtil {
         try {
             client = getFtpClient();
             names = client.listNames();
-            for (int i = 0; i < names.length; i++) {
-                ftpLog.info(names[i]);
+            for (String name : names) {
+                ftpLog.info(name);
             }
         } catch (Exception e) {
             ftpLog.error("列出文件和目录失败", e);

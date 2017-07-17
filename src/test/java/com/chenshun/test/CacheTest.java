@@ -1,7 +1,6 @@
 package com.chenshun.test;
 
 import com.chenshun.studyapp.dao.UserMapper;
-import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

@@ -13,9 +13,9 @@ import java.util.Map;
  */
 public class SqlMapUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(SqlMapUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(SqlMapUtil.class);
 
-    private static SqlMapUtil _instance = new SqlMapUtil();
+    private static final SqlMapUtil _instance = new SqlMapUtil();
 
     private SqlMap _sqlMap;
 

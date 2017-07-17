@@ -1,6 +1,5 @@
 package com.chenshun.studyapp.aop;
 
-import com.chenshun.studyapp.controller.note.NoteController;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Aspect // 将该组件指定为方面
 public class ControllerAspect {
 
-    private static Logger logger = LoggerFactory.getLogger(ControllerAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(ControllerAspect.class);
 
     @Before("within(com.chenshun.studyapp.controller..*)")
     public void mybefore() {

@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public final class IdentityCardUtil {
 
-    private static IdentityCardUtil instance = new IdentityCardUtil();
+    private static final IdentityCardUtil instance = new IdentityCardUtil();
 
     private IdentityCardUtil() {
     }
@@ -23,19 +23,19 @@ public final class IdentityCardUtil {
     // verify digit
     final int[] vi = {1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2};
 
-    private int[] ai = new int[18];
+    private final int[] ai = new int[18];
 
-    private static String[] _areaCode = {"11", "12", "13", "14", "15", "21",
+    private static final String[] _areaCode = {"11", "12", "13", "14", "15", "21",
             "22", "23", "31", "32", "33", "34", "35", "36", "37", "41", "42",
             "43", "44", "45", "46", "50", "51", "52", "53", "54", "61", "62",
             "63", "64", "65", "71", "81", "82", "91"};
 
-    private static HashMap<String, Integer> dateMap;
+    private static final HashMap<String, Integer> dateMap;
 
-    private static HashMap<String, String> areaCodeMap;
+    private static final HashMap<String, String> areaCodeMap;
 
     static {
-        dateMap = new HashMap<String, Integer>();
+        dateMap = new HashMap<>();
         dateMap.put("01", 31);
         dateMap.put("02", null);
         dateMap.put("03", 31);
@@ -48,7 +48,7 @@ public final class IdentityCardUtil {
         dateMap.put("10", 31);
         dateMap.put("11", 30);
         dateMap.put("12", 31);
-        areaCodeMap = new HashMap<String, String>();
+        areaCodeMap = new HashMap<>();
         for (String code : _areaCode) {
             areaCodeMap.put(code, null);
         }
@@ -197,10 +197,7 @@ public final class IdentityCardUtil {
             return false;
         }
         // 验证18位校验码,校验码采用ISO 7064：1983，MOD 11-2 校验码系统
-        if (!verifyMOD(lenEighteenIdCard)) {
-            return false;
-        }
-        return true;
+        return verifyMOD(lenEighteenIdCard);
     }
 
     /**

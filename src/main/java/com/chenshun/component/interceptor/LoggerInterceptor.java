@@ -17,10 +17,10 @@ import java.util.Map;
  */
 public class LoggerInterceptor extends HandlerInterceptorAdapter {
 
-    private static Logger log = LoggerFactory.getLogger(LoggerInterceptor.class);
+    private static final Logger log = LoggerFactory.getLogger(LoggerInterceptor.class);
 
     /** 重写initial method ， 解决相同线程进入多次报exception */
-    private ThreadLocal<Long> startTimeThreadLocal = new ThreadLocal<Long>() {
+    private final ThreadLocal<Long> startTimeThreadLocal = new ThreadLocal<Long>() {
         @Override
         protected Long initialValue() {
             return System.currentTimeMillis();

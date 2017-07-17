@@ -16,7 +16,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 
     private static ApplicationContext applicationContext = null;
 
-    private static Logger logger = LoggerFactory.getLogger(SpringContextHolder.class);
+    private static final Logger logger = LoggerFactory.getLogger(SpringContextHolder.class);
 
     /**
      * 实现ApplicationContextAware接口, 注入Context到静态变量中.

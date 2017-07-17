@@ -26,10 +26,9 @@ public class Exceptions {
 
     public static boolean isCausedBy(Exception ex, Class... causeExceptionClasses) {
         for (Throwable cause = ex.getCause(); cause != null; cause = cause.getCause()) {
-            Class[] var6 = causeExceptionClasses;
             int var5 = causeExceptionClasses.length;
             for (int var4 = 0; var4 < var5; ++var4) {
-                Class<? extends Exception> causeClass = var6[var4];
+                Class<? extends Exception> causeClass = causeExceptionClasses[var4];
                 if (causeClass.isInstance(cause)) {
                     return true;
                 }

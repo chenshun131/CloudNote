@@ -69,10 +69,7 @@ public final class DateOperator {
 
         String dateStr = defaultFormatDate(date);
         String dateAnotherStr = defaultFormatDate(dateAnother);
-        if (dateStr.equals(dateAnotherStr)) {
-            return true;
-        }
-        return false;
+        return dateStr.equals(dateAnotherStr);
     }
 
     /**
@@ -86,10 +83,7 @@ public final class DateOperator {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        if (calendar.get(Calendar.DAY_OF_WEEK) == 7 || calendar.get(Calendar.DAY_OF_WEEK) == 1) {
-            return true;
-        }
-        return false;
+        return (calendar.get(Calendar.DAY_OF_WEEK) == 7 || calendar.get(Calendar.DAY_OF_WEEK) == 1);
     }
 
     /**

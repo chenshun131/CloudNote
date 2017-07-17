@@ -24,9 +24,9 @@ import java.util.Map;
  */
 public class SqlMap {
 
-    private static Logger logger = LoggerFactory.getLogger(SqlMap.class);
+    private static final Logger logger = LoggerFactory.getLogger(SqlMap.class);
 
-    private Map<String, SQLBean> _sqlPool;
+    private final Map<String, SQLBean> _sqlPool;
 
     private static final String GROUP_BY_CLAUSE = " GROUP BY ";
 

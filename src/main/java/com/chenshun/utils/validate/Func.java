@@ -72,7 +72,7 @@ public class Func {
             }
             return count;
         }
-        if (obj.getClass().isArray() == true) {
+        if (obj.getClass().isArray()) {
             return Array.getLength(obj);
         }
         return -1;
@@ -92,10 +92,7 @@ public class Func {
             return false;
         }
         if (obj instanceof String) {
-            if (element == null) {
-                return false;
-            }
-            return ((String) obj).contains(element.toString());
+            return element != null && ((String) obj).contains(element.toString());
         }
         if (obj instanceof Collection) {
             return ((Collection<?>) obj).contains(element);
@@ -124,7 +121,7 @@ public class Func {
             }
             return false;
         }
-        if (obj.getClass().isArray() == true) {
+        if (obj.getClass().isArray()) {
             int len = Array.getLength(obj);
             for (int i = 0; i < len; i++) {
                 Object o = Array.get(obj, i);
@@ -443,10 +440,10 @@ public class Func {
      * @return List<Object>
      */
     public static List<Object> listHolder(String ids) {
-        final List<Object> parameters = new ArrayList<Object>();
+        final List<Object> parameters = new ArrayList<>();
         String[] idarr = ids.split(",");
-        for (int i = 0; i < idarr.length; i++) {
-            parameters.add(idarr[i]);
+        for (String anIdarr : idarr) {
+            parameters.add(anIdarr);
         }
         return parameters;
     }

@@ -21,7 +21,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class CustomControllerExHandler implements HandlerExceptionResolver {
 
-    private static Logger logger = LoggerFactory.getLogger(CustomControllerExHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomControllerExHandler.class);
 
     public CustomControllerExHandler() {
     }

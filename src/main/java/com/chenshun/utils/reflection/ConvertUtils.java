@@ -106,11 +106,10 @@ public class ConvertUtils {
 
     public static <T> Map<?, ?> convertBeanPropertyToMap(T bean) throws IntrospectionException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
         Class<?> type = bean.getClass();
-        Map<String, Object> returnMap = new HashMap<String, Object>();
+        Map<String, Object> returnMap = new HashMap<>();
         BeanInfo beanInfo = Introspector.getBeanInfo(type);
         PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-        for (int i = 0; i < propertyDescriptors.length; i++) {
-            PropertyDescriptor descriptor = propertyDescriptors[i];
+        for (PropertyDescriptor descriptor : propertyDescriptors) {
             String propertyName = descriptor.getName();
             if (!propertyName.equals("class")) {
                 Method readMethod = descriptor.getReadMethod();
@@ -138,18 +137,17 @@ public class ConvertUtils {
         BeanInfo beanInfo = Introspector.getBeanInfo(bean);
         T obj = bean.newInstance();
         PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-        for (int i = 0; i < propertyDescriptors.length; i++) {
-            PropertyDescriptor descriptor = propertyDescriptors[i];
+        for (PropertyDescriptor descriptor : propertyDescriptors) {
             Method method = descriptor.getWriteMethod();
             String name = descriptor.getName();
             if (map.containsKey(name)) {
                 Class<?>[] types = method.getParameterTypes();
-                for (int x = 0; x < types.length; x++) { // 类型转换
+                for (Class<?> type : types) { // 类型转换
                     Object value = map.get(name);
                     try {
                         method.invoke(obj, new Object[]{value});
                     } catch (Exception e) {
-                        System.out.println("type:" + types[x].getSimpleName() + "|name:" + name + "|value:" + value);
+                        System.out.println("type:" + type.getSimpleName() + "|name:" + name + "|value:" + value);
                         e.printStackTrace();
                     }
                 }

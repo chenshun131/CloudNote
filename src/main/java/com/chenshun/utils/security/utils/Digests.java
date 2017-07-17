@@ -22,7 +22,7 @@ public class Digests {
 
     private static final String MD5 = "MD5";
 
-    private static SecureRandom random = new SecureRandom();
+    private static final SecureRandom random = new SecureRandom();
 
     /**
      * 对输入字符串进行sha1散列.

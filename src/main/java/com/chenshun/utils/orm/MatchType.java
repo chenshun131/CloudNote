@@ -22,9 +22,9 @@ public enum MatchType {
     IN(12, "IN"),
     NOTIN(13, "NOT IN");
 
-    private int value;
+    private final int value;
 
-    private String desc;
+    private final String desc;
 
     public int getValue() {
         return value;

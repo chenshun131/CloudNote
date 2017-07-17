@@ -100,7 +100,7 @@ public class LogReqAspect {
         methodName = proceedingJoinPoint.getSignature().getDeclaringTypeName() + "." + proceedingJoinPoint
                 .getSignature().getName();
         // 执行完方法的返回值:调用proceed()方法,就会触发切入点方法执行
-        respMap = new HashMap<String, Object>();
+        respMap = new HashMap<>();
         // result就是被拦截方法的返回值
         Object result = proceedingJoinPoint.proceed();
 

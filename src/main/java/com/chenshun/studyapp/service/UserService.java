@@ -11,10 +11,10 @@ import com.chenshun.utils.web.rest.RestResultDTO;
  */
 public interface UserService {
 
-    public RestResultDTO checkLogin(String username, String password);
+    RestResultDTO checkLogin(String username, String password);
 
-    public RestResultDTO checkLogin(String author);
+    RestResultDTO checkLogin(String author);
 
-    public RestResultDTO addUser(User user);
+    RestResultDTO addUser(User user);
 
 }

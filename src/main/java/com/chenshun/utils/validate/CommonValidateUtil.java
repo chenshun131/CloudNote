@@ -71,10 +71,7 @@ public final class CommonValidateUtil {
         if (string == null || string.length() == 0) {
             return true;
         }
-        if ("null".equalsIgnoreCase(string.trim()) || "".equals(string.trim())) {
-            return true;
-        }
-        return false;
+        return ("null".equalsIgnoreCase(string.trim()) || "".equals(string.trim()));
     }
 
     /**
@@ -93,11 +90,7 @@ public final class CommonValidateUtil {
         if (len < 1) {
             len = 1;
         }
-        if (len != str.length()) {
-            return false;
-        } else {
-            return true;
-        }
+        return len == str.length();
     }
 
     /**
@@ -121,11 +114,7 @@ public final class CommonValidateUtil {
             maxLength = minLength;
         }
         int strLen = str.length();
-        if (minLength > strLen || maxLength < strLen) {
-            return false;
-        } else {
-            return true;
-        }
+        return (minLength <= strLen && maxLength >= strLen);
     }
 
     /**
@@ -273,42 +262,27 @@ public final class CommonValidateUtil {
             return false;
         }
         // 不再支持15位的旧版身份证
-        if (identityCardNo.length() == 15) {
-            return false;
-        }
-        return IdentityCardUtil.getInstance().verify(identityCardNo);
+        return identityCardNo.length() != 15 && IdentityCardUtil.getInstance().verify(identityCardNo);
     }
 
     public static boolean validatePaperValiPeriod(String valiPeriod) {
         if (isEmpty(valiPeriod)) {
             return false;
         }
-
         Pattern pattern = Pattern.compile(PAPER_VALI_PERIOD);
         Matcher matcher = pattern.matcher(valiPeriod);
         if (matcher.matches()) {
-
             String[] dateArr = valiPeriod.split("至");
-
             Date start = DateOperator.parse(dateArr[0], "yyyy-MM-dd");
             Date end = DateOperator.parse(dateArr[1], "yyyy-MM-dd");
-
-            if (start.compareTo(end) >= 0) {
-                return false;
-            } else {
-                return true;
-            }
-
+            return start.compareTo(end) < 0;
         } else {
             return false;
         }
     }
 
     public static boolean validateBankCardNum(String bankCardNum) {
-        if (!CommonValidateUtil.validateRangeLengthDigital(bankCardNum, 16, 19)) {
-            return false;
-        }
-        return true;
+        return CommonValidateUtil.validateRangeLengthDigital(bankCardNum, 16, 19);
     }
 
     public static void main(String[] args) {

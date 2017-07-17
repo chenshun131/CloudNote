@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.chenshun</groupId>
-    <artifactId>StudyApp</artifactId>
+    <artifactId>CloudNote</artifactId>
     <packaging>war</packaging>
     <version>1.0.0</version>
-    <name>StudyApp</name>
+    <name>CloudNote</name>
     <description>集成 Spring+SpringMVC+MyBatis</description>
     <url>http://maven.apache.org</url>
 
@@ -394,7 +394,6 @@
             <optional>true</optional>
             <version>2.3.20</version>
         </dependency>
-
         <!-- Test Strt -->
         <dependency>
             <groupId>junit</groupId>
@@ -432,9 +431,9 @@
     <!-- 仓库设置 -->
     <repositories>
         <repository>
-            <id>nexus</id>
-            <name>Team Nexus Repository</name>
-            <url>http://172.18.8.59:8081/nexus/content/groups/public</url>
+            <id>nexus-aliyun</id>
+            <name>Nexus aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
         </repository>
 
         <repository>
@@ -443,11 +442,11 @@
             <url>https://oss.sonatype.org/content/repositories/opensymphony-releases</url>
         </repository>
 
-        <repository>
-            <id>nexus-aliyun</id>
-            <name>Nexus aliyun</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
-        </repository>
+        <!--<repository>-->
+        <!--<id>nexus</id>-->
+        <!--<name>Team Nexus Repository</name>-->
+        <!--<url>http://172.18.8.59:8081/nexus/content/groups/public</url>-->
+        <!--</repository>-->
     </repositories>
 
     <!-- war包构建 -->

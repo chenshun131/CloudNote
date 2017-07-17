@@ -1,6 +1,7 @@
 package com.chenshun.utils;
 
-import org.cosmos.modules.utils.validate.CommonValidateUtil;
+import com.chenshun.utils.date.DateOperator;
+import com.chenshun.utils.validate.CommonValidateUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -15,7 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public final class RandomCodeUtil {
 
-    private static RandomCodeUtil randomCodeUtilInst = new RandomCodeUtil();
+    private static final RandomCodeUtil randomCodeUtilInst = new RandomCodeUtil();
 
     private final ReentrantLock lock = new ReentrantLock();
 
@@ -85,7 +86,6 @@ public final class RandomCodeUtil {
             }
             lock.unlock();
         }
-
         return builder.toString();
     }
 

@@ -1,7 +1,6 @@
 package com.chenshun.utils;
 
 import com.alibaba.fastjson.JSON;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
 import javax.servlet.ServletRequest;

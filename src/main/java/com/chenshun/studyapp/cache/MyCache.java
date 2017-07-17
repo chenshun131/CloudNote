@@ -1,10 +1,8 @@
 package com.chenshun.studyapp.cache;
 
-import com.chenshun.studyapp.controller.user.LoginController;
 import org.apache.ibatis.cache.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.cache.RedisCache;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -20,9 +18,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class MyCache implements Cache {
 
-    private static Logger logger = LoggerFactory.getLogger(MyCache.class);
+    private static final Logger logger = LoggerFactory.getLogger(MyCache.class);
 
-    private Jedis redisClient = createClient();
+    private final Jedis redisClient = createClient();
 
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 

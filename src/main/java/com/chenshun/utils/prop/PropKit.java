@@ -13,7 +13,7 @@ public class PropKit {
 
     private static Prop prop = null;
 
-    private static final ConcurrentHashMap<String, Prop> map = new ConcurrentHashMap<String, Prop>();
+    private static final ConcurrentHashMap<String, Prop> map = new ConcurrentHashMap<>();
 
     private PropKit() {
     }

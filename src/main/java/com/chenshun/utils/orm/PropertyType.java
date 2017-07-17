@@ -12,7 +12,7 @@ public enum PropertyType {
 
     S(String.class), I(Integer.class), L(Long.class), DB(Double.class), D(Date.class), B(Boolean.class), F(Float.class);
 
-    private Class<?> clazz;
+    private final Class<?> clazz;
 
     PropertyType(Class<?> clazz) {
         this.clazz = clazz;

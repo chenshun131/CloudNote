@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class JxlsTemplate {
 
-    private static Logger logger = LoggerFactory.getLogger(JxlsTemplate.class);
+    private static final Logger logger = LoggerFactory.getLogger(JxlsTemplate.class);
 
     //-- 默认常量 --//
     private static final String DEFAULT_RESULT_MAP_NAME = "model";// 默认返回集合变量名
@@ -88,8 +88,7 @@ public class JxlsTemplate {
         filePath.append(templatePath);
 
         logger.debug("The excel template path is :{}", realPath);
-        InputStream is = new FileInputStream(filePath.toString());
-        return is;
+        return new FileInputStream(filePath.toString());
     }
 
 }

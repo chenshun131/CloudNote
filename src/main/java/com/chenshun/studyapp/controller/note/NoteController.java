@@ -22,7 +22,7 @@ import javax.annotation.Resource;
 @RequestMapping("/note")
 public class NoteController {
 
-    private static Logger logger = LoggerFactory.getLogger(NoteController.class);
+    private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
 
     @Resource
     private NoteService noteService;

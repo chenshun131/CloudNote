@@ -94,7 +94,7 @@ public final class StrUtil {
         }
         for (int i = 0; i < length; i++) {
             // 只要有一个非空字符即为非空字符串
-            if (false == Character.isWhitespace(str.charAt(i))) {
+            if (!Character.isWhitespace(str.charAt(i))) {
                 return false;
             }
         }
@@ -112,7 +112,7 @@ public final class StrUtil {
      * @return 是否为非空
      */
     public static boolean notBlank(String str) {
-        return false == isBlank(str);
+        return !isBlank(str);
     }
 
     /**
@@ -177,7 +177,7 @@ public final class StrUtil {
      * @return 是否为非空
      */
     public static boolean isNotEmpty(String str) {
-        return false == isEmpty(str);
+        return !isEmpty(str);
     }
 
     /**
@@ -648,7 +648,7 @@ public final class StrUtil {
         if (isEmpty(str) || isEmpty(prefix)) {
             return str;
         }
-        if (false == str.startsWith(prefix)) {
+        if (!str.startsWith(prefix)) {
             str = prefix + str;
         }
         return str;
@@ -667,7 +667,7 @@ public final class StrUtil {
         if (isEmpty(str) || isEmpty(suffix)) {
             return str;
         }
-        if (false == str.endsWith(suffix)) {
+        if (!str.endsWith(suffix)) {
             str += suffix;
         }
         return str;
@@ -718,7 +718,7 @@ public final class StrUtil {
         if (str == null) {
             return null;
         }
-        List<String> list = new ArrayList<String>(limit == 0 ? 16 : limit);
+        List<String> list = new ArrayList<>(limit == 0 ? 16 : limit);
         if (limit == 1) {
             list.add(str);
             return list;

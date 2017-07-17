@@ -20,7 +20,7 @@ import java.util.List;
 public class BeanMapper {
 
     /** 持有Dozer单例, 避免重复创建DozerMapper消耗资源. */
-    private static DozerBeanMapper dozer = new DozerBeanMapper();
+    private static final DozerBeanMapper dozer = new DozerBeanMapper();
 
     /**
      * 基于Dozer转换对象的类型.

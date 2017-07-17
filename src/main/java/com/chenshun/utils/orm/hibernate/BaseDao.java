@@ -174,7 +174,7 @@ public class BaseDao<T, PK extends Serializable> extends SimpleHibernateDao<T, P
             page.setTotalCount(totalCount);
         }
         setPageParameterToCriteria(c, page);
-        this.aliases = new HashSet<String>();
+        this.aliases = new HashSet<>();
         List result = c.list();
         page.setResult(result);
         return page;
@@ -234,8 +234,7 @@ public class BaseDao<T, PK extends Serializable> extends SimpleHibernateDao<T, P
     public long countHqlResult(String hql, Object... values) {
         String countHql = prepareCountHql(hql);
         try {
-            Long count = (Long) findUnique(countHql, values);
-            return count.longValue();
+            return findUnique(countHql, values);
         } catch (Exception e) {
             throw new RuntimeException("hql can't be auto count, hql is:{}" + countHql, e);
         }
@@ -250,8 +249,7 @@ public class BaseDao<T, PK extends Serializable> extends SimpleHibernateDao<T, P
     public long countHqlResult(String hql, Map<String, ?> values) {
         String countHql = prepareCountHql(hql);
         try {
-            Long count = (Long) findUnique(countHql, values);
-            return count.longValue();
+            return findUnique(countHql, values);
         } catch (Exception e) {
             throw new RuntimeException("hql can't be auto count, hql is:" + countHql, e);
         }
@@ -259,12 +257,9 @@ public class BaseDao<T, PK extends Serializable> extends SimpleHibernateDao<T, P
 
     public String prepareCountHql(String orgHql) {
         String fromHql = orgHql;
-
         fromHql = "from " + StringUtils.substringAfter(fromHql, "from");
         fromHql = StringUtils.substringBefore(fromHql, "order by");
-
-        String countHql = "select count(*) " + fromHql;
-        return countHql;
+        return "select count(*) " + fromHql;
     }
 
     /**
@@ -307,10 +302,10 @@ public class BaseDao<T, PK extends Serializable> extends SimpleHibernateDao<T, P
         return totalCount;
     }
 
-    @SuppressWarnings("unchecked")
     /**
-     * 按属性过滤条件列表查找对象列表.
+     * 按属性过滤条件列表查找对象列表
      */
+    @SuppressWarnings("unchecked")
     public List<T> find(List<PropertyFilter> filters) {
         Criteria criteria = buildCriteriaByPropertyFilter(filters);
         return criteria.list();
