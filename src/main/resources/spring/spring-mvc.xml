@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd ">
+
+    <!-- 将无法mapping到Controller的path交给default servlet handler处理 -->
+    <mvc:default-servlet-handler/>
+
+    <!-- enable autowire -->
+    <context:annotation-config/>
+
+    <!-- 如果 "proxy-target-class" 属值被设置为 "true"，那么基于类的代理将起作用（这时需要CGLIB库cglib.jar在CLASSPATH中）。如果 "proxy-target-class" 属值被设置为 "false" 或者这个属性被省略，那么标准的JDK基于接口的代理将起作用。 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <bean class="com.chenshun.helper.LogReqAspect"/>
+
+    <!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->
+    <context:component-scan base-package="com.chenshun.studyapp.controller"/>
+    <context:component-scan base-package="com.chenshun.studyapp.service"/>
+    <context:component-scan base-package="com.chenshun.studyapp.dao"/>
+    <context:component-scan base-package="com.chenshun.studyapp.domain"/>
+    <context:component-scan base-package="org.jeecgframework.poi.excel.view"/>
+
+    <!-- 启用 annotation-driven -->
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <ref bean="stringHttpMessageConverter"/>
+            <ref bean="fastJsonHttpMessageConverter"/><!-- 开启对FASTJSON的支持替换掉默认的JACKSON支持,使用只需在方法上标注 @ResponseBody -->
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+        <constructor-arg value="UTF-8" index="0"></constructor-arg>
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/html;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>
+            </list>
+        </property>
+        <property name="fastJsonConfig">
+            <bean class="com.alibaba.fastjson.support.config.FastJsonConfig">
+                <property name="charset" value="UTF-8"/> <!-- Default charset -->
+                <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"></property> <!-- Default charset -->
+                <property name="features">
+                    <list>
+                        <value>AllowArbitraryCommas</value>
+                        <value>AllowUnQuotedFieldNames</value>
+                        <value>DisableCircularReferenceDetect</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Bean解析器,级别高于默认解析器,寻找bean对象进行二次处理 -->
+    <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0">
+    </bean>
+
+    <!-- Excel 处理 根据用户输入进行对象处理 -->
+    <bean id="jeecgExcelView" class="org.jeecgframework.poi.excel.view.JeecgSingleExcelView"/>
+    <bean id="jeecgTemplateExcelView" class="org.jeecgframework.poi.excel.view.JeecgTemplateExcelView"/>
+    <bean id="jeecgTemplateWordView" class="org.jeecgframework.poi.excel.view.JeecgTemplateWordView"/>
+    <bean id="jeecgMapExcelView" class="org.jeecgframework.poi.excel.view.JeecgMapExcelView"/>
+
+    <!-- 开启文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 默认编码 -->
+        <property name="defaultEncoding" value="utf-8"/>
+        <!-- 设置上传文件总大小限制 10G -->
+        <property name="maxUploadSize" value="10485760000"></property>
+        <!-- 内存中的最大值 -->
+        <property name="maxInMemorySize" value="40960"/>
+    </bean>
+
+    <!-- 根据业务需要定义自己的拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <!-- 排除前端页面-->
+            <mvc:exclude-mapping path="/view/**"/>
+            <!-- 日志记录 -->
+            <bean class="com.chenshun.component.interceptor.LoggerInterceptor"/>
+        </mvc:interceptor>
+
+        <!--<mvc:interceptor>-->
+        <!--<mvc:mapping path="/member/status"/>-->
+        <!--<mvc:mapping path="/member/mobile"/>-->
+        <!--&lt;!&ndash; 大平台登录处理 &ndash;&gt;-->
+        <!--<bean class="com.jintoufs.hyb.consumer.web.intercept.BigPlatformLoginInterceptor"/>-->
+        <!--</mvc:interceptor>-->
+
+        <!--<mvc:interceptor>-->
+        <!--<mvc:mapping path="/member/status"/>-->
+        <!--<mvc:mapping path="/member/mobile"/>-->
+        <!--&lt;!&ndash; 订单模块 &ndash;&gt;-->
+        <!--<mvc:mapping path="/order/*"/>-->
+        <!--&lt;!&ndash; 安邦支付 &ndash;&gt;-->
+        <!--<mvc:mapping path="/anbang/payment"/>-->
+
+        <!--&lt;!&ndash; 个人中心常用联系人 &ndash;&gt;-->
+        <!--<mvc:mapping path="/center/contacts/*"/>-->
+
+        <!--&lt;!&ndash; 登录token效验 &ndash;&gt;-->
+        <!--<bean class="com.jintoufs.hyb.consumer.web.intercept.LoginTokenInterceptor"/>-->
+        <!--</mvc:interceptor>-->
+    </mvc:interceptors>
+
+    <!-- handle exception -->
+    <bean id="handlerExceptionResolver" class="com.chenshun.component.exception.CustomControllerExHandler"/>
+
+    <import resource="classpath*:/spring/applicationContext-datasource.xml"/>
+
+    <!-- redis -->
+    <import resource="classpath:/redis/applicationContext-redis.xml"/>
+
+    <!-- 定时任务 -->
+    <import resource="classpath:/spring/applicationContext-task.xml"/>
+</beans>

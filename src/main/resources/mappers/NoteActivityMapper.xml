@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chenshun.studyapp.dao.NoteActivityMapper" >
+  <resultMap id="BaseResultMap" type="com.chenshun.studyapp.domain.NoteActivity" >
+    <id column="cn_note_activity_id" property="cnNoteActivityId" jdbcType="VARCHAR" />
+    <result column="cn_activity_id" property="cnActivityId" jdbcType="VARCHAR" />
+    <result column="cn_note_id" property="cnNoteId" jdbcType="VARCHAR" />
+    <result column="cn_note_activity_up" property="cnNoteActivityUp" jdbcType="INTEGER" />
+    <result column="cn_note_activity_down" property="cnNoteActivityDown" jdbcType="INTEGER" />
+    <result column="cn_note_activity_title" property="cnNoteActivityTitle" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.chenshun.studyapp.domain.NoteActivity" extends="BaseResultMap" >
+    <result column="cn_note_activity_body" property="cnNoteActivityBody" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cn_note_activity_id, cn_activity_id, cn_note_id, cn_note_activity_up, cn_note_activity_down, 
+    cn_note_activity_title
+  </sql>
+  <sql id="Blob_Column_List" >
+    cn_note_activity_body
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cn_note_activity
+    where cn_note_activity_id = #{cnNoteActivityId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from cn_note_activity
+    where cn_note_activity_id = #{cnNoteActivityId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chenshun.studyapp.domain.NoteActivity" >
+    insert into cn_note_activity (cn_note_activity_id, cn_activity_id, cn_note_id, 
+      cn_note_activity_up, cn_note_activity_down, cn_note_activity_title, 
+      cn_note_activity_body)
+    values (#{cnNoteActivityId,jdbcType=VARCHAR}, #{cnActivityId,jdbcType=VARCHAR}, #{cnNoteId,jdbcType=VARCHAR}, 
+      #{cnNoteActivityUp,jdbcType=INTEGER}, #{cnNoteActivityDown,jdbcType=INTEGER}, #{cnNoteActivityTitle,jdbcType=VARCHAR}, 
+      #{cnNoteActivityBody,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chenshun.studyapp.domain.NoteActivity" >
+    insert into cn_note_activity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cnNoteActivityId != null" >
+        cn_note_activity_id,
+      </if>
+      <if test="cnActivityId != null" >
+        cn_activity_id,
+      </if>
+      <if test="cnNoteId != null" >
+        cn_note_id,
+      </if>
+      <if test="cnNoteActivityUp != null" >
+        cn_note_activity_up,
+      </if>
+      <if test="cnNoteActivityDown != null" >
+        cn_note_activity_down,
+      </if>
+      <if test="cnNoteActivityTitle != null" >
+        cn_note_activity_title,
+      </if>
+      <if test="cnNoteActivityBody != null" >
+        cn_note_activity_body,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cnNoteActivityId != null" >
+        #{cnNoteActivityId,jdbcType=VARCHAR},
+      </if>
+      <if test="cnActivityId != null" >
+        #{cnActivityId,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteId != null" >
+        #{cnNoteId,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteActivityUp != null" >
+        #{cnNoteActivityUp,jdbcType=INTEGER},
+      </if>
+      <if test="cnNoteActivityDown != null" >
+        #{cnNoteActivityDown,jdbcType=INTEGER},
+      </if>
+      <if test="cnNoteActivityTitle != null" >
+        #{cnNoteActivityTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteActivityBody != null" >
+        #{cnNoteActivityBody,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chenshun.studyapp.domain.NoteActivity" >
+    update cn_note_activity
+    <set >
+      <if test="cnActivityId != null" >
+        cn_activity_id = #{cnActivityId,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteId != null" >
+        cn_note_id = #{cnNoteId,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteActivityUp != null" >
+        cn_note_activity_up = #{cnNoteActivityUp,jdbcType=INTEGER},
+      </if>
+      <if test="cnNoteActivityDown != null" >
+        cn_note_activity_down = #{cnNoteActivityDown,jdbcType=INTEGER},
+      </if>
+      <if test="cnNoteActivityTitle != null" >
+        cn_note_activity_title = #{cnNoteActivityTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteActivityBody != null" >
+        cn_note_activity_body = #{cnNoteActivityBody,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where cn_note_activity_id = #{cnNoteActivityId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.chenshun.studyapp.domain.NoteActivity" >
+    update cn_note_activity
+    set cn_activity_id = #{cnActivityId,jdbcType=VARCHAR},
+      cn_note_id = #{cnNoteId,jdbcType=VARCHAR},
+      cn_note_activity_up = #{cnNoteActivityUp,jdbcType=INTEGER},
+      cn_note_activity_down = #{cnNoteActivityDown,jdbcType=INTEGER},
+      cn_note_activity_title = #{cnNoteActivityTitle,jdbcType=VARCHAR},
+      cn_note_activity_body = #{cnNoteActivityBody,jdbcType=LONGVARCHAR}
+    where cn_note_activity_id = #{cnNoteActivityId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chenshun.studyapp.domain.NoteActivity" >
+    update cn_note_activity
+    set cn_activity_id = #{cnActivityId,jdbcType=VARCHAR},
+      cn_note_id = #{cnNoteId,jdbcType=VARCHAR},
+      cn_note_activity_up = #{cnNoteActivityUp,jdbcType=INTEGER},
+      cn_note_activity_down = #{cnNoteActivityDown,jdbcType=INTEGER},
+      cn_note_activity_title = #{cnNoteActivityTitle,jdbcType=VARCHAR}
+    where cn_note_activity_id = #{cnNoteActivityId,jdbcType=VARCHAR}
+  </update>
+</mapper>

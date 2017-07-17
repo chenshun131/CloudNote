@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chenshun.studyapp.dao.NoteMapper">
+    <resultMap id="BaseResultMap" type="com.chenshun.studyapp.domain.Note">
+        <id column="cn_note_id" property="cnNoteId" jdbcType="VARCHAR"/>
+        <result column="cn_notebook_id" property="cnNotebookId" jdbcType="VARCHAR"/>
+        <result column="cn_user_id" property="cnUserId" jdbcType="VARCHAR"/>
+        <result column="cn_note_status_id" property="cnNoteStatusId" jdbcType="VARCHAR"/>
+        <result column="cn_note_type_id" property="cnNoteTypeId" jdbcType="VARCHAR"/>
+        <result column="cn_note_title" property="cnNoteTitle" jdbcType="VARCHAR"/>
+        <result column="cn_note_body" property="cnNoteBody" jdbcType="LONGVARCHAR"/>
+        <result column="cn_note_create_time" property="cnNoteCreateTime" jdbcType="BIGINT"/>
+        <result column="cn_note_last_modify_time" property="cnNoteLastModifyTime" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        cn_note_id, cn_notebook_id, cn_user_id, cn_note_status_id, cn_note_type_id, cn_note_title, cn_note_body,
+        cn_note_create_time, cn_note_last_modify_time
+    </sql>
+
+    <select id="findNotesByBookId" parameterType="string" resultType="map">
+        SELECT cn_note_id,cn_note_title
+        FROM cn_note
+        WHERE cn_notebook_id=#{bookId} AND cn_note_status_id="1"
+        ORDER BY cn_note_create_time DESC
+    </select>
+
+    <insert id="save" parameterType="com.chenshun.studyapp.domain.Note">
+        INSERT INTO cn_note(cn_note_id,cn_notebook_id,cn_user_id,cn_note_status_id,cn_note_type_id,cn_note_title,
+	    cn_note_body,cn_note_create_time,cn_note_last_modify_time)
+	    VALUES (#{cnNoteId},#{cnNotebookId},#{cnUserId},#{cnNoteStatusId},#{cnNoteTypeId},#{cnNoteTitle},
+	    #{cnNoteBody},#{cnNoteCreateTime},#{cnNoteLastModifyTime})
+    </insert>
+
+    <select id="findById" parameterType="string" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cn_note WHERE cn_note_id=#{id}
+    </select>
+
+    <update id="updateNote" parameterType="com.chenshun.studyapp.domain.Note">
+        UPDATE cn_note
+        <set>
+            <if test="cnNotebookId != null">
+                cn_notebook_id=#{cnNotebookId}
+            </if>
+            <if test="cnUserId != null">
+                cn_user_id=#{cnUserId},
+            </if>
+            <if test="cnNoteStatusId != null">
+                cn_note_status_id=#{cnNoteStatusId},
+            </if>
+            <if test="cnNoteTypeId != null">
+                cn_note_type_id=#{cnNoteTypeId},
+            </if>
+            <if test="cnNoteTitle != null">
+                cn_note_title=#{cnNoteTitle},
+            </if>
+            <if test="cnNoteBody != null">
+                cn_note_body=#{cnNoteBody},
+            </if>
+            <if test="cnNoteCreateTime != null">
+                cn_note_create_time=#{cnNoteCreateTime},
+            </if>
+            <if test="cnNoteLastModifyTime != null">
+                cn_note_last_modify_time=#{cnNoteLastModifyTime}
+            </if>
+        </set>
+        WHERE cn_note_id=#{cnNoteId}
+    </update>
+
+    <select id="searchNotes" parameterType="com.chenshun.studyapp.entity.SearchNote"
+            resultType="com.chenshun.studyapp.domain.Note">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cn_note
+        <where>
+            <if test='title != null and !"".equals(title)'>
+                cn_note_title like #{title}
+            </if>
+            <if test="status != null">
+                and cn_note_status_id=#{status}
+            </if>
+            <if test="beginTime != null">
+                and cn_note_create_time&gt;=#{beginTime}
+            </if>
+            <if test="endTime != null">
+                and cn_note_create_time&lt;=#{endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="batchDeleteNotes">
+        DELETE FROM cn_note WHERE cn_note_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>

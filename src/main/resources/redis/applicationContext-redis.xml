@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd"
+       default-lazy-init="true">
+
+    <!-- JEDIS 连接池配置 -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="${pom.redis.pool.maxTotal}"/>
+        <property name="maxIdle" value="${pom.redis.pool.maxIdle}"/>
+        <property name="maxWaitMillis" value="${pom.redis.pool.maxWaitMillis}"/>
+        <property name="minIdle" value="${pom.redis.pool.minIdle}"/>
+        <property name="testOnBorrow" value="${pom.redis.pool.testOnBorrow}"/>
+    </bean>
+
+    <!-- JEDIS ConnectionFactory 数据库连接配置 -->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="${pom.redis.hostname}"/>
+        <property name="port" value="${pom.redis.port}"/>
+        <property name="password" value="${pom.redis.password}"/>
+        <property name="poolConfig" ref="jedisPoolConfig"/>
+    </bean>
+
+    <!-- 显示定义序列化工具  -->
+    <bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+
+    <!-- redisTemplate配置.redisTemplate是JEDIS对REDIS操作的扩展,封装使操作更便捷 -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory"/>
+        <property name="keySerializer" ref="stringRedisSerializer"/>
+        <!-- 这里显示定义了字符串类型键的值的序列化工具,不能直接存入对象,存入前需要将对象序列化为字符串,推荐序列化为JSON -->
+        <property name="valueSerializer" ref="stringRedisSerializer"/>
+        <property name="hashKeySerializer" ref="stringRedisSerializer"/>
+        <property name="hashValueSerializer" ref="stringRedisSerializer"/>
+    </bean>
+
+    <!-- customer redis service -->
+    <bean id="redisService" class="com.chenshun.component.service.CustomerRedisService">
+        <property name="redisTemplate" ref="redisTemplate"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chenshun.studyapp.dao.ShareMapper">
+    <resultMap id="BaseResultMap" type="com.chenshun.studyapp.domain.Share">
+        <id column="cn_share_id" property="cnShareId" jdbcType="VARCHAR"/>
+        <result column="cn_share_title" property="cnShareTitle" jdbcType="VARCHAR"/>
+        <result column="cn_share_body" property="cnShareBody" jdbcType="LONGVARCHAR"/>
+        <result column="cn_note_id" property="cnNoteId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        cn_share_id, cn_share_title, cn_share_body, cn_note_id
+    </sql>
+
+    <delete id="deleteByNoteId" parameterType="string">
+        DELETE FROM cn_share WHERE cn_share_id=#{noteId}
+    </delete>
+
+    <select id="findByNoteId" parameterType="string" resultType="com.chenshun.studyapp.domain.Share">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cn_share
+        WHERE cn_note_id=#{noteId}
+    </select>
+
+    <insert id="save" parameterType="com.chenshun.studyapp.domain.Share">
+        INSERT INTO cn_share(cn_share_id,cn_share_title,cn_share_body,cn_note_id)
+        VALUES(#{cnShareId},#{cnShareTitle},#{cnShareBody},#{cnNoteId})
+    </insert>
+
+    <select id="findLikeTitle" parameterType="string" resultType="com.chenshun.studyapp.domain.Share">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cn_share
+        WHERE cn_share_title LIKE #{title}
+    </select>
+
+</mapper>

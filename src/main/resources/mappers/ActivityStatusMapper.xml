@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chenshun.studyapp.dao.ActivityStatusMapper" >
+  <resultMap id="BaseResultMap" type="com.chenshun.studyapp.domain.ActivityStatus" >
+    <id column="cn_activity_status_id" property="cnActivityStatusId" jdbcType="VARCHAR" />
+    <result column="cn_activity_id" property="cnActivityId" jdbcType="VARCHAR" />
+    <result column="cn_activity_status_code" property="cnActivityStatusCode" jdbcType="VARCHAR" />
+    <result column="cn_activity_status_name" property="cnActivityStatusName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cn_activity_status_id, cn_activity_id, cn_activity_status_code, cn_activity_status_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from cn_activity_status
+    where cn_activity_status_id = #{cnActivityStatusId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from cn_activity_status
+    where cn_activity_status_id = #{cnActivityStatusId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chenshun.studyapp.domain.ActivityStatus" >
+    insert into cn_activity_status (cn_activity_status_id, cn_activity_id, 
+      cn_activity_status_code, cn_activity_status_name
+      )
+    values (#{cnActivityStatusId,jdbcType=VARCHAR}, #{cnActivityId,jdbcType=VARCHAR}, 
+      #{cnActivityStatusCode,jdbcType=VARCHAR}, #{cnActivityStatusName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chenshun.studyapp.domain.ActivityStatus" >
+    insert into cn_activity_status
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cnActivityStatusId != null" >
+        cn_activity_status_id,
+      </if>
+      <if test="cnActivityId != null" >
+        cn_activity_id,
+      </if>
+      <if test="cnActivityStatusCode != null" >
+        cn_activity_status_code,
+      </if>
+      <if test="cnActivityStatusName != null" >
+        cn_activity_status_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cnActivityStatusId != null" >
+        #{cnActivityStatusId,jdbcType=VARCHAR},
+      </if>
+      <if test="cnActivityId != null" >
+        #{cnActivityId,jdbcType=VARCHAR},
+      </if>
+      <if test="cnActivityStatusCode != null" >
+        #{cnActivityStatusCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cnActivityStatusName != null" >
+        #{cnActivityStatusName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chenshun.studyapp.domain.ActivityStatus" >
+    update cn_activity_status
+    <set >
+      <if test="cnActivityId != null" >
+        cn_activity_id = #{cnActivityId,jdbcType=VARCHAR},
+      </if>
+      <if test="cnActivityStatusCode != null" >
+        cn_activity_status_code = #{cnActivityStatusCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cnActivityStatusName != null" >
+        cn_activity_status_name = #{cnActivityStatusName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cn_activity_status_id = #{cnActivityStatusId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chenshun.studyapp.domain.ActivityStatus" >
+    update cn_activity_status
+    set cn_activity_id = #{cnActivityId,jdbcType=VARCHAR},
+      cn_activity_status_code = #{cnActivityStatusCode,jdbcType=VARCHAR},
+      cn_activity_status_name = #{cnActivityStatusName,jdbcType=VARCHAR}
+    where cn_activity_status_id = #{cnActivityStatusId,jdbcType=VARCHAR}
+  </update>
+</mapper>

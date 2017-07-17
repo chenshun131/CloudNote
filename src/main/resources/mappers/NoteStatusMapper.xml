@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chenshun.studyapp.dao.NoteStatusMapper" >
+  <resultMap id="BaseResultMap" type="com.chenshun.studyapp.domain.NoteStatus" >
+    <id column="cn_note_status_id" property="cnNoteStatusId" jdbcType="VARCHAR" />
+    <result column="cn_note_status_code" property="cnNoteStatusCode" jdbcType="VARCHAR" />
+    <result column="cn_note_status_name" property="cnNoteStatusName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cn_note_status_id, cn_note_status_code, cn_note_status_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from cn_note_status
+    where cn_note_status_id = #{cnNoteStatusId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from cn_note_status
+    where cn_note_status_id = #{cnNoteStatusId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chenshun.studyapp.domain.NoteStatus" >
+    insert into cn_note_status (cn_note_status_id, cn_note_status_code, 
+      cn_note_status_name)
+    values (#{cnNoteStatusId,jdbcType=VARCHAR}, #{cnNoteStatusCode,jdbcType=VARCHAR}, 
+      #{cnNoteStatusName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chenshun.studyapp.domain.NoteStatus" >
+    insert into cn_note_status
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cnNoteStatusId != null" >
+        cn_note_status_id,
+      </if>
+      <if test="cnNoteStatusCode != null" >
+        cn_note_status_code,
+      </if>
+      <if test="cnNoteStatusName != null" >
+        cn_note_status_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cnNoteStatusId != null" >
+        #{cnNoteStatusId,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteStatusCode != null" >
+        #{cnNoteStatusCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteStatusName != null" >
+        #{cnNoteStatusName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chenshun.studyapp.domain.NoteStatus" >
+    update cn_note_status
+    <set >
+      <if test="cnNoteStatusCode != null" >
+        cn_note_status_code = #{cnNoteStatusCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteStatusName != null" >
+        cn_note_status_name = #{cnNoteStatusName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cn_note_status_id = #{cnNoteStatusId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chenshun.studyapp.domain.NoteStatus" >
+    update cn_note_status
+    set cn_note_status_code = #{cnNoteStatusCode,jdbcType=VARCHAR},
+      cn_note_status_name = #{cnNoteStatusName,jdbcType=VARCHAR}
+    where cn_note_status_id = #{cnNoteStatusId,jdbcType=VARCHAR}
+  </update>
+</mapper>

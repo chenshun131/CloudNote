@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 定义一个命名空间，该名称和定义的权限定义名是一致的 -->
+<mapper namespace="com.chenshun.studyapp.dao.NoteBookMapper">
+    <resultMap id="BaseResultMap" type="com.chenshun.studyapp.domain.NoteBook">
+        <id column="cn_notebook_id" property="cnNotebookId" jdbcType="VARCHAR"/>
+        <result column="cn_user_id" property="cnUserId" jdbcType="VARCHAR"/>
+        <result column="cn_notebook_type_id" property="cnNotebookTypeId" jdbcType="VARCHAR"/>
+        <result column="cn_notebook_name" property="cnNotebookName" jdbcType="VARCHAR"/>
+        <result column="cn_notebook_desc" property="cnNotebookDesc" jdbcType="LONGVARCHAR"/>
+        <result column="cn_notebook_createtime" property="cnNotebookCreatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        cn_notebook_id, cn_user_id, cn_notebook_type_id, cn_notebook_name, cn_notebook_desc, cn_notebook_createtime
+    </sql>
+
+    <!-- select元素定义一个查询SQL，id为findByName和接口方法名一致，parameterType定义入参数据类型，resultType则定义返回的数据类型
+         SQL列的别名和POJO中对应的属性名保持一致
+     -->
+    <select id="findBooksByUser" parameterType="string" resultMap="BaseResultMap">
+        SELECT cn_notebook_id,cn_notebook_name
+        FROM cn_notebook
+        WHERE cn_user_id=#{userId}
+        ORDER BY cn_notebook_createtime DESC
+    </select>
+
+    <select id="findByNameAndUser" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cn_notebook
+        WHERE cn_notebook_name=#{bookName} AND cn_user_id=#{userId}
+    </select>
+
+    <insert id="save" parameterType="com.chenshun.studyapp.domain.NoteBook">
+        INSERT INTO cn_notebook(cn_notebook_id, cn_user_id, cn_notebook_type_id, cn_notebook_name, cn_notebook_desc, cn_notebook_createtime)
+        VALUES (#{cnNotebookId},#{cnUserId},#{cnNotebookTypeId},#{cnNotebookName},#{cnNotebookDesc},#{cnNotebookCreatetime})
+    </insert>
+
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chenshun.studyapp.dao.UserMapper">
+
+    <cache type="com.chenshun.studyapp.cache.LoggingRedisCache">
+        <!-- 用于初始化时设置一些其他参数 -->
+        <property name="host" value="localhost"/>
+    </cache>
+
+    <resultMap id="BaseResultMap" type="com.chenshun.studyapp.domain.User">
+        <id column="cn_user_id" property="cnUserId" jdbcType="VARCHAR"/>
+        <result column="cn_user_name" property="cnUserName" jdbcType="VARCHAR"/>
+        <result column="cn_user_password" property="cnUserPassword" jdbcType="VARCHAR"/>
+        <result column="cn_user_token" property="cnUserToken" jdbcType="VARCHAR"/>
+        <result column="cn_user_desc" property="cnUserDesc" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        cn_user_id, cn_user_name, cn_user_password, cn_user_token, cn_user_desc
+    </sql>
+
+    <select id="findByName" parameterType="string" resultMap="BaseResultMap" useCache="true">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cn_user
+        WHERE cn_user_name=#{name}
+        LIMIT 0,1
+    </select>
+
+    <update id="updateToken" parameterType="map">
+        update cn_user
+        set cn_user_token=#{userToken}
+        where cn_user_id=#{userId}
+    </update>
+
+    <insert id="save" parameterType="com.chenshun.studyapp.domain.User">
+        INSERT INTO cn_user(cn_user_id,cn_user_name,cn_user_password,cn_user_token,cn_user_desc)
+        VALUES (#{cnUserId},#{cnUserName},#{cnUserPassword},#{cnUserToken},#{cnUserDesc})
+    </insert>
+
+    <delete id="delete" parameterType="string" flushCache="true">
+        DELETE FROM cn_user WHERE cn_user_name=#{name}
+    </delete>
+
+</mapper>

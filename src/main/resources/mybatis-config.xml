@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 配置 -->
+<configuration>
+
+    <settings>
+        <!-- 是否开启自动驼峰命名规则映射，即从经典数据库列名A_COLUMN到经典Java属性名的类似映射 -->
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+        <!-- 延迟加载的全局开关 -->
+        <setting name="lazyLoadingEnabled" value="true" />
+        <!-- 当启用时，对任意延迟属性的调用会使带有延迟加载属性的对象完整加载；反之，每种属性将会按需加载 -->
+        <setting name="aggressiveLazyLoading" value="false" />
+    </settings>
+
+    <!-- 类型命名 -->
+    <typeAliases>
+        <package name="com.chenshun.studyapp.domain"/>
+    </typeAliases>
+
+</configuration>

@@ -1,0 +1,37 @@
+# Files for the Dalvik VM
+*.dex
+
+# Compiled class file
+*.class
+
+# Generated files
+bin/
+gen/
+target/
+out/
+/*/out
+/build
+/*/*/build
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Eclipse Metadata
+.metadata/
+
+# OS Generated files
+.DS_Store
+
+# Intellij IDEA
+*.iml
+.gradle
+/.idea/
+/.idea/libraries
+/.idea/workspace.xml
+/*/local.properties
+/local.properties
+.idea/libraries
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/dictionaries

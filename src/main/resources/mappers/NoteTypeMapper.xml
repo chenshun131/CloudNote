@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chenshun.studyapp.dao.NoteTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.chenshun.studyapp.domain.NoteType" >
+    <id column="cn_note_type_id" property="cnNoteTypeId" jdbcType="VARCHAR" />
+    <result column="cn_note_type_code" property="cnNoteTypeCode" jdbcType="VARCHAR" />
+    <result column="cn_note_type_name" property="cnNoteTypeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.chenshun.studyapp.domain.NoteType" extends="BaseResultMap" >
+    <result column="cn_note_type_desc" property="cnNoteTypeDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cn_note_type_id, cn_note_type_code, cn_note_type_name
+  </sql>
+  <sql id="Blob_Column_List" >
+    cn_note_type_desc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cn_note_type
+    where cn_note_type_id = #{cnNoteTypeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from cn_note_type
+    where cn_note_type_id = #{cnNoteTypeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chenshun.studyapp.domain.NoteType" >
+    insert into cn_note_type (cn_note_type_id, cn_note_type_code, cn_note_type_name, 
+      cn_note_type_desc)
+    values (#{cnNoteTypeId,jdbcType=VARCHAR}, #{cnNoteTypeCode,jdbcType=VARCHAR}, #{cnNoteTypeName,jdbcType=VARCHAR}, 
+      #{cnNoteTypeDesc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chenshun.studyapp.domain.NoteType" >
+    insert into cn_note_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cnNoteTypeId != null" >
+        cn_note_type_id,
+      </if>
+      <if test="cnNoteTypeCode != null" >
+        cn_note_type_code,
+      </if>
+      <if test="cnNoteTypeName != null" >
+        cn_note_type_name,
+      </if>
+      <if test="cnNoteTypeDesc != null" >
+        cn_note_type_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cnNoteTypeId != null" >
+        #{cnNoteTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteTypeCode != null" >
+        #{cnNoteTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteTypeName != null" >
+        #{cnNoteTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteTypeDesc != null" >
+        #{cnNoteTypeDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chenshun.studyapp.domain.NoteType" >
+    update cn_note_type
+    <set >
+      <if test="cnNoteTypeCode != null" >
+        cn_note_type_code = #{cnNoteTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteTypeName != null" >
+        cn_note_type_name = #{cnNoteTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="cnNoteTypeDesc != null" >
+        cn_note_type_desc = #{cnNoteTypeDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where cn_note_type_id = #{cnNoteTypeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.chenshun.studyapp.domain.NoteType" >
+    update cn_note_type
+    set cn_note_type_code = #{cnNoteTypeCode,jdbcType=VARCHAR},
+      cn_note_type_name = #{cnNoteTypeName,jdbcType=VARCHAR},
+      cn_note_type_desc = #{cnNoteTypeDesc,jdbcType=LONGVARCHAR}
+    where cn_note_type_id = #{cnNoteTypeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chenshun.studyapp.domain.NoteType" >
+    update cn_note_type
+    set cn_note_type_code = #{cnNoteTypeCode,jdbcType=VARCHAR},
+      cn_note_type_name = #{cnNoteTypeName,jdbcType=VARCHAR}
+    where cn_note_type_id = #{cnNoteTypeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

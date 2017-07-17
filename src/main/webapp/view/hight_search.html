@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>搜索笔记</title>
+    <script type="text/javascript" src="scripts/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/basevalue.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#search_btn").click(function () {
+                // 获取请求参数
+                var title = $("#input_title").val();
+                var status = $("#input_status").val();
+                var beginDate = $("#input_beginDate").val();
+                var endDate = $("#input_endDate").val();
+                // 发送Ajax请求
+                $.ajax({
+                    url: path + "/note/hight_search",
+                    type: "post",
+                    data: {
+                        "title": title,
+                        "status": status,
+                        "beginDate": beginDate,
+                        "endDate": endDate
+                    },
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.statusCode == 200) {
+                            var notes = result.body;
+                            //循环
+                            $("#note_list tr:gt(0)").remove();
+                            for (i = 0; i < notes.length; i++) {
+                                var noteId = notes[i].cnNoteId;
+                                var noteTitle = notes[i].cnNoteTitle;
+                                var noteStatus = notes[i].cnNoteStatusId;
+                                var statusTxt = "未知";
+                                if (noteStatus == "1") {
+                                    statusTxt = "正常";
+                                } else if (noteStatus == "2") {
+                                    statusTxt = "删除";
+                                }
+                                var noteTime = notes[i].cnNoteCreateTime;
+                                var $tr = $("<tr><td><input type='checkbox' value='" + noteId + "'/></td><td>" + noteTitle + "</td><td>" + statusTxt + "</td><td>" + noteTime + "</td></tr>");
+                                $("#note_list").append($tr);//添加到列表中
+                            }
+                        }
+                    },
+                    error: function () {
+                        alert("查询失败");
+                    }
+                });
+            });
+        });
+
+        // 批量删除处理
+        $(function () {
+            $("#batch_delete_btn").click(function () {
+                // 获取选中的checkbox笔记ID
+                var $boxs = $(":checkbox:checked");
+                var noteIds = "";
+                for (i = 0; i < $boxs.length; i++) {
+                    noteIds += $boxs[i].value;
+                    if (i < $boxs.length - 1) {
+                        noteIds += ",";
+                    }
+                }
+                if (noteIds == "") {
+                    alert("请选择要删除的记录");
+                    return;
+                }
+                // 发送ajax请求
+                $.ajax({
+                    url: path + "/note/batch_delete",
+                    type: "post",
+                    data: {"noteIds": noteIds},
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.statusCode == 200) {
+                            $("#search_btn").click();// 刷新列表
+                            alert("删除成功");
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+</head>
+<body style="font-size:10px;">
+标题：<input type="text" id="input_title">
+状态：<select id="input_status">
+    <option value="-1">--select--</option>
+    <option value="1">normal</option>
+    <option value="2">delete</option>
+</select>
+<br/>
+开始日期：<input type="text" id="input_beginDate">
+结束日期：<input type="text" id="input_endDate">
+<input type="button" value="搜索" id="search_btn">
+<hr/>
+<input type="button" id="batch_delete_btn" value="批量删除">
+<table id="note_list">
+    <tr>
+        <td><input type="checkbox" value=""/></td>
+        <td>标题</td>
+        <td>状态</td>
+        <td>时间</td>
+    </tr>
+</table>
+
+</body>
+</html>
