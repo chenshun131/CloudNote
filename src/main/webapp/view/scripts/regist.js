@@ -1,23 +1,23 @@
 $(function () {
-    // ¸ø×¢²á°´Å¥°ó¶¨µ¥»÷´¦Àí
+    // ç»™æ³¨å†ŒæŒ‰é’®ç»‘å®šå•å‡»å¤„ç†
     $("#regist_button").click(function () {
-        // Çå³ıÌáÊ¾ĞÅÏ¢
+        // æ¸…é™¤æç¤ºä¿¡æ¯
         $("#warning_1").hide();
-        // »ñÈ¡ÒªÌá½»µÄÊı¾İ
+        // è·å–è¦æäº¤çš„æ•°æ®
         var username = $("#regist_username").val().trim();
         var password = $("#regist_password").val().trim();
         var nickname = $("#nickname").val().trim();
         var final_password = $("#final_password").val().trim();
-        // TODO Êı¾İ¸ñÊ½¼ì²é
+        // TODO æ•°æ®æ ¼å¼æ£€æŸ¥
         var ok = true;
         if (username == "") {
             ok = false;
-            // ĞŞ¸ÄÌáÊ¾ĞÅÏ¢
-            $("#warning_1").find("span").html("ÓÃ»§Ãû²»ÄÜÎª¿Õ");
-            $("#warning_1").show();// ÏÔÊ¾ÌáÊ¾ĞÅÏ¢div
+            // ä¿®æ”¹æç¤ºä¿¡æ¯
+            $("#warning_1").find("span").html("ç”¨æˆ·åä¸èƒ½ä¸ºç©º");
+            $("#warning_1").show();// æ˜¾ç¤ºæç¤ºä¿¡æ¯div
         }
-        // ·¢ËÍAjaxÇëÇó
-        if (ok) {// ±íµ¥Êı¾İÍ¨¹ı¼ì²â·¢ËÍajax
+        // å‘é€Ajaxè¯·æ±‚
+        if (ok) {// è¡¨å•æ•°æ®é€šè¿‡æ£€æµ‹å‘é€ajax
             $.ajax({
                 url: path + "/user/regist",
                 type: "post",
@@ -28,17 +28,17 @@ $(function () {
                 },
                 dataType: "json",
                 success: function (result) {
-                    if (result.status == 200) {// ³É¹¦
-                        $("#back").click();// ´¥·¢·µ»Ø°´Å¥µ¥»÷
-                    } else if (result.status == 1) {// ÓÃ»§Ãû´íÎó
+                    if (result.status == 200) {// æˆåŠŸ
+                        $("#back").click();// è§¦å‘è¿”å›æŒ‰é’®å•å‡»
+                    } else if (result.status == 1) {// ç”¨æˆ·åé”™è¯¯
                         $("#warning_1").find("span").html(result.message);
-                        $("#warning_1").show();// ÏÔÊ¾ÌáÊ¾ĞÅÏ¢div
+                        $("#warning_1").show();// æ˜¾ç¤ºæç¤ºä¿¡æ¯div
                     } else {
                         alert(result.message);
                     }
                 },
                 error: function () {
-                    alert("×¢²áÊ§°Ü");
+                    alert("æ³¨å†Œå¤±è´¥");
                 }
             });
         }

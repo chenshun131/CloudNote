@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         // 判断密码
         String md5_password = NoteKit.md5(password);
         if (!user.getCnUserPassword().equals(md5_password)) {
-            throw new ServiceException("密码不正确");
+            throw new ServiceException("用户名或密码错误");
         }
         // 成功，更新用户令牌号
         String token = NoteKit.createToken();

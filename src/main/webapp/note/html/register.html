@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudNote | Register</title>
+    <link rel="stylesheet" type="text/css" href="../lib/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../lib/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="../lib/sweetalert/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="../lib/iCheck/custom.css">
+    <link rel="stylesheet" type="text/css" href="../css/animate.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <script type="text/javascript" src="../lib/sweetalert/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        function showClause() {
+            swal({
+                title: "提示!",
+                text: "本站允许访问者查看其上的材料，但只能用于个人的、非商业用途，且不侵犯本站资料的任何著作权及其他合法权利。</p>" +
+                "免责声明与责任限制<br/>" +
+                "您使用本站不构成您与本站所有者的合同，本站内容只作为邀约邀请，而不是对您的邀约；本站也没有任何担保（包括但不限于针对特定目的的适用性和不侵犯知识产权等方面）。 如果您不理解邀约邀请的含义和后果，请在请教他人后使用。<br/>" +
+                "本站力求给您提供安全、通畅的访问和其他服务，但由于Internet线路、垃圾邮件、黑客入侵或其他不可抗力等原因直接给您造成了损害，本站不负任何责任。<br/>" +
+                "注册用户应在线提交问题后，应在此后登陆会员区查看问题的处理结果，因各个邮件服务器反垃圾策略不同可能导致您不能完全依赖电子邮件获得本站的信息反馈。<br/>",
+                type: "info",
+                allowOutsideClick: true,
+                confirmButtonText: "确定",
+                html: true
+            });
+        }
+    </script>
+</head>
+<body class="gray-bg">
+
+<div class="middle-box text-center loginscreen   animated fadeInDown">
+    <div>
+        <div>
+            <h1 class="logo-name">Note</h1>
+        </div>
+        <h3>云笔记获得5000万用户青睐的笔记软件。提供了PC端、移动端、网页端等多端应用,用户可以随时随地对线上资料进行编辑、分享以及协同</h3>
+        <p>请填写注册信息</p>
+        <div class="m-t" role="form">
+            <div class="form-group">
+                <input id="username" name="username" type="text" class="form-control" placeholder="用户名" title="用户名">
+                <span id="username_msg"></span>
+            </div>
+            <div class="form-group">
+                <input id="email" name="email" type="email" class="form-control" placeholder="Email" title="Email">
+                <span id="email_msg"></span>
+            </div>
+            <div class="form-group">
+                <input id="password" name="password" type="password" class="form-control" placeholder="密码" title="密码">
+                <span id="password_msg"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox i-checks">
+                    <label>
+                        <input type="checkbox"><i></i> &nbsp;&nbsp;&nbsp;
+                        <a href="javascript:showClause();" target="_blank" style="text-decoration:underline;">同意条款</a>
+                    </label>
+                </div>
+            </div>
+            <button id="registerBtn" type="button" class="btn btn-primary block full-width m-b">注 册</button>
+            <p class="text-muted text-center">
+                <small>已经有账号?</small>
+            </p>
+            <a class="btn btn-sm btn-white btn-block" href="./login.html">登 录</a>
+        </div>
+        <p class="m-t">
+            <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small>
+        </p>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script type="text/javascript" src="../lib/jquery/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="../lib/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../lib/iCheck/icheck.min.js"></script>
+<script type="text/javascript" src="../js/register.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green'
+        });
+    });
+</script>
+
+</body>
+</html>

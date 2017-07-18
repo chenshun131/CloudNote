@@ -500,7 +500,7 @@
             </activation>
             <properties>
                 <!-- REDIS CONFIG -->
-                <pom.redis.hostname>172.18.8.22</pom.redis.hostname>
+                <pom.redis.hostname>localhost</pom.redis.hostname>
                 <pom.redis.port>6379</pom.redis.port>
                 <pom.redis.password>jintoufs</pom.redis.password>
                 <pom.redis.pool.maxTotal>50</pom.redis.pool.maxTotal>

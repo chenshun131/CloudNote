@@ -92,6 +92,7 @@
             <mvc:mapping path="/**"/>
             <!-- 排除前端页面-->
             <mvc:exclude-mapping path="/view/**"/>
+            <mvc:exclude-mapping path="/note/**"/>
             <!-- 日志记录 -->
             <bean class="com.chenshun.component.interceptor.LoggerInterceptor"/>
         </mvc:interceptor>
