@@ -1,4 +1,9 @@
 $(function () {
+    var isNotChecked = true;
+    $("#clauseCheckBox").on("ifChanged", function (event) {
+        isNotChecked = !isNotChecked;
+    });
+
     $("#registerBtn").click(function () {
         $("#username_msg").html("");
         $("#email_msg").html("");
@@ -28,7 +33,7 @@ $(function () {
             isOk = false;
             $("#password_msg").html("<div style='color:orangered'>密码必须是6到30位字符</div>");
         }
-        if (!$("#clauseCheckBox").attr('checked')) {
+        if (isNotChecked) {
             isOk = false;
             swal({
                 title: "提示",
@@ -49,7 +54,7 @@ $(function () {
                 },
                 dataType: "json",
                 success: function (result) {
-                    if (result.status == 200) {// 成功
+                    if (result.statusCode == 200) {// 成功
                         window.location.href = "./login.html";
                     } else {
                         swal({

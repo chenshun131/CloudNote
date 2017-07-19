@@ -49,15 +49,37 @@
     </servlet-mapping>
 
     <!-- Druid -->
+    <!-- 展示Druid的统计信息,统计数据源和sql  -->
     <servlet>
         <servlet-name>DruidStatView</servlet-name>
         <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+        <!-- 权限访问限制(若不想限制可去掉) start -->
+        <!-- 访问权限（这里有两层限制）
+             1. 限定指定的ip可以访问
+             2. 需要通过用户名和密码才可以进入展示页面
+             -->
+        <init-param>
+            <!-- 白名单 -->
+            <param-name>allow</param-name>
+            <param-value>192.168.1.120/24,127.0.0.1</param-value> <!-- 指定ip访问 ip/子网掩码数 -->
+        </init-param>
+        <init-param>
+            <!-- 用户名 -->
+            <param-name>loginUsername</param-name>
+            <param-value>chenshun</param-value>
+        </init-param>
+        <init-param>
+            <!-- 密码 -->
+            <param-name>loginPassword</param-name>
+            <param-value>1</param-value>
+        </init-param>
+        <!-- 权限访问限制 end -->
     </servlet>
     <servlet-mapping>
         <servlet-name>DruidStatView</servlet-name>
         <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
-    <!-- Druid monitor config -->
+    <!-- 如果需要监控uri，设置Web关联监控配置 -->
     <filter>
         <filter-name>DruidWebStatFilter</filter-name>
         <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
@@ -86,6 +108,10 @@
     <session-config>
         <session-timeout>30</session-timeout> <!-- session失效时间，分钟为单位 -->
     </session-config>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/note/html/404.html</location>
+    </error-page>
     <mime-mapping>
         <extension>apk</extension>
         <mime-type>application/vnd.android.package-archive</mime-type>
