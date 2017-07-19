@@ -59,6 +59,48 @@ public class NoteController {
         return noteService.deleteNote(noteId);
     }
 
+    @RequestMapping("/move")
+    @ResponseBody
+    public RestResultDTO moveNote(String bookId,String noteId){
+        return noteService.moveNote(bookId, noteId);
+    }
+
+    @RequestMapping("/loadRecycleNotes.do")
+    @ResponseBody
+    public RestResultDTO loadRecycleNotes(String userId){
+        NoteResult<List<Note>> result = noteService.loadRecycleNotes(userId);
+        return result;
+    }
+
+    @RequestMapping("/finalDelete")//.do可以省略，可以进入Servlet说明自带.do
+    @ResponseBody
+    public NoteResult finalDeleteNote(String noteId){//参数和html里面传过来的（key）名字一样
+        NoteResult result = noteService.finalDeleteNote(noteId);
+        return result;
+    }
+
+    @RequestMapping("/addStore.do")//.do可以省略，可以进入Servlet说明自带.do
+    @ResponseBody
+    public NoteResult execute8(String shareId){//参数和html里面传过来的（key）名字一样
+        NoteResult result = noteService.updateToStore(shareId);
+        return result;
+    }
+
+    @RequestMapping("/loadStoreNotes.do")//.do可以省略，可以进入Servlet说明自带.do
+    @ResponseBody
+    public NoteResult<List<Note>> execute9(String userId){//参数和html里面传过来的（key）名字一样
+        NoteResult<List<Note>> result = noteService.loadStoreNotes(userId);
+        return result;
+    }
+
+    @RequestMapping("/manager.do")//.do可以省略，可以进入Servlet说明自带.do
+    @ResponseBody
+    public NoteResult<List<Note>> execute10(String title, String status, String begin,String end,String userId){//参数和html里面传过来的（key）名字一样
+        NoteResult<List<Note>> result = noteService.loadManager(title, status, begin, end,userId);
+        return result;
+    }
+
+
     @RequestMapping("/share")
     @ResponseBody
     public RestResultDTO shareNote(String noteId) {

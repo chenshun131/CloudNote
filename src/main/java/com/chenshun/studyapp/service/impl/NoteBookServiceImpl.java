@@ -83,4 +83,21 @@ public class NoteBookServiceImpl implements NoteBookService {
         return restResultDTO;
     }
 
+    @Override
+    public RestResultDTO rename(String bookId, String bookName) {
+        Map map = new HashMap();
+        map.put("bookId", bookId);
+        map.put("bookName", bookName);
+        int rows = noteBookMapper.updateName(map);
+
+        RestResultDTO restResultDTO = new RestResultDTO();
+        restResultDTO.initStatus(StatusCode.OK);
+        if (rows >= 0) {
+            restResultDTO.setMessage("改名成功");
+        } else {
+            restResultDTO.setMessage("改名失败");
+        }
+        return restResultDTO;
+    }
+
 }

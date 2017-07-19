@@ -38,6 +38,24 @@
         FROM cn_note WHERE cn_note_id=#{id}
     </select>
 
+    <update id="updateBookId" parameterType="com.chenshun.studyapp.domain.Note">
+        UPDATE cn_note
+        SET cn_notebook_id=#{cnNotebookId}
+        WHERE cn_note_id=#{cnNoteId}
+    </update>
+
+    <select id="findByStatus" parameterType="string" resultType="com.tedu.cloudnote.entity.Note">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cn_note
+        WHERE cn_note_status_id="2" AND cn_user_id=#{userId} ORDER BY cn_note_last_modify_time DESC
+    </select>
+
+
+
+
+
+
     <update id="updateNote" parameterType="com.chenshun.studyapp.domain.Note">
         UPDATE cn_note
         <set>

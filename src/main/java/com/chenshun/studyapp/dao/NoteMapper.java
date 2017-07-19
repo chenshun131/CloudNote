@@ -18,6 +18,10 @@ public interface NoteMapper {
 
     int updateNote(Note note);
 
+    int updateBookId(Note note);
+
+    List<Note> findByStatus(String userId);
+
     List<Note> searchNotes(SearchNote search);
 
     /**

@@ -37,4 +37,10 @@
         VALUES (#{cnNotebookId},#{cnUserId},#{cnNotebookTypeId},#{cnNotebookName},#{cnNotebookDesc},#{cnNotebookCreatetime})
     </insert>
 
+    <update id="updateName" parameterType="map">
+        UPDATE cn_notebook
+        SET cn_notebook_name=#{bookName}
+        WHERE cn_notebook_id=#{bookId}
+    </update>
+
 </mapper>

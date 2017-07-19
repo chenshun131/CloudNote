@@ -22,6 +22,12 @@ public interface NoteService {
 
     RestResultDTO deleteNote(String noteId);
 
+    RestResultDTO moveNote(String bookId, String noteId);
+
+
+
+    RestResultDTO loadRecycleNotes(String userId);
+
     RestResultDTO shareNote(String noteId);
 
     RestResultDTO searchShareNotes(String keyword);

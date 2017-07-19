@@ -15,4 +15,6 @@ public interface NoteBookMapper {
 
     int save(NoteBook book);
 
+    int updateName(Map map);
+
 }

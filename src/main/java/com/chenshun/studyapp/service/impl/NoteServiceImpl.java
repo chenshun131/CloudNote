@@ -114,6 +114,38 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    public RestResultDTO moveNote(String bookId, String noteId) {
+        Note note = new Note();
+        note.setCnNoteId(noteId);
+        note.setCnNotebookId(bookId);
+        int count = noteMapper.updateBookId(note);
+
+        RestResultDTO restResultDTO = new RestResultDTO();
+        restResultDTO.initStatus(StatusCode.OK);
+        if (count > 0) {
+            restResultDTO.setMessage("转移成功");
+        } else {
+            restResultDTO.setMessage("转移失败");
+        }
+        return restResultDTO;
+    }
+
+    @Override
+    public RestResultDTO loadRecycleNotes(String userId) {
+        List<Note> list = noteMapper.findByStatus(userId);
+
+        RestResultDTO restResultDTO = new RestResultDTO();
+        restResultDTO.initStatus(StatusCode.OK);
+        restResultDTO.setMessage("加载垃圾桶成功");
+        restResultDTO.setBody(list);
+        return restResultDTO;
+    }
+
+
+
+
+
+    @Override
     public RestResultDTO shareNote(String noteId) {
         // 检测是否被分享过
         Share has_share = shareMapper.findByNoteId(noteId);
@@ -174,7 +206,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public RestResultDTO batchDelete(String[] ids) {
-        if(ids != null && ids.length>0){
+        if (ids != null && ids.length > 0) {
             noteMapper.batchDeleteNotes(ids);
         }
 

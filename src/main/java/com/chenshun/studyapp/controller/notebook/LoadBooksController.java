@@ -33,4 +33,11 @@ public class LoadBooksController {
         return bookService.addBook(userId, bookName);
     }
 
+    @RequestMapping("/rename")
+    @ResponseBody
+    public RestResultDTO execute2(String bookId, String bookName) {
+        //调用UserService处理登录
+        return bookService.rename(bookId, bookName);
+    }
+
 }

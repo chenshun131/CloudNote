@@ -13,4 +13,6 @@ public interface NoteBookService {
     RestResultDTO loadBooks(String userId);
 
     RestResultDTO addBook(String userId, String bookName);
+
+    RestResultDTO rename(String bookId,String bookName);
 }
