@@ -342,6 +342,14 @@
         </dependency>
         <!-- redis END-->
 
+        <!-- email START -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <!-- email END -->
+
         <dependency>
             <groupId>org.opensymphony.quartz</groupId>
             <artifactId>quartz-all</artifactId>
@@ -391,8 +399,7 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-            <optional>true</optional>
-            <version>2.3.20</version>
+            <version>2.3.23</version>
         </dependency>
         <!-- Test Strt -->
         <dependency>

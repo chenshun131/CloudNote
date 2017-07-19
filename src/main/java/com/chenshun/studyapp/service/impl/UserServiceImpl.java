@@ -1,14 +1,20 @@
 package com.chenshun.studyapp.service.impl;
 
 import com.chenshun.component.exception.ServiceException;
+import com.chenshun.component.service.CustomerRedisService;
+import com.chenshun.component.service.TaskExecutorService;
 import com.chenshun.studyapp.dao.UserMapper;
 import com.chenshun.studyapp.domain.User;
+import com.chenshun.studyapp.entity.EmailValidateCodeCat;
 import com.chenshun.studyapp.kit.NoteKit;
 import com.chenshun.studyapp.service.UserService;
+import com.chenshun.studyapp.task.SendEmailTask;
+import com.chenshun.utils.RandomCodeUtil;
 import com.chenshun.utils.validate.CommonValidateUtil;
 import com.chenshun.utils.web.rest.RestResultDTO;
 import com.chenshun.utils.web.rest.StatusCode;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -31,8 +37,18 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
+    private static final String MVC_DAILY_TOTAL_LIMITING_THRESHOLD_PREFIX = "mvc_daily_limiting_";
+
+    private static final String THRESHOLD_MSG = "请求过于频繁,请稍后再试";
+
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private CustomerRedisService redisService;
+
+    @Resource
+    private TaskExecutorService taskExecutorService;// 拥有异步执行能力的任务执行器
 
     @Override
     @Transactional
@@ -127,6 +143,61 @@ public class UserServiceImpl implements UserService {
         restResultDTO.initStatus(StatusCode.OK);// 0正确
         restResultDTO.setMessage("注册成功");
         return restResultDTO;
+    }
+
+    @Override
+    public RestResultDTO sendEmail(String email, int type) {
+        RestResultDTO restResultDTO = new RestResultDTO();
+        restResultDTO.initStatus(StatusCode.INTERNAL_SERVER_ERROR);
+
+        if (!CommonValidateUtil.validateEmail(email)) {
+            throw new IllegalArgumentException("邮箱号码不正确");
+        }
+        EmailValidateCodeCat emailType = EmailValidateCodeCat.get(type);
+        Validate.notNull(emailType, "邮箱验证类型不正确");
+        // 单日总申请量限制,24小时内限40条
+        if (mobileLimit(email, MVC_DAILY_TOTAL_LIMITING_THRESHOLD_PREFIX + "_", 40, 60 * 60 * 24)) {
+            restResultDTO.setMessage(THRESHOLD_MSG);
+            return restResultDTO;
+        }
+
+        // 申请频率限制.1分钟内同种类型的申请仅一次
+        if (mobileLimit(email, emailType.getPrefix() + "rate_limiting_" + "_", 1, 60)) {
+            restResultDTO.setMessage(THRESHOLD_MSG);
+            return restResultDTO;
+        }
+
+        // 生成随机的邮件验证码
+        String code = RandomCodeUtil.getInstance().generateMobileValidateCode();
+        taskExecutorService.addTask(new SendEmailTask(email, code));// 邮件发送是个性能消耗操作，使用线程池统一处理
+
+        // 保存验证码,存活时间为五分钟
+        redisService.put(emailType.getPrefix() + "_" + email, code, 12 * 60 * 60);
+        restResultDTO.initStatus(StatusCode.OK);
+
+        return restResultDTO;
+    }
+
+    /**
+     * 限制
+     *
+     * @param email
+     * @param prefix
+     * @param threshold
+     * @param expire
+     * @return
+     */
+    private boolean mobileLimit(String email, String prefix, int threshold, int expire) {
+        String key = prefix + email;
+        if (redisService.keyExists(key)) {
+            int counts = (int) redisService.stringIncr(key, 1);
+            if (counts > threshold) {
+                return true;
+            }
+        } else {
+            redisService.put(key, "1", expire);
+        }
+        return false;
     }
 
 }

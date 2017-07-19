@@ -36,8 +36,8 @@ public final class CommonValidateUtil {
     private static final String TEL_REG_EXP = "^(0\\d{2,3}-?)?\\d{7,8}$";
 
     /** 电子邮箱正则表达式 */
-    private static final String EMAIL_REG_EXP =
-            "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
+    private static final String EMAIL_REG_EXP = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\" +
+            ".[A-Za-z0-9]+$";
 
     /** 车牌号码正则表达式 */
     private static final String CAR_PLATE_NO_REG_EXP = "^[" + DISTRICT_STRINGS + "]{1}[A-Za-z]{1}[A-Za-z0-9]{5}$";
@@ -228,6 +228,12 @@ public final class CommonValidateUtil {
         return matcher.matches();
     }
 
+    /**
+     * 验证邮箱
+     *
+     * @param email
+     * @return
+     */
     public static boolean validateEmail(String email) {
         if (isEmpty(email)) {
             return false;
@@ -245,7 +251,6 @@ public final class CommonValidateUtil {
         if (isEmpty(carPlateNo)) {
             return false;
         }
-
         Pattern pattern = Pattern.compile(CAR_PLATE_NO_REG_EXP);
         Matcher matcher = pattern.matcher(carPlateNo);
         return matcher.matches();

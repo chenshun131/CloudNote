@@ -70,7 +70,7 @@ public class LogReqAspect {
      */
     @After("execution(* com.chenshun.studyapp..*Controller.*(..))")
     public void doAfter(JoinPoint joinPoint) {
-        endTimeMillis = System.currentTimeMillis();   // 记录方法执行完成的时间
+        endTimeMillis = System.currentTimeMillis(); // 记录方法执行完成的时间
         this.printOptLog();
     }
 
@@ -110,9 +110,8 @@ public class LogReqAspect {
                 restResultDTO = (RestResultDTO) result;
             }
         }
-
         if (restResultDTO != null) {
-            //只需要把响应码以及响应提示返回即可,返回的具体业务数据不予记录
+            // 只需要把响应码以及响应提示返回即可,返回的具体业务数据不予记录
             RestResultDTO restResultDTO4Log = new RestResultDTO();
             restResultDTO4Log.setStatusCode(restResultDTO.getStatusCode());
             restResultDTO4Log.setMessage(restResultDTO.getMessage());

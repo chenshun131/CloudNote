@@ -33,9 +33,39 @@
     <bean id="fileLoadService" class="com.chenshun.component.service.FileLoadService">
         <property name="ftpUtil" ref="ftpUtil"/>
     </bean>
+    <bean id="fileUploadService" class="com.chenshun.component.service.FileUploadService">
+        <property name="ftpUtil" ref="ftpUtil"/>
+    </bean>
     <bean id="taskExecutorService" class="com.chenshun.component.service.TaskExecutorService">
         <property name="taskExecutor" ref="taskExecutor"/>
     </bean>
     <!-- customer service END -->
+
+    <!-- 邮件发送 START -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.163.com"/>
+        <property name="username" value="chenshun131"/> <!-- 填写自己的邮箱和密码 -->
+        <property name="password" value="xxx"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="classpath:mailTemplate/"/> <!-- 模版路径 -->
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">1800</prop>
+                <prop key="default_encoding">UTF-8</prop>
+                <prop key="locale">zh_CN</prop>
+                <prop key="number_format">0.##########</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="classic_compatible">true</prop>
+                <prop key="template_exception_handler">ignore</prop>
+            </props>
+        </property>
+    </bean>
+    <!-- 邮件发送 END -->
 
 </beans>

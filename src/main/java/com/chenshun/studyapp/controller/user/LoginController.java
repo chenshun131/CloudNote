@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -27,9 +28,15 @@ public class LoginController {
     @Resource
     private UserService userService;
 
-    @RequestMapping("/login")
+    /**
+     * 登录
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public RestResultDTO execute(HttpServletRequest request) {
+    public RestResultDTO checkLogin(HttpServletRequest request) {
         logger.info("进入LoginController");
 
         String author = request.getHeader("Authorization");
@@ -38,10 +45,28 @@ public class LoginController {
         return userService.checkLogin(author);
     }
 
-    @RequestMapping("/regist")
+    /**
+     * 注册
+     *
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/regist", method = RequestMethod.POST)
     @ResponseBody
-    public RestResultDTO execute(User user) {
+    public RestResultDTO addUser(User user) {
         return userService.addUser(user);
+    }
+
+    /**
+     * 发送邮件
+     *
+     * @param email
+     * @return
+     */
+    @RequestMapping(value = "/sendEmail", method = RequestMethod.POST)
+    @ResponseBody
+    public RestResultDTO sendEmail(String email) {
+        return userService.sendEmail(email, 0);
     }
 
 }

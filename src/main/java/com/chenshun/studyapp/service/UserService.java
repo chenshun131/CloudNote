@@ -17,4 +17,6 @@ public interface UserService {
 
     RestResultDTO addUser(User user);
 
+    RestResultDTO sendEmail(String email, int type);
+
 }
