@@ -10,51 +10,88 @@
     <link rel="stylesheet" type="text/css" href="../css/animate.css">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
 
-    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <!--<link rel="stylesheet" type="text/css" href="../css/main.css">-->
 </head>
 <body class="gray-bg animated fadeIn">
 
-<header class="header">
-    <div class="header-brand">
-        <a data-pjax=".content-body" href="./main_note.html">
-            <img class="brand-logo" src="../img/dummy/cloudnote-logo-default.png" alt="默认 Logo">
+<nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="./main_note.html">
+            <img height="40px" src="../img/dummy/cloudnote-logo-primary.png" alt="Logo">
         </a>
+        <form class="navbar-form-custom" role="search" action="search_results.html">
+            <div class="input-group">
+                <input id="top-search" name="top-search" type="text" class="form-control" style="border: 2px solid yellow;" placeholder="搜索...">
+            </div>
+        </form>
     </div>
-    <div class="header-profile">
-        <div class="profile-nav">
-            <span class="profile-username"></span>
-            <a class="dropdown-toggle" data-toggle="dropdown">
-                <span class="fa fa-angle-down"></span>
-            </a>
-            <ul class="dropdown-menu animated flipInX pull-right" role="menu">
-                <li>
-                    <a href="Change_password.html"><i class="fa fa-user"></i> 修改密码</a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                    <a id="logout" href="#"><i class="fa fa-sign-out"></i> 退出登录</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <form class="form-inline" onsubmit="return false;">
-        <button type="button" class="btn btn-default btn-expand-search">
-            <i class="fa fa-search"></i>
-        </button>
-        <div class="toggle-search">
-            <span id="search_span" style="color:red"></span>
-            <input id="search_note" type="text" class="form-control" placeholder="搜索笔记">
-            <button type="button" class="btn btn-default btn-collapse-search"><i class="fa fa-times"></i></button>
-        </div>
-    </form>
-
-    <ul class="hidden-xs header-menu pull-right">
+    <ul class="nav navbar-top-links navbar-right">
         <li>
-            <a href="activity.html" target='_blank' title="笔记活动">活动</a>
+            <a href="login.html">
+                <i class="fa fa-sign-out"></i> Log out
+            </a>
+        </li>
+        <li>
+            <a class="right-sidebar-toggle">
+                <i class="fa fa-tasks"></i>
+            </a>
         </li>
     </ul>
-</header>
+</nav>
+</div>
+
+
+<!--<header class="header">-->
+<!--<div class="header-brand">-->
+<!--<a data-pjax=".content-body" href="./main_note.html">-->
+<!--<img class="brand-logo" src="../img/dummy/cloudnote-logo-primary.png" alt="Logo">-->
+<!--</a>-->
+<!--</div>-->
+<!--<div class="header-profile">-->
+<!--<div class="profile-nav">-->
+<!--<span class="profile-username"></span>-->
+<!--<a class="dropdown-toggle" data-toggle="dropdown">-->
+<!--<span class="fa fa-angle-down"></span>-->
+<!--</a>-->
+<!--<ul class="dropdown-menu animated flipInX pull-right" role="menu">-->
+<!--<li>-->
+<!--<a href="Change_password.html"><i class="fa fa-user"></i> 修改密码</a>-->
+<!--</li>-->
+<!--<li class="divider"></li>-->
+<!--<li>-->
+<!--<a id="logout" href="#"><i class="fa fa-sign-out"></i> 退出登录</a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+<!--<ul class="hidden-xs header-menu pull-right">-->
+<!--<li>-->
+<!--<a href="activity.html" target='_blank' title="笔记活动">活动</a>-->
+<!--</li>-->
+<!--</ul>-->
+
+
+<!--&lt;!&ndash;<form class="form-inline" onsubmit="return false;">&ndash;&gt;-->
+<!--&lt;!&ndash;<button type="button" class="btn btn-default btn-expand-search">&ndash;&gt;-->
+<!--&lt;!&ndash;<i class="fa fa-search"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;</button>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="toggle-search">&ndash;&gt;-->
+<!--&lt;!&ndash;<span id="search_span" style="color:red"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;<input id="search_note" type="text" class="form-control" placeholder="搜索笔记">&ndash;&gt;-->
+<!--&lt;!&ndash;<button type="button" class="btn btn-default btn-collapse-search"><i class="fa fa-times"></i></button>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</form>&ndash;&gt;-->
+
+
+<!--<div class="header-brand">-->
+<!--<div class="input-group">-->
+<!--<input type="text" placeholder="Search" class="input-sm form-control">-->
+<!--<span class="input-group-btn">-->
+<!--<button type="button" class="btn btn-sm btn-primary"> Go!</button>-->
+<!--</span>-->
+<!--</div>-->
+<!--</div>-->
+<!--</header>-->
 
 
 <!-- Mainly scripts -->
