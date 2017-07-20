@@ -19,7 +19,7 @@
     </sql>
 
     <select id="findNotesByBookId" parameterType="string" resultType="map">
-        SELECT cn_note_id,cn_note_title
+        SELECT cn_note_id,cn_note_title,cn_note_body
         FROM cn_note
         WHERE cn_notebook_id=#{bookId} AND cn_note_status_id="1"
         ORDER BY cn_note_create_time DESC
@@ -44,17 +44,49 @@
         WHERE cn_note_id=#{cnNoteId}
     </update>
 
-    <select id="findByStatus" parameterType="string" resultType="com.tedu.cloudnote.entity.Note">
+    <select id="findByStatus" parameterType="string" resultType="com.chenshun.studyapp.domain.Note">
         SELECT
         <include refid="Base_Column_List"/>
         FROM cn_note
         WHERE cn_note_status_id="2" AND cn_user_id=#{userId} ORDER BY cn_note_last_modify_time DESC
     </select>
 
+    <select id="findByStatus2" parameterType="string" resultType="com.chenshun.studyapp.domain.Note">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cn_note
+        WHERE cn_note_status_id="3" AND cn_user_id=#{userId} ORDER BY cn_note_last_modify_time DESC
+    </select>
 
+    <delete id="deleteByNoteId" parameterType="string">
+        DELETE FROM cn_note
+        WHERE cn_note_id=#{noteId}
+    </delete>
 
+    <update id="updateStatusToStore" parameterType="string">
+        UPDATE cn_note
+        SET cn_note_status_id="3"
+        WHERE cn_note_id=#{noteId};
+    </update>
 
-
+    <select id="findNotes" parameterType="map" resultType="com.chenshun.studyapp.domain.Note">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cn_note
+        WHERE cn_user_id = #{userId}
+        <if test="title!=null">
+            AND cn_note_title like #{title}
+        </if>
+        <if test="status!=null">
+            AND cn_note_status_id=#{status}
+        </if>
+        <if test="begin!=null">
+            AND cn_note_create_time&gt;=#{begin}
+        </if>
+        <if test="end!=null">
+            AND cn_note_create_time&lt;=#{end}
+        </if>
+    </select>
 
     <update id="updateNote" parameterType="com.chenshun.studyapp.domain.Note">
         UPDATE cn_note
@@ -97,13 +129,13 @@
                 cn_note_title like #{title}
             </if>
             <if test="status != null">
-                and cn_note_status_id=#{status}
+                AND cn_note_status_id=#{status}
             </if>
             <if test="beginTime != null">
-                and cn_note_create_time&gt;=#{beginTime}
+                AND cn_note_create_time&gt;=#{beginTime}
             </if>
             <if test="endTime != null">
-                and cn_note_create_time&lt;=#{endTime}
+                AND cn_note_create_time&lt;=#{endTime}
             </if>
         </where>
     </select>

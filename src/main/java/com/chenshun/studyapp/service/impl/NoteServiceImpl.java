@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -141,9 +143,79 @@ public class NoteServiceImpl implements NoteService {
         return restResultDTO;
     }
 
+    @Override
+    public RestResultDTO finalDeleteNote(String noteId) {
+        int count = noteMapper.deleteByNoteId(noteId);
 
+        RestResultDTO restResultDTO = new RestResultDTO();
+        restResultDTO.initStatus(StatusCode.OK);
+        if (count <= 0) {
+            restResultDTO.setMessage("彻底删除失败");
+        } else {
+            restResultDTO.setMessage("彻底删除成功");
+        }
+        return restResultDTO;
+    }
 
+    @Override
+    public RestResultDTO updateToStore(String shareId) {
+        Share share = shareMapper.findByShareId(shareId);
+        String noteId = share.getCnNoteId();
 
+        int count = noteMapper.updateStatusToStore(noteId);
+
+        RestResultDTO restResultDTO = new RestResultDTO();
+        restResultDTO.initStatus(StatusCode.OK);
+        if (count <= 0) {
+            restResultDTO.setMessage("收藏失败");
+        } else {
+            restResultDTO.setMessage("收藏成功");
+        }
+        return restResultDTO;
+    }
+
+    @Override
+    public RestResultDTO loadStoreNotes(String userId) {
+        List<Note> list = noteMapper.findByStatus2(userId);
+
+        RestResultDTO restResultDTO = new RestResultDTO();
+        restResultDTO.initStatus(StatusCode.OK);
+        restResultDTO.setBody(list);
+        return restResultDTO;
+    }
+
+    @Override
+    public RestResultDTO loadManager(String title, String status, String begin, String end, String userId) {
+        // 根据传入的请求参数设置SQL参数
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", userId);
+        // 判断标题条件 不是空时有效
+        if (!CommonValidateUtil.isEmpty(title)) {
+            params.put("title", "%" + title + "%");
+        }
+        // 判断状态条件 不是“全部”时有效
+        if (!CommonValidateUtil.isEmpty(status) && !"0".equals(status)) {
+            params.put("status", status);
+        }
+        // 判断开始日期条件，不是空有效
+        if (!CommonValidateUtil.isEmpty(begin)) {
+            Date beginDate = Date.valueOf(begin);
+            params.put("begin", beginDate.getTime());
+        }
+        // 判断结束日期条件，不是空有效
+        if (!CommonValidateUtil.isEmpty(end)) {
+            Date endDate = Date.valueOf(end);
+            params.put("end", endDate.getTime());
+        }
+
+        // 执行查询
+        List<Note> list = noteMapper.findNotes(params);
+        // 创建返回结果
+        RestResultDTO restResultDTO = new RestResultDTO();
+        restResultDTO.initStatus(StatusCode.OK);
+        restResultDTO.setBody(list);
+        return restResultDTO;
+    }
 
     @Override
     public RestResultDTO shareNote(String noteId) {

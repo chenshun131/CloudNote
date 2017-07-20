@@ -43,15 +43,35 @@
 
     <!-- 邮件发送 START -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="smtp.163.com"/>
+        <property name="host" value="smtp.163.com"/> <!-- 163邮箱 -->
+        <property name="defaultEncoding" value="UTF-8"></property>
         <property name="username" value="chenshun131"/> <!-- 填写自己的邮箱和密码 -->
         <property name="password" value="xxx"/>
         <property name="javaMailProperties">
             <props>
                 <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.timeout">25000</prop>
             </props>
         </property>
     </bean>
+
+    <!--<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">-->
+        <!--<property name="host" value="smtp.gmail.com" /> &lt;!&ndash; 由于墙原因，无法使用 Gmail 发送邮件 &ndash;&gt;-->
+        <!--<property name="username" value="chenshun131@gmail.com" />-->
+        <!--<property name="password" value="xxx" />-->
+        <!--<property name="defaultEncoding" value="UTF-8"></property>-->
+        <!--<property name="javaMailProperties">-->
+            <!--<props>-->
+                <!--<prop key="mail.smtp.auth">true</prop>-->
+                <!--<prop key="mail.smtp.timeout">${mail.smtp.timeout}</prop>-->
+                <!--<prop key="mail.smtp.port">465</prop>-->
+                <!--<prop key="mail.smtp.socketFactory.port">25000</prop>-->
+                <!--<prop key="mail.smtp.socketFactory.fallback">false</prop>-->
+                <!--<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
     <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="classpath:mailTemplate/"/> <!-- 模版路径 -->
         <property name="freemarkerSettings">

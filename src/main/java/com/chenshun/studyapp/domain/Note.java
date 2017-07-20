@@ -10,7 +10,7 @@ public class Note implements Serializable {
 
     private String cnUserId;
 
-    /** 1:正常 2:删除 */
+    /** 1:正常 2:删除 3:收藏 */
     private String cnNoteStatusId;
 
     private String cnNoteTypeId;

@@ -171,8 +171,8 @@ public class UserServiceImpl implements UserService {
         String code = RandomCodeUtil.getInstance().generateMobileValidateCode();
         taskExecutorService.addTask(new SendEmailTask(email, code));// 邮件发送是个性能消耗操作，使用线程池统一处理
 
-        // 保存验证码,存活时间为五分钟
-        redisService.put(emailType.getPrefix() + "_" + email, code, 12 * 60 * 60);
+        // 保存验证码,存活时间为6小时
+        redisService.put(emailType.getPrefix() + "_" + email, code, 6 * 60 * 60);
         restResultDTO.initStatus(StatusCode.OK);
 
         return restResultDTO;

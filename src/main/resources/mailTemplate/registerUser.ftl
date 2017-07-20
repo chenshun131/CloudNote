@@ -11,9 +11,12 @@
 </head>
 <body class="gray-bg">
 
-提醒您：<br/>
-您正在进行邮箱验证，验证码为 :
-<div style="color: black;font-weight: bold">${verificationCode}</div>
+<div style="color: #999;">
+    提醒您：<br/>
+    您正在进行邮箱验证，验证码为 :
+    <div style="color: black;font-weight: bold;display: inline">${verificationCode}</div>
+    。有效时间为6个小时，请注意查收！
+</div>
 
 </body>
 </html>

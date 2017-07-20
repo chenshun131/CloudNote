@@ -13,112 +13,189 @@
     <link rel="shortcut icon" href="ico/favicon.ico">
     <link rel="stylesheet" href="styles/icon.css"/>
     <link rel="stylesheet" href="styles/main.css"/>
-
     <!-- Google-Code代码高亮CSS -->
     <link rel="stylesheet" href="styles/prettify.css"/>
     <!-- Ueditor编辑器CSS -->
     <link href="styles/umeditor.min.css" type="text/css" rel="stylesheet">
     <script type="text/javascript" src="scripts/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="scripts/cookie_util.js"></script>
     <script type="text/javascript" src="scripts/basevalue.js"></script>
-    <script type="text/javascript" src="scripts/author.js"></script>
-    <script type="text/javascript" src="scripts/notebook.js"></script>
+    <script type="text/javascript" src="scripts/cookie_util.js"></script>
+    <script type="text/javascript" src="scripts/book.js"></script>
     <script type="text/javascript" src="scripts/note.js"></script>
-    <!-- Ueditor编辑器JS -->
-    <script type="text/javascript" charset="utf-8" src="scripts/ue/umeditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="scripts/ue/umeditor.min.js"></script>
-    <script type="text/javascript" src="scripts/ue/lang/zh-cn.js"></script>
-
+    <script type="text/javascript" src="scripts/alert.js"></script>
+    <script type="text/javascript" src="scripts/share.js"></script>
+    <script type="text/javascript" src="scripts/recycle.js"></script>
     <script type="text/javascript">
-        var userId = getCookie("userId");
-        //定义Ueditor编辑器变量
-        var um;
-        $(function () {
-            // 实例化Ueditor编辑器
-            um = UM.getEditor('myEditor');
-            // 加载用户笔记本列表
-            loadbooks(userId);
-            // 单击笔记本+弹出添加对话框
-            $("#add_notebook").click(pop_addbook_window);
-            // 给对话框取消按钮和X按钮绑定处理--动态绑定
-            $("#can").on("click", ".cancle,.close", close_window);
-            // 给对话框创建笔记本按钮添加处理
-            $("#can").on("click", "#sure_addbook", sure_addbook);
-            // 给笔记本追加单击处理
-            $("#book_ul").on("click", "li", loadnotes);
-            // 单击笔记+弹出添加对话框
-            $("#add_note").click(pop_addnote_window);
-            // 给创建笔记按钮添加处理
-            $("#can").on("click", "#sure_addnote", sure_addnote);
-            // 给笔记添加单击处理,将内容显示到编辑区
-            $("#note_ul").on("click", "li", loadNoteById);
-            // 给保存笔记按钮添加单击处理
-            $("#save_note").click(saveNote);
-            // 给笔记按钮添加单击，弹出菜单
-            $("#note_ul").on("click", ".btn_slide_down", function () {
-                var $note_menu = $(this).parent().next();
-                $note_menu.show();//显示菜单
-                //阻止事件冒泡,阻止li单击
-                return false;
-            });
-            // 给笔记菜单追加显示和隐藏处理
-            $("#note_ul").on("mouseover", ".note_menu", function () {
-                $(this).show();
-            });
-            $("#note_ul").on("mouseout", ".note_menu", function () {
-                $(this).hide();
-            });
-            // 给笔记删除按钮追加单击处理
-            $("#note_ul").on("click", ".btn_delete", deleteNote);
-            // 给笔记分享按钮追加单击处理
-            $("#note_ul").on("click", ".btn_share", shareNote);
-            // 给搜索输入框追加键盘事件
-            $("#search_note").keydown(function (event) {
-                var code = event.keyCode;
-                if (code == 13) {// 按回车键
-                    //切换显示区
-                    $("#pc_part_6").show();// 显示搜索笔记列表
-                    $("#pc_part_2").hide();// 隐藏笔记列表
-                    //获取输入框内容
-                    var keyword = $("#search_note").val();
-                    //发送ajax请求
-                    $.ajax({
-                        url: path + "/note/search",
-                        type: "post",
-                        data: {"keyword": keyword},
-                        dataType: "json",
-                        success: function (result) {
-                            if (result.status == 200) {// 成功
-                                var notes = result.body;
-                                //清除搜索笔记结果列表
-                                $("#search_ul").empty();
-                                //循环分享笔记结果
-                                for (i = 0; i < notes.length; i++) {
-                                    var shareTitle = notes[i].cnShareTitle;//分享标题
-                                    var shareId = notes[i].cnShareId;//分享ID
-                                    //生成一个笔记列表的li
-                                    var s_li = '<li class="online">';
-                                    s_li += '	<a>';
-                                    s_li += '		<i class="fa fa-file-text-o" title="online" rel="tooltip-bottom"></i>' + shareTitle + '<button type="button" class="btn btn-default btn-xs btn_position btn_slide_down"><i class="fa fa-chevron-down"></i></button>';
-                                    s_li += '	</a>';
-                                    s_li += '</li>';
-                                    //添加到查询结果列表
-                                    $li = $(s_li);
-                                    $li.data("share_id", shareId);
-                                    $("#search_ul").append($li);
-                                }
-                            }
-                        },
-                        error: function () {
-                            alert("笔记搜索失败");
-                        }
-                    });
-                }
-            });
-        });
+//        $(function () {
+//            //加载用户笔记本列表
+//            loadUserBooks();//发送ajax请求，异步请求，直接向下继续执行，下面的如果要使用回调函数结果的元素
+//                            //则无法调用到，解决方法1可以改变异步到同步
+//                            //方法2 给未来元素绑定：on("click","li",function(){})  父元素.on("事件类型","子元素",fun处理)
+//            //点击笔记本li加载笔记本列表(动态绑定)
+//            $("#book_ul").on("click", "li", loadBookNotes);
+//            //双击笔记本名 弹出改名框
+//            $("#book_ul").on("dblclick", "li", alertRenameBookNameWindow);
+//            //单击确定改名
+//            $("#can").on("click", "#sureRename", renameBookName);
+//            //点击笔记li加载笔记信息
+//            $("#note_ul").on("click", "li", loadNote);
+//            //点击‘保存笔记’ 修改笔记内容
+//            $("#save_note").click(updateNote);
+//            //点击 + 弹出添加笔记本对话框
+//            $("#add_notebook").click(alertAddBookWindow);
+//            //关闭对话框
+//            $("#can").on("click", ".cancle,.close", closeAlertWindow);
+//            //给对话框中‘创建’笔记本按钮绑定单击
+//            $("#can").on("click", "#sure_addbook", sureAddBook);
+//            //点击 + 弹出添加笔记对话框
+//            $("#add_note").click(alertAddNoteWindow);
+//            //给对话框中 创建 笔记按钮绑定单击
+//            $("#can").on("click", "#sure_addnote", sureAddNote);
+//            //显示笔记菜单
+//            showNoteMenu();
+//            //笔记删除对话框
+//            $("#note_ul").on("click", ".btn_delete", alertDeleteNoteWindow);
+//            //笔记删除
+//            $("#can").on("click", "#sureDeleteNote", sureDeleteNote);
+//            //笔记转移 加载多选框
+//            $("#note_ul").on("click", ".btn_move", alertMoveNoteWindow);
+//            //笔记转移 执行转移
+//            $("#can").on("click", "#sureMove", sureMoveNote);
+//
+//            //点击垃圾桶 切换到垃圾桶页面，加载回收站笔记
+//            $("#rollback_button").click(clickRecycle);
+//            //点击回收站里的笔记li
+//            $("#recyclenote_ul").on("click", "li", clickRecycleLi);
+//            //点击笔记的删除按钮弹出删除页面
+//            $("#recyclenote_ul").on("click", ".btn_delete", function () {
+//                $("#can").load("alert/alert_delete_rollback.html");
+//                $(".opacity_bg").show();
+//            });
+//            //点击删除弹出页面的确认
+//            $("#can").on("click", "#sureFinalDelete", sureDeleteRecycleNotes);
+//            //点击笔记的还原按钮弹出还原页面
+//            $("#recyclenote_ul").on("click", ".btn_replay", clickReplayRecycleNote);
+//            //点击还原弹出页面的确认
+//            $("#can").on("click", "#sureReplay", sureReplayRecycleNote);
+//
+//            //笔记分享 分享按钮单击
+//            $("#note_ul").on("click", ".btn_share", sureShareNote);
+//
+//            //分享笔记搜索里面输入 和 实现分页显示功能
+//            var page = 1;//全局变量
+//            //按回车，搜索分享笔记
+//            $("#search_note").keydown(sureSearchShare);
+//            //按"更多"按钮,加载下一页搜索记录
+//            $("#more_note").click(moreSearchShare);
+//
+//            //点击分享的笔记li加载内容到预览笔记
+//            $("#search_ul").on("click", "li", function () {
+//                var shareId = $(this).data("shareId");
+//                //alert(shareId);
+//                $("#search_ul a").removeClass("checked");
+//                $(this).find("a").addClass("checked");
+//                $.ajax({
+//                    url: path + "/share/loadnote",
+//                    type: "post",
+//                    data: {"shareId": shareId},
+//                    dataType: "json",
+//                    success: function (result) {
+//                        if (result.statusCode == 0) {
+//                            var note = result.body;
+//                            var body = note.cnShareBody;
+//                            var title = note.cnShareTitle;
+//                            $("#noput_note_title").html(title);
+//                            $("#noput_note_body").html(body);
+//                            //um.setContent(body);//设置笔记内容，um是Ueditor编辑器的实例
+//                        }
+//                    },
+//                    error: function () {
+//                        alert("加载笔记内容失败");
+//                    }
+//                });
+//            });
+//
+//            // 点击收藏弹出收藏弹框
+//            $("#search_ul").on("click", ".btn_slide_down", function () {
+//                    $("#can").load("alert/alert_like.html");//封装了ajax，专门用来执行内容的载入
+//                    //显示对话框灰色背景
+//                    $(".opacity_bg").show();
+//                }
+//            );
+//
+//            // 点击收藏弹框的确认
+//            $("#can").on("click", "#sureStore", function () {
+//                var shareId = $("#search_ul a.checked").parent().data("shareId");
+//                //alert(shareId);
+//                $.ajax({
+//                    url: path + "/note/addStore",
+//                    type: "post",
+//                    data: {"shareId": shareId},
+//                    dateType: "json",
+//                    success: function (result) {
+//                        closeAlertWindow();
+//                        alert(result.message);
+//                    },
+//                    error: function () {
+//                        alert("收藏笔记失败");
+//                    }
+//                });
+//            });
+//            // 点击收藏 五角星 按钮
+//            $("#like_button").click(function () {
+//                $("#pc_part_7").show();
+//                $("#pc_part_3").show();
+//                $("#pc_part_5").hide();
+//                $("#pc_part_6").hide();
+//                $("#pc_part_4").hide();
+//                $("#pc_part_2").hide();
+//                $("#pc_part_8").hide();
+//                var userId = getCookie("userId");
+//                //alert(userId);
+//                if (userId == null) {
+//                    window.location.href("log_in.html");
+//                } else {
+//                    $.ajax({
+//                        url: path + "/note/loadStoreNotes",
+//                        type: "post",
+//                        data: {"userId": userId},
+//                        dataType: "json",
+//                        success: function (result) {
+//                            $("#store_ul").empty();
+//                            var notes = result.body;
+//                            //alert(notes[0].cn_note_id);
+//                            for (var i = 0; i < notes.length; i++) {
+//                                var noteTitle = notes[i].cnNoteTitle;
+//                                var noteId = notes[i].cnNoteId;
+//                                var bookId = notes[i].cnUserId;
+//                                // alert(noteTitle+","+bookId+","+noteId);
+//                                var sli = "";
+//                                sli += '<li class="idle">'
+//                                sli += '	 <a >'
+//                                sli += '   	 	<i class="fa fa-file-text-o" title="online" rel="tooltip-bottom">';
+//                                sli += '		</i> ' + noteTitle;
+//                                sli += '		<button type="button" class="btn btn-default btn-xs btn_position btn_delete"><i class="fa fa-times"></i>';
+//                                sli += '		</button>';
+//                                sli += '	</a>';
+//                                sli += '</li>';
+//                                var li = $(sli);
+//                                $(li).data("noteId", noteId);
+//                                $(li).data("bookId", bookId);
+//                                //alert("+")
+//                                $("#store_ul").append(li);
+//                            }
+//                        },
+//                        error: function () {
+//                            alert("载入收藏列表失败");
+//                        }
+//                    });
+//                }
+//            });
+//        });
     </script>
 </head>
 <body class="animated fadeIn">
+
 <header class="header">
     <div class="header-brand">
         <a data-pjax=".content-body" href="edit.html">
@@ -139,14 +216,11 @@
         </div>
     </div>
     <form class="form-inline" onsubmit="return false;">
-        <button type="button" class="btn btn-default btn-expand-search">
-            <i class="fa fa-search"></i>
-        </button>
+        <button type="button" class="btn btn-default btn-expand-search"><i class="fa fa-search"></i></button>
         <div class="toggle-search">
+            <span id="search_span" style="color:red"></span>
             <input type="text" class="form-control" placeholder="搜索笔记" id='search_note'>
-            <button type="button" class="btn btn-default btn-collapse-search">
-                <i class="fa fa-times"></i>
-            </button>
+            <button type="button" class="btn btn-default btn-collapse-search"><i class="fa fa-times"></i></button>
         </div>
     </form>
     <ul class="hidden-xs header-menu pull-right">
@@ -155,6 +229,7 @@
         </li>
     </ul>
 </header>
+
 <div class="row" style='padding:0;' id='center'>
     <!-- alert_background-->
     <div class="opacity_bg" style='display:none'></div>
@@ -164,8 +239,7 @@
         <!-- side-right -->
         <div class="pc_top_first">
             <h3>全部笔记本</h3>
-            <button type="button" class="btn btn-default btn-xs btn_plus" id='add_notebook'>
-                <i class="fa fa-plus"></i>
+            <button type="button" class="btn btn-default btn-xs btn_plus" id='add_notebook'><i class="fa fa-plus"></i>
             </button>
         </div>
         <aside class="side-right" id='first_side_right'>
@@ -173,7 +247,13 @@
                 <div class="chat-contact">
                     <div class="contact-body">
                         <ul id="book_ul" class="contacts-list">
-                            <!-- 动态生成笔记本li -->
+                            <!--
+                            <li class="online" id="c1">
+                             <a>
+                              <i class="fa fa-book" title="online" rel="tooltip-bottom">
+                              </i> 默认笔记本
+                             </a>
+                            </li>  -->
                         </ul>
                     </div>
                 </div>
@@ -204,7 +284,19 @@
                 <div class="chat-contact">
                     <div class="contact-body">
                         <ul id="note_ul" class="contacts-list">
-                            <!-- 动态生成笔记li -->
+                            <!--
+                            <li class="online">
+                                <a  class='checked'>
+                                    <i class="fa fa-file-text-o" title="online" rel="tooltip-bottom"></i> 使用Java操作符<button type="button" class="btn btn-default btn-xs btn_position btn_slide_down"><i class="fa fa-chevron-down"></i></button>
+                                </a>
+                                <div class="note_menu" tabindex='-1'>
+                                    <dl>
+                                        <dt><button type="button" class="btn btn-default btn-xs btn_move" title='移动至...'><i class="fa fa-random"></i></button></dt>
+                                        <dt><button type="button" class="btn btn-default btn-xs btn_share" title='分享'><i class="fa fa-sitemap"></i></button></dt>
+                                        <dt><button type="button" class="btn btn-default btn-xs btn_delete" title='删除'><i class="fa fa-times"></i></button></dt>
+                                    </dl>
+                                </div>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -221,19 +313,19 @@
             <div class="module" data-toggle="niceScroll">
                 <div class="chat-contact">
                     <div class="contact-body">
-                        <ul class="contacts-list">
+                        <ul class="contacts-list" id="recyclenote_ul">
+                            <!--
                             <li class="disable">
-                                <a>
-                                    <i class="fa fa-file-text-o" title="online" rel="tooltip-bottom"></i>
-                                    虚假回收站笔记
-                                    <button type="button" class="btn btn-default btn-xs btn_position btn_delete">
-                                        <i class="fa fa-times"></i>
+                                <a >
+                                    <i class="fa fa-file-text-o" title="online" rel="tooltip-bottom">
+                                    </i> 虚假回收站笔记
+                                    <button type="button" class="btn btn-default btn-xs btn_position btn_delete"><i class="fa fa-times"></i>
                                     </button>
-                                    <button type="button" class="btn btn-default btn-xs btn_position_2 btn_replay">
-                                        <i class="fa fa-reply"></i>
+                                    <button type="button" class="btn btn-default btn-xs btn_position_2 btn_replay"><i class="fa fa-reply"></i>
                                     </button>
                                 </a>
                             </li>
+                             -->
                         </ul>
                     </div>
                 </div>
@@ -250,7 +342,8 @@
             <div class="module" data-toggle="niceScroll">
                 <div class="chat-contact">
                     <div class="contact-body">
-                        <ul id="search_ul" class="contacts-list"></ul>
+                        <ul id="search_ul" class="contacts-list">
+                        </ul>
                     </div>
                 </div>
                 <div id='more_note'>更多...</div>
@@ -267,7 +360,7 @@
             <div class="module" data-toggle="niceScroll">
                 <div class="chat-contact">
                     <div class="contact-body">
-                        <ul class="contacts-list">
+                        <ul id="store_ul" class="contacts-list">
                             <!--li class="idle"><a ><i class="fa fa-file-text-o" title="online" rel="tooltip-bottom"></i> switch多分支结构<button type="button" class="btn btn-default btn-xs btn_position btn_delete"><i class="fa fa-times"></i></button></a></li-->
                         </ul>
                     </div>
@@ -321,101 +414,121 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <!-- 输入框 -->
-                                <!--<script type="text/plain" id="myEditor" style="width:100%;height:400px;"></script>-->
+                                <script type="text/plain" id="myEditor" style="width:100%;height:400px;"></script>
                                 <!-- 输入框 -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </aside>
-        <!-- 编辑笔记 -->
-        <!-- 预览笔记 -->
-        <div class="col-sm-7" id='pc_part_5' style='display:none;'>
-            <div class="pc_top_third">
-                <div class="row">
-                    <div class="col-xs-9">
-                        <h3>预览笔记</h3>
-                    </div>
-                </div>
-            </div>
-            <aside class="side-right" id='fifth_side_right'>
-                <div class="module" data-toggle="niceScroll">
-                    <div class="chat-contact">
-                        <div class="contact-body clear_margin">
-                            <h4 id="noput_note_title"></h4>
-                            <p></p>
-                        </div>
-                    </div>
-                </div>
-            </aside>
-        </div>
-        <!-- 预览笔记 -->
-    </div>
+                                </div>
+                                </div>
+                                < / div >
+                                < / div >
+                                < / div >
+                                < / aside >
+                                < / div >
+                                <!-- 编辑笔记 -->
+                                <!-- 预览笔记 -->
+                                < div
+                                class
+                                = "col-sm-7"
+                                id = 'pc_part_5'
+                                style = 'display:none;' >
+                                    < div
+                                class
+                                = "pc_top_third" >
+                                    < div
+                                class
+                                = "row" >
+                                    < div
+                                class
+                                = "col-xs-9" >
+                                    < h3 > 预览笔记 < / h3 >
+                                    < / div >
+                                    < / div >
+                                    < / div >
+                                    < aside
+                                class
+                                = "side-right"
+                                id = 'fifth_side_right' >
+                                    < div
+                                class
+                                = "module"
+                                data - toggle = "niceScroll" >
+                                    < div
+                                class
+                                = "chat-contact" >
+                                    < div
+                                class
+                                = "contact-body clear_margin" >
+                                    < h4
+                                id = "noput_note_title" > AA < / h4 >
+                                    < p
+                                id = "noput_note_body" > AAAA
+                                    < / p >
+                                    < / div >
+                                    < / div >
+                                    < / div >
+                                    < / aside >
+                                    < / div >
+                                    <!-- 预览笔记 -->
+                                    < / div >
+                                    <footer>
+                                    <p> & copy;2014Stilearning </p>
+                                <div style = 'position:absolute;top:5PX;height:30px;right:20px;line-height:26px;border:1px solid #0E7D76;display:none;background:#fff' >
+                                    <strong style = 'color:#0E7D76;margin:0 10px;'> </strong>
+                                    </div>
+                                    </footer>
+                                    <script type = "text/javascript" >
+                                    //加载DOM之后处理页面高度
+                                    function get_dom(e) {
+                                        return document.getElementById(e);
+                                    }
+                                function set_height() {
+                                    var pc_height = window.innerHeight;
+                                    pc_height = pc_height - 132;
+                                    get_dom('first_side_right').style.height = (pc_height - 31) + 'px';
+                                    get_dom('second_side_right').style.height = pc_height + 'px';
+                                    get_dom('four_side_right').style.height = pc_height + 'px';
+                                    get_dom('sixth_side_right').style.height = pc_height + 'px';
+                                    get_dom('seventh_side_right').style.height = pc_height + 'px';
+                                    get_dom('eighth_side_right').style.height = pc_height + 'px';
+                                    get_dom('third_side_right').style.height = (pc_height - 15) + 'px';
+                                    get_dom('fifth_side_right').style.height = (pc_height - 15) + 'px';
+                                }
+                                function myEditorWidth() {
+                                    var dom = get_dom('third_side_right');
+                                    var style = dom.currentStyle || window.getComputedStyle(dom, null);
+                                    get_dom('myEditor').style.width = style.width;
+                                }
+                                set_height();
+                                //改变窗口大小时调整页面尺寸
+                                window.onresize = function () {
+                                    set_height();
+                                    var width = $('#third_side_right').width() - 35;
+                                    $('.edui-container,.edui-editor-body').width(width);
+                                    $('#myEditor').width(width - 20);
+                                };
+                                </script>
+                                <script type="text/javascript" src="scripts/jquery/jquery.min.js"></script>
 
-    <footer>
-        <p>&copy; 2014 Stilearning</p>
-        <div style='position:absolute;top:5PX;height:30px;right:20px;line-height:26px;border:1px solid #0E7D76;display:none;background:#fff'>
-            <strong style='color:#0E7D76;margin:0 10px;'></strong>
-        </div>
-    </footer>
-</div>
+                                <!-- Bootstrap框架JS -->
+                                <script src="scripts/bootstrap.min.js"></script>
+                                <script src="scripts/js-prototype.js"></script>
+                                <script src="scripts/theme-setup.js"></script>
+                                <!-- Google-Code代码高亮JS -->
+                                <script class="re-execute" src="scripts/run_prettify.js"></script>
+                                <!-- Ueditor编辑器JS -->
+                                <script type="text/javascript" charset="utf-8" src="scripts/ue/umeditor.config.js"></script>
+                                <script type="text/javascript" charset="utf-8" src="scripts/ue/umeditor.min.js"></script>
+                                <script type="text/javascript" src="scripts/ue/lang/zh-cn.js"></script>
 
-<script type="text/javascript">
-    //加载DOM之后处理页面高度
-    function get_dom(e) {
-        return document.getElementById(e);
-    }
-
-    function set_height() {
-        var pc_height = window.innerHeight;
-        pc_height = pc_height - 132;
-        get_dom('first_side_right').style.height = (pc_height - 31) + 'px';
-        get_dom('second_side_right').style.height = pc_height + 'px';
-        get_dom('four_side_right').style.height = pc_height + 'px';
-        get_dom('sixth_side_right').style.height = pc_height + 'px';
-        get_dom('seventh_side_right').style.height = pc_height + 'px';
-        get_dom('eighth_side_right').style.height = pc_height + 'px';
-        get_dom('third_side_right').style.height = (pc_height - 15) + 'px';
-        get_dom('fifth_side_right').style.height = (pc_height - 15) + 'px';
-    }
-
-    function myEditorWidth() {
-        var dom = get_dom('third_side_right');
-        var style = dom.currentStyle || window.getComputedStyle(dom, null);
-        get_dom('myEditor').style.width = style.width;
-    }
-
-    set_height();
-    //改变窗口大小时调整页面尺寸
-    window.onresize = function () {
-        set_height();
-        var width = $('#third_side_right').width() - 35;
-        $('.edui-container,.edui-editor-body').width(width);
-        $('#myEditor').width(width - 20);
-    };
-</script>
-
-<!-- Bootstrap框架JS -->
-<script src="scripts/bootstrap.min.js"></script>
-<script src="scripts/js-prototype.js"></script>
-<script src="scripts/theme-setup.js"></script>
-<!-- Google-Code代码高亮JS -->
-<script class="re-execute" src="scripts/run_prettify.js"></script>
-
-<script type="text/javascript">
-    //重写JS原生alert函数
-    window.alert = function (e) {
-        $('#can').load('./alert/alert_error.html', function () {
-            $('#error_info').text(' ' + e);
-            $('.opacity_bg').show();
-        });
-    }
-    //获取笔记本列表
-    //get_nb_list();
-    //获取特殊笔记本ID
-    //get_spnb_list();
-
-</script>
+                                <script type="text/javascript">
+                                    //重写JS原生alert函数
+                                    window.alert = function (e) {
+                                        $('#can').load('./alert/alert_error.html', function () {
+                                            $('#error_info').text(' ' + e);//此方法主要是来调用html页面中的元素进行操作
+                                            $('.opacity_bg').show();     //必须地成功加载此html页面之后写入到#can之后运行
+                                        });
+                                    }
+                                    //实例化Ueditor编辑器
+                                    var um = UM.getEditor('myEditor');
+                                </script>
 </body>
 </html>

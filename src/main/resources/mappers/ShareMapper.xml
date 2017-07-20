@@ -16,6 +16,13 @@
         DELETE FROM cn_share WHERE cn_share_id=#{noteId}
     </delete>
 
+    <select id="findByShareId" parameterType="string" resultType="com.chenshun.studyapp.domain.Share">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cn_share
+        WHERE cn_share_id=#{shareId}
+    </select>
+
     <select id="findByNoteId" parameterType="string" resultType="com.chenshun.studyapp.domain.Share">
         SELECT
         <include refid="Base_Column_List"/>
@@ -29,9 +36,17 @@
     </insert>
 
     <select id="findLikeTitle" parameterType="string" resultType="com.chenshun.studyapp.domain.Share">
-        SELECT <include refid="Base_Column_List"/>
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM cn_share
         WHERE cn_share_title LIKE #{title}
+    </select>
+
+    <select id="findLikeTitle2" parameterType="map" resultType="com.chenshun.studyapp.domain.Share">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM cn_share
+        WHERE cn_share_title LIKE #{shareTitle} limit #{begin},5
     </select>
 
 </mapper>

@@ -20,7 +20,27 @@ public interface NoteMapper {
 
     int updateBookId(Note note);
 
+    /**
+     * 查询删除笔记
+     *
+     * @param userId
+     * @return
+     */
     List<Note> findByStatus(String userId);
+
+    /**
+     * 查询收藏笔记
+     *
+     * @param userId
+     * @return
+     */
+    List<Note> findByStatus2(String userId);
+
+    int deleteByNoteId(String noteId);
+
+    int updateStatusToStore(String noteId);
+
+    List<Note> findNotes(Map params);
 
     List<Note> searchNotes(SearchNote search);
 

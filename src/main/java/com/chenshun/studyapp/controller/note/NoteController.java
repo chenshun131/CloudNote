@@ -61,45 +61,39 @@ public class NoteController {
 
     @RequestMapping("/move")
     @ResponseBody
-    public RestResultDTO moveNote(String bookId,String noteId){
+    public RestResultDTO moveNote(String bookId, String noteId) {
         return noteService.moveNote(bookId, noteId);
     }
 
-    @RequestMapping("/loadRecycleNotes.do")
+    @RequestMapping("/loadRecycleNotes")
     @ResponseBody
-    public RestResultDTO loadRecycleNotes(String userId){
-        NoteResult<List<Note>> result = noteService.loadRecycleNotes(userId);
-        return result;
+    public RestResultDTO loadRecycleNotes(String userId) {
+        return noteService.loadRecycleNotes(userId);
     }
 
-    @RequestMapping("/finalDelete")//.do可以省略，可以进入Servlet说明自带.do
+    @RequestMapping("/finalDelete")
     @ResponseBody
-    public NoteResult finalDeleteNote(String noteId){//参数和html里面传过来的（key）名字一样
-        NoteResult result = noteService.finalDeleteNote(noteId);
-        return result;
+    public RestResultDTO finalDeleteNote(String noteId) {
+        return noteService.finalDeleteNote(noteId);
     }
 
-    @RequestMapping("/addStore.do")//.do可以省略，可以进入Servlet说明自带.do
+    @RequestMapping("/addStore")
     @ResponseBody
-    public NoteResult execute8(String shareId){//参数和html里面传过来的（key）名字一样
-        NoteResult result = noteService.updateToStore(shareId);
-        return result;
+    public RestResultDTO updateToStore(String shareId) {
+        return noteService.updateToStore(shareId);
     }
 
-    @RequestMapping("/loadStoreNotes.do")//.do可以省略，可以进入Servlet说明自带.do
+    @RequestMapping("/loadStoreNotes")
     @ResponseBody
-    public NoteResult<List<Note>> execute9(String userId){//参数和html里面传过来的（key）名字一样
-        NoteResult<List<Note>> result = noteService.loadStoreNotes(userId);
-        return result;
+    public RestResultDTO loadStoreNotes(String userId) {
+        return noteService.loadStoreNotes(userId);
     }
 
-    @RequestMapping("/manager.do")//.do可以省略，可以进入Servlet说明自带.do
+    @RequestMapping("/manager")
     @ResponseBody
-    public NoteResult<List<Note>> execute10(String title, String status, String begin,String end,String userId){//参数和html里面传过来的（key）名字一样
-        NoteResult<List<Note>> result = noteService.loadManager(title, status, begin, end,userId);
-        return result;
+    public RestResultDTO loadManager(String title, String status, String begin, String end, String userId) {
+        return noteService.loadManager(title, status, begin, end, userId);
     }
-
 
     @RequestMapping("/share")
     @ResponseBody
@@ -115,7 +109,7 @@ public class NoteController {
 
     @RequestMapping("/hight_search")
     @ResponseBody
-    public RestResultDTO execute(SearchNote search) {
+    public RestResultDTO searchNotes(SearchNote search) {
         return noteService.searchNotes(search);
     }
 

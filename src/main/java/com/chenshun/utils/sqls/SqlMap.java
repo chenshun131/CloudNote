@@ -67,7 +67,7 @@ public class SqlMap {
         _sqlPool = new HashMap<>();
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            configuration = new Configuration();
+            configuration = new Configuration(Configuration.VERSION_2_3_0);
             stringTemplateLoader = new StringTemplateLoader();
             configuration.setDefaultEncoding("UTF-8");
 
