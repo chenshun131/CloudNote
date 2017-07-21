@@ -103,7 +103,6 @@ h5 {
     min-height: 50px;
 }
 
-
 .navbar-top-links .dropdown-menu li {
     display: block;
 }
@@ -223,6 +222,22 @@ h5 {
     font-size: 14px;
     height: 60px;
     margin: 0;
+    z-index: 2000;
+}
+
+.navbar-form-custom-input {
+    float: left;
+    height: 50px;
+    padding: 0;
+    width: 400px;
+    display: inline-table;
+}
+
+.navbar-form-custom-input .form-control {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    font-size: 14px;
+    height: 40px;
+    margin: 10px;
     z-index: 2000;
 }
 
@@ -891,6 +906,20 @@ fieldset[disabled] .btn-default:active,
 fieldset[disabled] .btn-default.active {
     background-color: #cccccc;
     border-color: #cccccc;
+}
+
+.btn-default-customer {
+    color: #394264;
+    border-color: #E0E4E8
+}
+
+.btn-xs-customer {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    color: #13A89E;
+    background: white;
 }
 
 .btn-warning {
@@ -3873,6 +3902,10 @@ body.boxed-layout #wrapper {
 .clear {
     display: block;
     overflow: hidden;
+}
+
+.clear_margin {
+    padding: 0 15px;
 }
 
 a {
@@ -9722,3 +9755,84 @@ body.md-skin {
         display: none;
     }
 }
+
+.pc_top_first {
+    padding: 7px 15px;
+    background: #13A89E;
+}
+
+.pc_top_first h3 {
+    font-size: 16px;
+    margin: 0 0 0 15px;
+    color: #ecf0f1;
+    font-family: "微软雅黑";
+    display: inline;
+}
+
+.btn-customer {
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+    background-image: none;
+    box-shadow: none;
+}
+
+.btn_plus {
+    margin-top: -2px;
+    padding: 2px 5px 1px 5px;
+    float: right;
+}
+
+.side-right {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    padding-bottom: 40px;
+    right: 0px;
+    z-index: 9;
+    background-color: #FFF;
+    color: #000;
+    width: 100%;
+    overflow: hidden;
+    -webkit-transition: right .3s ease;
+    -ms-transition: right .3s ease;
+    transition: right .3s ease
+}
+
+.module {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto
+}
+
+.chat-contact {
+    position: relative;
+    display: block;
+    width: 100%
+}
+
+.contact-body {
+    border-top: 1px solid rgba(255, 255, 255, .1)
+}
+
+.contacts-list, .contacts-list li {
+    margin: 0;
+    padding: 0;
+    list-style: none
+}
+
