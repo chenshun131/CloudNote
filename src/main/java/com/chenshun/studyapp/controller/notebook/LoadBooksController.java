@@ -36,7 +36,7 @@ public class LoadBooksController {
     @RequestMapping("/rename")
     @ResponseBody
     public RestResultDTO execute2(String bookId, String bookName) {
-        //调用UserService处理登录
+        // 调用UserService处理登录
         return bookService.rename(bookId, bookName);
     }
 
