@@ -1,6 +1,6 @@
 # CloudNote
 云笔记项目
 
-[x] MongoDB
+－ [x] MongoDB
 
-[ ] 使用 js 压缩图片，并保存在数据库中
+－ [ ] 使用 js 压缩图片，并保存在数据库中
