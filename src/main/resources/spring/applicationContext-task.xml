@@ -6,7 +6,6 @@
 	                       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd ">
 
 
-
     <!-- 0/5 0 1 * * ? [秒] [分] [小时] [日] [月] [周] [年] -->
     <bean id="globalTask" class="com.chenshun.component.task.GlobalTask"></bean>
     <task:scheduled-tasks>

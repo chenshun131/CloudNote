@@ -45,7 +45,7 @@
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.163.com"/> <!-- 163邮箱 -->
         <property name="defaultEncoding" value="UTF-8"></property>
-        <property name="username" value="chenshun131"/> <!-- 填写自己的邮箱和密码 -->
+        <property name="username" value="chenshun502"/> <!-- 填写自己的邮箱和密码 -->
         <property name="password" value="xxx"/>
         <property name="javaMailProperties">
             <props>

@@ -2,15 +2,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="
-                  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
                   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-                  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-                  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+                  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+                  http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 
     <!-- 连接池配置文件 -->
-    <context:property-placeholder location="classpath:config.properties"/>
+    <context:property-placeholder location="classpath:props/config.properties"/>
 
     <!-- 基础数据源配置，这样可以方便切换数据源 -->
     <bean id="baseDataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
@@ -74,5 +75,33 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.chenshun.studyapp.dao"/>
     </bean>
+
+    <!-- MongoDB Start -->
+    <!-- 单机:host port  集群:replica-set="${mongo.replicaSet}" credentials的配置形式是：用户名:密码@默认数据库 -->
+    <mongo:mongo-client id="mongoClient" host="${mongo.host}" port="${mongo.port}"
+                        credentials="${mongo.username}:${mongo.password}@${mongo.databaseName}">
+        <mongo:client-options
+                write-concern="SAFE"
+                connections-per-host="${mongo.connectionsPerHost}"
+                threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
+                connect-timeout="${mongo.connectTimeout}"
+                max-wait-time="${mongo.maxWaitTime}"
+                socket-keep-alive="${mongo.socketKeepAlive}"
+                socket-timeout="${mongo.socketTimeout}"/>
+    </mongo:mongo-client>
+
+    <mongo:db-factory id="mongoDbFactory" dbname="${mongo.databaseName}" mongo-ref="mongoClient"/>
+    <!-- MongoDB GridFS Template 支持，操作mongodb存放的文件 -->
+    <mongo:mapping-converter id="mongoConverter" db-factory-ref="mongoDbFactory"/>
+
+    <bean id="gridFsTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
+        <constructor-arg ref="mongoDbFactory"/>
+        <constructor-arg ref="mongoConverter"/>
+    </bean>
+    <!-- mongo模板操作对象 -->
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+    </bean>
+    <!-- MongoDB End -->
 
 </beans>

@@ -1,4 +1,4 @@
-package com.chenshun.test;
+package com.chenshun.test.mybatis;
 
 import com.chenshun.studyapp.dao.UserMapper;
 import org.junit.Test;

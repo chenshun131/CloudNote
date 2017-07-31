@@ -13,6 +13,13 @@
     <!-- 将无法mapping到Controller的path交给default servlet handler处理 -->
     <mvc:default-servlet-handler/>
 
+    <!--ViewResolver 视图解析器-->
+    <!--<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+        <!--<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>-->
+        <!--<property name="prefix" value="/WEB-INF/pages/"/>-->
+        <!--<property name="suffix" value=".jsp"/>-->
+    <!--</bean>-->
+
     <!-- enable autowire -->
     <context:annotation-config/>
 
@@ -123,6 +130,7 @@
     <!-- handle exception -->
     <bean id="handlerExceptionResolver" class="com.chenshun.component.exception.CustomControllerExHandler"/>
 
+    <!-- 数据源 -->
     <import resource="classpath*:/spring/applicationContext-datasource.xml"/>
 
     <!-- redis -->
