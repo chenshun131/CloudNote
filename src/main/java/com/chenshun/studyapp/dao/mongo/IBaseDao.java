@@ -1,6 +1,7 @@
 package com.chenshun.studyapp.dao.mongo;
 
 import com.chenshun.studyapp.entity.mongo.PageModel;
+import org.springframework.data.geo.Circle;
 import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Point;
 
@@ -317,5 +318,13 @@ public interface IBaseDao<T> {
      */
     public GeoResults<T> geoNear(@NotNull Point point, double maxDistance, String[] propName, Object[] propValue,
                                  String order);
+
+    /**
+     * 获取圆圈内的点
+     * @param key
+     * @param circle
+     * @return
+     */
+    public List<T> getCircleInnerPoint(String key, Circle circle);
 
 }

@@ -11,7 +11,8 @@ import java.io.Serializable;
  * User: mew <p />
  * Time: 17/8/1 11:26  <p />
  * Version: V1.0  <p />
- * Description: 地理位置信息 <p />
+ * Description: 地理位置信息 <br/>
+ * 创建索引 : db.coll_places.createIndex({"coordinate":"2d"}) <p />
  */
 @Document(collection = "coll_places")
 public class Place implements Serializable {

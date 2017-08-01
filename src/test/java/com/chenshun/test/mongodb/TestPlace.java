@@ -7,6 +7,7 @@ import com.chenshun.utils.map.MapUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Circle;
 import org.springframework.data.geo.GeoResult;
 import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Point;
@@ -150,5 +151,14 @@ public class TestPlace {
         }
     }
 
+    @Test
+    public void getCircleInnerPoint() {
+        List<Place> places = placeService.getCircleInnerPoint("coordinate", new Circle(30.644242, 104.073143, 0.1));
+        for (Place place : places) {
+            System.out.println(place.getCategory() + " : " + place.getName() + " : " +
+                    MapUtil.getDistance(104.073143, 30.644242,
+                            place.getCoordinate().getLng(), place.getCoordinate().getLat()));
+        }
+    }
 
 }

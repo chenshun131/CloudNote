@@ -8,9 +8,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.geo.Circle;
 import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -407,6 +409,16 @@ public abstract class BaseDaoImpl<T> implements IBaseDao<T> {
         Query query = createQuery(propName, propValue, order);
         near.query(query);
         return mgt.geoNear(near, getEntityClass());
+    }
+
+    /**
+     * 获取圆圈内的点
+     * @param key
+     * @param circle
+     * @return
+     */
+    public List<T> getCircleInnerPoint(String key, Circle circle) {
+        return mgt.find(new Query(Criteria.where(key).within(circle)), getEntityClass());
     }
 
 }
