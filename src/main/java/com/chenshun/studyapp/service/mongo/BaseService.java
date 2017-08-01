@@ -2,7 +2,10 @@ package com.chenshun.studyapp.service.mongo;
 
 import com.chenshun.studyapp.dao.mongo.IBaseDao;
 import com.chenshun.studyapp.entity.mongo.PageModel;
+import org.springframework.data.geo.GeoResults;
+import org.springframework.data.geo.Point;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -278,6 +281,78 @@ public abstract class BaseService<T> {
      */
     public int countByCondition(String[] params, Object[] values) {
         return getDao().countByCondition(params, values);
+    }
+
+    /**
+     * 获取点附近的其点信息
+     *
+     * @param point
+     * @param maxDistance
+     *         kilometer unit
+     * @param propName
+     *         属性名称，对应实体类字段名称
+     * @param propValue
+     *         属性值
+     * @return
+     */
+    public GeoResults<T> geoNear(@NotNull Point point, double maxDistance, String propName, Object propValue) {
+        return getDao().geoNear(point, maxDistance, propName, propValue);
+    }
+
+    /**
+     * 获取点附近的其点信息
+     *
+     * @param point
+     * @param maxDistance
+     *         kilometer unit
+     * @param propName
+     *         属性名称，对应实体类字段名称
+     * @param propValue
+     *         属性值
+     * @param order
+     *         排序字段，例如：id或id asc、或id asc,name desc<br>
+     *         为空则不排序，不指定排序方式则默认升序排序
+     * @return
+     */
+    public GeoResults<T> geoNear(@NotNull Point point, double maxDistance, String propName, Object propValue,
+                                 String order) {
+        return getDao().geoNear(point, maxDistance, propName, propValue, order);
+    }
+
+    /**
+     * 获取点附近的其点信息
+     *
+     * @param point
+     * @param maxDistance
+     *         kilometer unit
+     * @param propName
+     *         参数数组
+     * @param propValue
+     *         参数值数组
+     * @return
+     */
+    public GeoResults<T> geoNear(@NotNull Point point, double maxDistance, String[] propName, Object[] propValue) {
+        return getDao().geoNear(point, maxDistance, propName, propValue);
+    }
+
+    /**
+     * 获取点附近的其点信息
+     *
+     * @param point
+     * @param maxDistance
+     *         kilometer unit
+     * @param propName
+     *         参数数组
+     * @param propValue
+     *         参数值数组
+     * @param order
+     *         排序字段，例如：id或id asc、或id asc,name desc<br>
+     *         为空则不排序，不指定排序方式则默认升序排序
+     * @return
+     */
+    public GeoResults<T> geoNear(@NotNull Point point, double maxDistance, String[] propName, Object[] propValue,
+                                 String order) {
+        return getDao().geoNear(point, maxDistance, propName, propValue, order);
     }
 
 }

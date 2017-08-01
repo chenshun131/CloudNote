@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>CloudNote | BaiDu Map</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../img/dummy/cloudnote-logo-primary.png"/>
+    <link rel="stylesheet" type="text/css" href="../lib/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../lib/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="../css/animate.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body class="gray-bg">
+
+<div id="map" style="width:100%;height:100%;"></div>
+
+<!-- Mainly scripts -->
+<script type="text/javascript" src="../lib/jquery/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="../lib/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    // 保存多边形点信息
+    var pointList = new Array();
+    var map;// 百度地图操作类
+
+    // 清屏按钮
+    function clearControl() {
+        this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;// 默认停靠位置
+        this.defaultOffset = new BMap.Size(10, 50);// 默认停靠偏移量
+    }
+
+    // 点击绘制多边形
+    function clickToDrawPoint(e) {
+        pointList[pointList.length] = new BMap.Point(e.point.lng, e.point.lat);
+        map.clearOverlays();
+        map.removeOverlay();
+        //  绘制图形
+        var polygon = new BMap.Polygon(pointList, {strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5});  //创建矩形
+        map.addOverlay(polygon);
+        // 绘制点
+        for (var i = 0; i < pointList.length; i++) {
+            addMarker(pointList[i]);
+        }
+    }
+
+    // 向地图中添加自定义标记
+    function addMarker(point) {
+        var marker = new BMap.Marker(point);
+        // 添加文字标注
+        var label = new BMap.Label("纬度:" + point.lat + " 经度:" + point.lng, {offset: new BMap.Size(-80, -20)});
+        label.setStyle({
+            color: "#19aa8d",
+            fontSize: "9px",
+            height: "20px",
+            border: "0",
+            lineHeight: "20px",
+            fontFamily: "微软雅黑"
+        });
+        marker.setLabel(label);
+        map.addOverlay(marker);
+    }
+
+    // 异步加载百度地图
+    function initialize() {
+        map = new BMap.Map("map"); // 创建Map实例
+
+        // 初始化地图
+        var currentCity = new BMap.LocalCity();
+        currentCity.get(function (result) {
+            map.centerAndZoom(result.name, 15);// 用城市名设置地图中心点
+        });
+
+        map.enableInertialDragging();
+        map.enableContinuousZoom();
+        map.enableScrollWheelZoom();// 启用滚轮放大缩小
+        map.addControl(new BMap.ScaleControl({anchor: BMAP_ANCHOR_BOTTOM_LEFT}));// 添加比例尺
+        map.addControl(new BMap.NavigationControl({
+            anchor: BMAP_ANCHOR_BOTTOM_RIGHT, // 靠右下角位置
+            type: BMAP_NAVIGATION_CONTROL_LARGE, // LARGE类型
+            enableGeolocation: true // 启用显示定位
+        }));// 添加带有定位的导航控件
+        map.addControl(new BMap.MapTypeControl({anchor: BMAP_ANCHOR_TOP_RIGHT}));// 默认地图控件
+
+        // 添加定位控件
+        var geolocationControl = new BMap.GeolocationControl();
+        geolocationControl.addEventListener("locationSuccess", function (e) {
+            // 定位成功事件
+            var address = "";
+            address += e.addressComponent.province;
+            address += e.addressComponent.city;
+            address += e.addressComponent.district;
+            address += e.addressComponent.street;
+            address += e.addressComponent.streetNumber;
+            alert("当前定位地址为：" + address);
+        });
+        geolocationControl.addEventListener("locationError", function (e) {
+            alert(e.message);// 定位失败事件
+        });
+        map.addControl(geolocationControl);
+
+        // 切换城市控件
+        map.addControl(new BMap.CityListControl({
+            anchor: BMAP_ANCHOR_TOP_LEFT,
+            offset: new BMap.Size(10, 20),
+            // 切换城市之间事件
+            // onChangeBefore: function(){
+            //    alert('before');
+            // },
+            // 切换城市之后事件
+            // onChangeAfter:function(){
+            //   alert('after');
+            // }
+        }));
+
+        // 添加自定义按钮
+        // 添加 清除多边形 按钮
+        // 通过JavaScript的prototype属性继承于BMap.Control
+        clearControl.prototype = new BMap.Control();
+        // 自定义控件必须实现自己的initialize方法,并且将控件的DOM元素返回
+        // 在本方法中创建个div元素作为控件的容器,并将其添加到地图容器中
+        clearControl.prototype.initialize = function (map) {
+            // 创建一个DOM元素
+            var div = document.createElement("div");
+            // 添加文字说明
+            div.appendChild(document.createTextNode("清除多边形"));
+            // 设置样式
+            div.style.cursor = "pointer";
+            div.style.border = "1px solid gray";
+            div.style.backgroundColor = "white";
+            // 绑定事件
+            div.onclick = function (e) {
+                pointList.splice(0, pointList.length);
+                map.clearOverlays();
+            }
+            // 添加DOM元素到地图中
+            map.getContainer().appendChild(div);
+            // 将DOM元素返回
+            return div;
+        }
+        map.addControl(new clearControl());
+
+        // 点击事件获取经纬度
+        map.addEventListener("click", clickToDrawPoint);
+    }
+    function loadScript() {
+        var script = document.createElement("script");
+        script.src = "http://api.map.baidu.com/api?v=2.0&ak=VCS65EDKbKR4gVdQk94Vnc72IyFHzRTz&callback=initialize";
+        document.body.appendChild(script);
+    }
+    window.onload = loadScript;// 异步加载地图
+</script>
+
+</body>
+</html>

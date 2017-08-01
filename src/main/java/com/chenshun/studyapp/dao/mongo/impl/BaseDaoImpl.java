@@ -1,7 +1,5 @@
 package com.chenshun.studyapp.dao.mongo.impl;
 
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-
 import com.chenshun.studyapp.dao.mongo.IBaseDao;
 import com.chenshun.studyapp.entity.mongo.PageModel;
 import com.chenshun.utils.EmptyUtil;
@@ -10,10 +8,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.geo.GeoResults;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -22,6 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 /**
  * User: mew <p />
@@ -239,7 +243,7 @@ public abstract class BaseDaoImpl<T> implements IBaseDao<T> {
     protected List<Order> parseOrder(String order) {
         List<Order> list = null;
         if (EmptyUtil.isNotEmpty(order)) {
-            list = new ArrayList<Order>();
+            list = new ArrayList<>();
             // 共有几组排序字段
             String[] fields = order.split(",");
             Order o = null;
@@ -273,7 +277,7 @@ public abstract class BaseDaoImpl<T> implements IBaseDao<T> {
      * @throws Exception
      */
     protected Map<String, Object> parseEntity(T t) throws Exception {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         /* 解析ID */
         String idName = "";
         Field[] declaredFields = getEntityClass().getDeclaredFields();
@@ -313,6 +317,96 @@ public abstract class BaseDaoImpl<T> implements IBaseDao<T> {
         String name = methodName.replace("get", "");
         name = name.substring(0, 1).toLowerCase() + name.substring(1);
         return name;
+    }
+
+    /**
+     * 获取点附近的其点信息
+     *
+     * @param point
+     * @param maxDistance
+     *         kilometer unit
+     * @param propName
+     *         属性名称，对应实体类字段名称
+     * @param propValue
+     *         属性值
+     * @return
+     */
+    public GeoResults<T> geoNear(@NotNull Point point, double maxDistance, String propName,
+                                 Object propValue) {
+        return geoNear(point, maxDistance, propName, propValue, null);
+    }
+
+    /**
+     * 获取点附近的其点信息
+     *
+     * @param point
+     * @param maxDistance
+     *         kilometer unit
+     * @param propName
+     *         属性名称，对应实体类字段名称
+     * @param propValue
+     *         属性值
+     * @param order
+     *         排序字段，例如：id或id asc、或id asc,name desc<br>
+     *         为空则不排序，不指定排序方式则默认升序排序
+     * @return
+     */
+    public GeoResults<T> geoNear(@NotNull Point point, double maxDistance, String propName, Object propValue,
+                                 String order) {
+        NearQuery near = NearQuery.near(point);
+        near.maxDistance(maxDistance);
+
+        Query query = new Query();
+        // 参数
+        query.addCriteria(where(propName).is(propValue));
+        // 排序
+        List<Order> orderList = parseOrder(order);
+        if (EmptyUtil.isNotEmpty(orderList)) {
+            query.with(new Sort(orderList));
+        }
+        near.query(query);
+        return mgt.geoNear(near, getEntityClass());
+    }
+
+    /**
+     * 获取点附近的其点信息
+     *
+     * @param point
+     * @param maxDistance
+     *         kilometer unit
+     * @param propName
+     *         参数数组
+     * @param propValue
+     *         参数值数组
+     * @return
+     */
+    public GeoResults<T> geoNear(@NotNull Point point, double maxDistance, String[] propName, Object[] propValue) {
+        return geoNear(point, maxDistance, propName, propValue, null);
+    }
+
+    /**
+     * 获取点附近的其点信息
+     *
+     * @param point
+     * @param maxDistance
+     *         kilometer unit
+     * @param propName
+     *         参数数组
+     * @param propValue
+     *         参数值数组
+     * @param order
+     *         排序字段，例如：id或id asc、或id asc,name desc<br>
+     *         为空则不排序，不指定排序方式则默认升序排序
+     * @return
+     */
+    public GeoResults<T> geoNear(@NotNull Point point, double maxDistance, String[] propName, Object[] propValue,
+                                 String order) {
+        NearQuery near = NearQuery.near(point);
+        near.maxDistance(maxDistance);
+
+        Query query = createQuery(propName, propValue, order);
+        near.query(query);
+        return mgt.geoNear(near, getEntityClass());
     }
 
 }
