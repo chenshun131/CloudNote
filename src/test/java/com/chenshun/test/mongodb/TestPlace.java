@@ -136,6 +136,9 @@ public class TestPlace {
         }
     }
 
+    /**
+     * 查找点 由近及远的其它点
+     */
     @Test
     public void findLocalPoint() {
         GeoResults<Place> results = placeService.geoNear(new Point(30.644242, 104.073143), 1000000,
@@ -151,6 +154,9 @@ public class TestPlace {
         }
     }
 
+    /**
+     * 查找
+     */
     @Test
     public void getCircleInnerPoint() {
         List<Place> places = placeService.getCircleInnerPoint("coordinate", new Circle(30.644242, 104.073143, 0.1));

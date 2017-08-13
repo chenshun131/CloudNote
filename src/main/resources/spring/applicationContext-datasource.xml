@@ -60,9 +60,6 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!-- http client -->
-    <bean id="simpleHttpClient" class="com.chenshun.utils.web.SimpleHttpClient"/>
-
     <!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  -->
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 

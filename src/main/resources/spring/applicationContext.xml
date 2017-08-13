@@ -41,6 +41,9 @@
     </bean>
     <!-- customer service END -->
 
+    <!-- http client -->
+    <bean id="simpleHttpClient" class="com.chenshun.utils.web.SimpleHttpClient"/>
+
     <!-- 邮件发送 START -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.163.com"/> <!-- 163邮箱 -->

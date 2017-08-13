@@ -32,6 +32,7 @@
     <context:component-scan base-package="com.chenshun.studyapp.service"/>
     <context:component-scan base-package="com.chenshun.studyapp.dao"/>
     <context:component-scan base-package="com.chenshun.studyapp.domain"/>
+    <context:component-scan base-package="com.chenshun.component"/>
     <context:component-scan base-package="org.jeecgframework.poi.excel.view"/>
 
     <!-- 启用 annotation-driven -->
@@ -137,5 +138,6 @@
     <import resource="classpath:/redis/applicationContext-redis.xml"/>
 
     <!-- 定时任务 -->
-    <import resource="classpath:/spring/applicationContext-task.xml"/>
+    <!--<import resource="classpath:/spring/applicationContext-task.xml"/>-->
+    <!--<import resource="classpath:/spring/applicationContext-quartz.xml"/>-->
 </beans>

@@ -13,7 +13,8 @@ import javax.annotation.Resource;
  * Time: 17/7/14 13:48  <p />
  * Version: V1.0  <p />
  * Description: RunWith:基于 JUnit4 的Spring测试框架 <p />
- * ContextConfiguration:启动 Spring 容器，由 Spring 提供
+ * ContextConfiguration:启动 Spring 容器，由 Spring 提供 <p />
+ * 使用 Redis 作为二级缓存框架
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/spring/applicationContext.xml", "/spring/spring-mvc.xml"})

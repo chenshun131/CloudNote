@@ -16,7 +16,6 @@ import java.util.Map;
 public class LogUtil {
 
     private static class Holder {
-
         private static Logger log = LoggerFactory.getLogger(LogUtil.class);
     }
 

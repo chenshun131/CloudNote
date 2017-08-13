@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd"
+       default-lazy-init="true">
+
+    <!-- Job 任务详情 -->
+    <bean id="createlogJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="createLogService"/> <!-- 目标任务 -->
+        <property name="targetMethod" value="createlog"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <!-- Trigger 调度触发器 -->
+    <bean id="createlogTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="createlogJob"/>
+        <!-- 0/5 * * * * ? [秒] [分] [小时] [日] [月] [周] [年] -->
+        <property name="cronExpression" value="0/5 * * * * ?"/>
+    </bean>
+
+    <!-- Scheduler 调度工厂 -->
+    <bean id="testScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="createlogTrigger"/>
+            </list>
+        </property>
+    </bean>
+</beans>

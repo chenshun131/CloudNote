@@ -32,7 +32,7 @@ $(function () {
                         // 将身份信息写入Cookie
                         $.cookie("userToken", result.body.userToken, {expires: 7});
                         $.cookie("userId", result.body.userId, {expires: 7});
-                        window.location.href = "./main.html";
+                        window.location.href = "./main_note.html";
                     } else {
                         swal({
                             title: "提示",

@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 	                       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd ">
 
+    <!-- Spring自带的定时自动任务调度 Task，Task使用很方便，但是能做的东西不如 quartz 多 -->
 
-    <!-- 0/5 0 1 * * ? [秒] [分] [小时] [日] [月] [周] [年] -->
+    <!-- 注册bean -->
     <bean id="globalTask" class="com.chenshun.component.task.GlobalTask"></bean>
+    <bean id="refreshPostTask" class="com.chenshun.component.task.RefreshPostTask"></bean>
+
+    <!-- 开启任务调度 -->
     <task:scheduled-tasks>
+        <!-- 0/5 0 1 * * ? [秒] [分] [小时] [日] [月] [周] [年] -->
         <!-- 每一小时执行一次 -->
         <task:scheduled ref="globalTask" method="run" cron="0 0 0/1 * * ?"/>
         <!-- 早九点到晚五点每三十分钟执行一次 -->
         <!-- <task:scheduled ref="globalTask" method="run" cron="0 0/30 9-17 * * ?" /> -->
-    </task:scheduled-tasks>
 
+        <!--
+        ref : 是工作类
+        method : 是工作类中要执行的方法
+        initial-delay : 是任务第一次被调用前的延时，单位毫秒
+        fixed-delay : 是上一个调用完成后再次调用的延时
+        fixed-rate : 是上一个调用开始后再次调用的延时（不用等待上一次调用完成）
+        cron : 是表达式，表示在什么时候进行任务调度
+         -->
+        <task:scheduled ref="refreshPostTask" method="run" cron="0 0 0/2 * * ?" initial-delay="600000"
+                        fixed-delay="600000"/>
+    </task:scheduled-tasks>
 </beans>
