@@ -14,7 +14,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- 编译jdk版本 -->
-        <jdk.version>1.7</jdk.version>
+        <jdk.version>1.8</jdk.version>
         <!-- 依赖版本 -->
         <spring.version>4.3.9.RELEASE</spring.version>
         <mybatis.version>3.4.1</mybatis.version>
@@ -97,6 +97,10 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -367,6 +371,12 @@
         <!-- email End -->
 
         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
             <version>${quartz.version}</version>
@@ -461,6 +471,25 @@
         </dependency>
         <!-- Test End -->
 
+        <!-- ActiveMQ Start -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-client</artifactId>
+            <version>5.15.0</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.activemq</groupId>-->
+            <!--<artifactId>activemq-broker</artifactId>-->
+            <!--<version>5.15.0</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<artifactId>guava</artifactId>-->
+                    <!--<groupId>com.google.guava</groupId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
+        <!-- ActiveMQ End -->
+
         <!--<dependency>-->
         <!--<groupId>org.jetbrains</groupId>-->
         <!--<artifactId>annotations-java5</artifactId>-->
@@ -483,9 +512,21 @@
     <!-- 仓库设置 -->
     <repositories>
         <repository>
+            <id>uk</id>
+            <name>Human Readable Name for this Mirror.</name>
+            <url>http://uk.maven.org/maven2/</url>
+        </repository>
+
+        <repository>
             <id>nexus-aliyun</id>
             <name>Nexus aliyun</name>
             <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </repository>
+
+        <repository>
+            <id>central</id>
+            <name>internal nexus repository</name>
+            <url>http://repo.maven.apache.org/maven2</url>
         </repository>
 
         <repository>
