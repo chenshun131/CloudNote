@@ -15,9 +15,9 @@
 
     <!--ViewResolver 视图解析器-->
     <!--<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
-        <!--<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>-->
-        <!--<property name="prefix" value="/WEB-INF/pages/"/>-->
-        <!--<property name="suffix" value=".jsp"/>-->
+    <!--<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>-->
+    <!--<property name="prefix" value="/WEB-INF/pages/"/>-->
+    <!--<property name="suffix" value=".jsp"/>-->
     <!--</bean>-->
 
     <!-- enable autowire -->
@@ -136,6 +136,9 @@
 
     <!-- redis -->
     <import resource="classpath:/redis/applicationContext-redis.xml"/>
+
+    <!-- 消息服务 -->
+    <import resource="classpath:/spring/applicationContext-jms.xml"/>
 
     <!-- 定时任务 -->
     <!--<import resource="classpath:/spring/applicationContext-task.xml"/>-->

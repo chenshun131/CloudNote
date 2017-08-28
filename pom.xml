@@ -33,6 +33,7 @@
         <!-- Hibernate -->
         <hibernate.version>3.5.5-final</hibernate.version>
         <hibernate-validator.version>4.3.0.Final</hibernate-validator.version>
+        <activemq.version>5.15.0</activemq.version>
     </properties>
 
     <dependencies>
@@ -224,6 +225,10 @@
                 <exclusion>
                     <artifactId>validation-api</artifactId>
                     <groupId>javax.validation</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -475,20 +480,36 @@
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-client</artifactId>
-            <version>5.15.0</version>
+            <version>${activemq.version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.apache.activemq</groupId>-->
-            <!--<artifactId>activemq-broker</artifactId>-->
-            <!--<version>5.15.0</version>-->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>guava</artifactId>-->
-                    <!--<groupId>com.google.guava</groupId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-spring</artifactId>
+            <version>${activemq.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-pool2</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <!-- ActiveMQ End -->
+        <dependency>
+            <groupId>org.fusesource.hawtbuf</groupId>
+            <artifactId>hawtbuf</artifactId>
+            <version>1.11</version>
+            <classifier>sources</classifier>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
 
         <!--<dependency>-->
         <!--<groupId>org.jetbrains</groupId>-->

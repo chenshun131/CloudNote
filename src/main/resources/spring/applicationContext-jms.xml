@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+           http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+    <!-- 连接池配置文件 -->
+    <context:property-placeholder location="classpath:props/config.properties"/>
+
+    <!-- ActiveMQ 连接工厂 -->
+    <!-- 真正可以产生Connection的ConnectionFactory，由对应的 JMS服务厂商提供-->
+    <!-- 如果连接网络：tcp://ip:61616；未连接网络：tcp://localhost:61616 以及用户名，密码-->
+    <amq:connectionFactory id="amqConnectionFactory" brokerURL="${activemq.url}" userName="admin" password="admin"/>
+
+    <!--&lt;!&ndash; 定义连接JMS提供者所需的初始上下文工厂、提供者URL和安全凭证 &ndash;&gt;-->
+    <!--<bean id="jndiTemplate" class="org.springframework.jndi.JndiTemplate">-->
+    <!--<property name="environment">-->
+    <!--<props>-->
+    <!--<prop key="java.naming.factory.initial">org.apache.activemq.jndi.ActiveMQInitialContextFactory</prop>-->
+    <!--<prop key="java.naming.provider.url">${activemq.url}</prop>-->
+    <!--<prop key="java.naming.security.principal">system</prop>-->
+    <!--<prop key="java.naming.security.credentials">manager</prop>-->
+    <!--</props>-->
+    <!--</property>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 指定 JMS 队列和主题 &ndash;&gt;-->
+    <!--<bean id="destinationResolver" class="org.springframework.jms.support.destination.JndiDestinationResolver">-->
+    <!--&lt;!&ndash;<property name="jndiTemplate" ref="jndiTemplate"/>&ndash;&gt;-->
+    <!--<property name="cache" value="true"/> &lt;!&ndash; 是否使用高速缓存解析目的地址 &ndash;&gt;-->
+    <!--<property name="fallbackToDynamicDestination" value="false"/> &lt;!&ndash; 在没有找到JNDI名称的情况下，是否创建动态目的地址 &ndash;&gt;-->
+    <!--</bean>-->
+
+    <!-- JMS Destination Resolver -->
+    <!--<bean id="destinationResolver" class="org.springframework.jms.support.destination.DynamicDestinationResolver"/>-->
+
+    <!--<bean id="queueConnectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">-->
+    <!--<property name="targetConnectionFactory" ref="jndiQueueConnectionFactory"/>-->
+    <!--</bean>-->
+    <!-- CachingConnectionFactory 作为 SingleConnectionFactory子类，配置一个连接池 -->
+    <bean id="queueConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <!-- 目标ConnectionFactory对应真实的可以产生JMS Connection的ConnectionFactory -->
+        <property name="targetConnectionFactory" ref="amqConnectionFactory"/>
+        <!-- 同上，同理 -->
+        <!-- <constructor-arg ref="amqConnectionFactory"/> -->
+        <property name="sessionCacheSize" value="10"/> <!-- Session缓存数量 -->
+    </bean>
+
+    <!-- Spring JmsTemplate 的消息生产者 start-->
+    <bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate"> <!-- 定义JmsTemplate的Queue类型 -->
+        <!-- 这个connectionFactory对应的是我们定义的Spring提供的那个ConnectionFactory对象 -->
+        <constructor-arg ref="queueConnectionFactory"/>
+        <property name="receiveTimeout" value="60000"/> <!-- 消息接收超时时间，默认为0 -->
+        <property name="pubSubDomain" value="false"/> <!-- 非pub/sub模型（发布/订阅），即队列模式 -->
+        <property name="defaultDestinationName" value="queue1"/>
+    </bean>
+    <bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate"> <!-- 定义JmsTemplate的Topic类型 -->
+        <!-- 这个connectionFactory对应的是我们定义的Spring提供的那个ConnectionFactory对象 -->
+        <constructor-arg ref="queueConnectionFactory"/>
+        <property name="receiveTimeout" value="60000"/> <!-- 消息接收超时时间，默认为0 -->
+        <property name="pubSubDomain" value="true"/> <!-- 非pub/sub模型（发布/订阅），即订阅模式 -->
+        <property name="defaultDestinationName" value="queue1"/>
+    </bean>
+    <!-- Spring JmsTemplate 的消息生产者 end -->
+
+    <!-- Spring 消息转换器 start -->
+    <bean id="messageConverter" class="org.springframework.jms.support.converter.SimpleMessageConverter"/>
+    <!-- Spring 消息转换器 end -->
+
+    <!-- 发送消息Demo start -->
+    <bean id="jmsSender" class="com.chenshun.studyapp.jms.client.JMSSender">
+        <property name="jmsTemplate" ref="jmsQueueTemplate"/>
+        <property name="queueName" value="queue1"/>
+    </bean>
+
+    <bean id="jmsSenderConvert" class="com.chenshun.studyapp.jms.client.JMSSenderConvert">
+        <property name="jmsTemplate" ref="jmsQueueTemplate"/>
+        <property name="queueName" value="queue1"/>
+        <!--<property name="queueDest" ref="queueDestination"/>-->
+    </bean>
+
+    <bean id="jmsSenderReply" class="com.chenshun.studyapp.jms.client.JMSSenderReply">
+        <property name="jmsTemplate" ref="jmsQueueTemplate"/>
+        <property name="requestQ" value="request"/>
+        <property name="replyQ" value="response"/>
+    </bean>
+    <!-- 发送消息Demo end -->
+
+    <!-- 接收消息Demo start -->
+    <bean id="messageListener1" class="com.chenshun.studyapp.jms.server.JMSReceiverAsync1"/>
+    <bean id="messageListener2" class="com.chenshun.studyapp.jms.server.JMSReceiverAsync2"/>
+
+    <bean id="messageListener3" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+        <constructor-arg>
+            <bean class="com.chenshun.studyapp.jms.server.JMSReceiverPOJO"/>
+        </constructor-arg>
+        <property name="defaultListenerMethod" value="processRequest"/> <!-- 设置操作方法名称，默认名称是handleMessage -->
+        <property name="messageConverter">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="messageListener4" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+        <constructor-arg>
+            <bean class="com.chenshun.studyapp.jms.server.JMSReceiverPOJO"/>
+        </constructor-arg>
+        <property name="defaultListenerMethod" value="processRequest"/>
+        <property name="messageConverter" ref="messageConverter"/>
+    </bean>
+
+    <!-- 异步消息侦听器 -->
+    <bean id="messageListener5" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+        <constructor-arg>
+            <!-- 自定义消息接收器，调用 handleMessage 方法 -->
+            <bean class="com.chenshun.component.listener.SimpleJMSReceiver"/>
+        </constructor-arg>
+        <property name="messageConverter"><!-- 通知DefaultMessageListenerContainer不要自动转换消息有效负载(可选) -->
+            <null/>
+        </property>
+    </bean>
+
+    <!-- 自定义消息处理器 -->
+    <bean id="messageListener6" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+        <constructor-arg>
+            <bean class="com.chenshun.component.listener.TradeorderManager"/> <!-- 自定义消息处理器 -->
+        </constructor-arg>
+        <property name="defaultListenerMethod" value="createTradeOrder"/> <!-- 自定义处理器中的默认执行方法 -->
+    </bean>
+
+    <!-- Alternative to the jms namespace 默认的消息监听器容器，一次只能添加一个 -->
+    <!--<bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer"> -->
+    <!--<property name="connectionFactory" ref="queueConnectionFactory"/> -->
+    <!--<property name="destinationResolver" ref="destinationResolver"/> -->
+    <!--<property name="concurrentConsumers" value="3"/> -->
+    <!--<property name="destinationName" value="queue1"/> -->
+    <!--<property name="messageListener" ref="messageListener1" /> -->
+    <!--</bean>-->
+
+    <!-- 使用 JMS命名空间，可以在一个消息侦听器内兼有多个消息侦听器 -->
+    <jms:listener-container destination-type="queue" container-type="default" concurrency="10" acknowledge="auto"
+                            connection-factory="queueConnectionFactory">
+        <!--<jms:listener destination="queue1" ref="messageListener1"/>-->
+        <jms:listener destination="request" ref="messageListener2"/>
+        <!--<jms:listener destination="queue1" ref="messageListener3"/>-->
+        <!--<jms:listener destination="queue1" ref="messageListener4"/>-->
+        <!--<jms:listener destination="queue1" ref="messageListener5"/>-->
+        <jms:listener destination="queue1" ref="messageListener6"/>
+    </jms:listener-container>
+    <!-- 接收消息Demo end -->
+
+</beans>
