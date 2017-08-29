@@ -16,7 +16,7 @@
     <!-- ActiveMQ 连接工厂 -->
     <!-- 真正可以产生Connection的ConnectionFactory，由对应的 JMS服务厂商提供-->
     <!-- 如果连接网络：tcp://ip:61616；未连接网络：tcp://localhost:61616 以及用户名，密码-->
-    <amq:connectionFactory id="amqConnectionFactory" brokerURL="${activemq.url}" userName="admin" password="admin"/>
+    <amq:connectionFactory id="amqConnectionFactory" brokerURL="${activemq.url}" userName="system" password="manager"/>
 
     <!--&lt;!&ndash; 定义连接JMS提供者所需的初始上下文工厂、提供者URL和安全凭证 &ndash;&gt;-->
     <!--<bean id="jndiTemplate" class="org.springframework.jndi.JndiTemplate">-->

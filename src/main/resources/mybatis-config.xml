@@ -16,5 +16,11 @@
     <typeAliases>
         <package name="com.chenshun.studyapp.domain"/>
     </typeAliases>
-
+    <plugins>
+        <simpleAuthenticationPlugin>
+            <users>
+                <authenticationUser username="${activemq.username}" password="${activemq.password}" groups="users,admins"/>
+            </users>
+        </simpleAuthenticationPlugin>
+    </plugins>
 </configuration>
