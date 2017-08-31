@@ -140,8 +140,17 @@
         }
         map.addControl(new clearControl());
 
-        // 点击事件获取经纬度
-        map.addEventListener("click", clickToDrawPoint);
+//        // 点击事件获取经纬度
+//        map.addEventListener("click", clickToDrawPoint);
+//
+//        var mPoint = new BMap.Point(104.072214, 30.663287);
+//        map.enableScrollWheelZoom();
+//        map.centerAndZoom(mPoint,15);
+//
+//        var circle = new BMap.Circle(mPoint,100,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3});
+//        map.addOverlay(circle);
+//        var local =  new BMap.LocalSearch(map, {renderOptions: {map: map, autoViewport: false}});
+//        local.searchNearby('餐馆',mPoint,100);
     }
     function loadScript() {
         var script = document.createElement("script");
