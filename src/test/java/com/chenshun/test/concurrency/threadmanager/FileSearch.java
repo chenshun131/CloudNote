@@ -43,7 +43,7 @@ public class FileSearch implements Runnable {
                 }
             }
         }
-        if (Thread.interrupted()) {
+        if (Thread.interrupted()) { // 当调用 interrupt 方法时中断状态被设置，此时返回true，且中断状态将会被清理
             throw new InterruptedException();
         }
     }
@@ -52,7 +52,7 @@ public class FileSearch implements Runnable {
         if (file.getName().equals(fileName)) {
             System.out.printf("%s : %s\n", Thread.currentThread().getName(), file.getAbsolutePath());
         }
-        if (Thread.interrupted()) {
+        if (Thread.interrupted()) { // 当调用 interrupt 方法时中断状态被设置，此时返回true，且中断状态将会被清理
             throw new InterruptedException();
         }
     }

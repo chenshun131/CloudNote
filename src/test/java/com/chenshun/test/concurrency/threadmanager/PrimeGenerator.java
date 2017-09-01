@@ -4,7 +4,7 @@ package com.chenshun.test.concurrency.threadmanager;
  * User: mew <p />
  * Time: 17/8/29 11:15  <p />
  * Version: V1.0  <p />
- * Description: 线程阻断 <p />
+ * Description: 线程阻断，当前案例线程不会被阻断 <p />
  */
 public class PrimeGenerator extends Thread {
 

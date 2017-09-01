@@ -10,7 +10,7 @@ public class Task implements Runnable {
 
     @Override
     public void run() {
-        int numero = Integer.parseInt("TTT");
+        int numero = Integer.parseInt("TTT"); // 转换成
     }
 
     public static void main(String[] args) {

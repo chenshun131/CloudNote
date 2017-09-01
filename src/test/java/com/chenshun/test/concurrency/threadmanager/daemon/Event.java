@@ -1,4 +1,4 @@
-package com.chenshun.test.concurrency.threadmanager;
+package com.chenshun.test.concurrency.threadmanager.daemon;
 
 import java.util.Date;
 

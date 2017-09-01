@@ -66,13 +66,13 @@ public class SearchTask implements Runnable {
         System.out.printf("Information about the Thread Group\n");
         threadGroup.list(); // 打印线程对象信息，仅在测试时使用
 
-        Thread[] threads = new Thread[threadGroup.activeCount()];
+        Thread[] threads = new Thread[threadGroup.activeCount()]; // activeCount() : 获取激活数组的数量
         threadGroup.enumerate(threads); // 拷贝激活的线程组
         for (int i = 0; i < threadGroup.activeCount(); i++) {
             System.out.printf("Thread %s: %s\n", threads[i].getName(), threads[i].getState());
         }
         waitFinish(threadGroup);
-        threadGroup.interrupt();
+        threadGroup.interrupt(); // 阻断线程组中所有的线程
     }
 
 }
