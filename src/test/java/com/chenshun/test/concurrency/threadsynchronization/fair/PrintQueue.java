@@ -1,6 +1,5 @@
 package com.chenshun.test.concurrency.threadsynchronization.fair;
 
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -11,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class PrintQueue {
 
-    private final Lock queueLock = new ReentrantLock(true);
+    private final ReentrantLock queueLock = new ReentrantLock(true);
 
     public void printJob(Object document) {
         queueLock.lock();
@@ -54,4 +53,3 @@ public class PrintQueue {
     }
 
 }
-
