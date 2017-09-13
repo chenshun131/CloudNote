@@ -10,7 +10,7 @@ import java.util.*;
  * Version: V1.0  <p />
  * Description:  <p />
  */
-public class TestLamdba {
+public class TestLambda2 {
 
     // 原来的匿名内部类
     @Test
