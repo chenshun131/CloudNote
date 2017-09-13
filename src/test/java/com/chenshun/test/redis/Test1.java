@@ -6,7 +6,7 @@ import redis.clients.jedis.Jedis;
  * User: mew <p />
  * Time: 17/9/12 09:40  <p />
  * Version: V1.0  <p />
- * Description:
+ * Description: 基本数据类型操作 <br/>
  * <pre>
  *                     ,----------------,              ,---------,
  *                ,-----------------------,          ,"        ,"|
