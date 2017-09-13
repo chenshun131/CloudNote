@@ -6,6 +6,7 @@ package com.chenshun.test.lambda;
  * Version: V1.0  <p />
  * Description:  <p />
  */
+@FunctionalInterface
 public interface MyPredicate<T> {
 
     boolean test(T t);

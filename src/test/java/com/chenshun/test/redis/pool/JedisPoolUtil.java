@@ -9,6 +9,20 @@ import redis.clients.jedis.JedisPoolConfig;
  * Time: 17/9/13 10:04  <p />
  * Version: V1.0  <p />
  * Description:  <p />
+ * <pre>
+ *  .--,       .--,
+ * ( (  \.---./  ) )
+ *  '.__/o   o\__.'
+ *     {=  ^  =}
+ *      >  -  <
+ *     /       \
+ *    //       \\
+ *   //|   .   |\\
+ *   "'\       /'"_.-~^`'-.
+ *      \  _  /--'         `
+ *    ___)( )(___
+ *   (((__) (__)))    高山仰止,景行行止.虽不能至,心向往之。
+ * </pre>
  */
 public class JedisPoolUtil {
 

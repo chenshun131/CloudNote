@@ -2,6 +2,9 @@ package com.chenshun.test.lambda;
 
 import org.junit.Test;
 
+import java.util.*;
+import java.util.function.Consumer;
+
 /**
  * User: chenshun131 <p />
  * Time: 17/9/12 22:58  <p />
@@ -65,6 +68,51 @@ public class TestLambda {
 
         Runnable runnable1 = () -> System.out.println("Hello Lambda!");
         runnable1.run();
+    }
+
+    @Test
+    public void test2() {
+        Consumer<String> con = (x) -> System.out.println(x);
+        con.accept("我大尚硅谷威武！");
+    }
+
+    @Test
+    public void test3() {
+        Comparator<Integer> comparator = (x, y) -> {
+            System.out.println("函数式接口");
+            return Integer.compare(x, y);
+        };
+    }
+
+    @Test
+    public void test4() {
+        Comparator<Integer> comparator = (x, y) -> Integer.compare(x, y);
+    }
+
+    @Test
+    public void test5() {
+//		String[] strs;
+//		strs = {"aaa", "bbb", "ccc"};
+
+        List<String> list = new ArrayList<>();
+
+        show(new HashMap<>());
+    }
+
+    public void show(Map<String, Integer> map) {
+    }
+
+    // 需求：对一个数进行运算
+    @Test
+    public void test6() {
+        Integer num = operation(100, (x) -> x * x);
+        System.out.println(num);
+
+        System.out.println(operation(200, (y) -> y + 200));
+    }
+
+    public Integer operation(Integer num, MyFun mf) {
+        return mf.getValue(num);
     }
 
 }
