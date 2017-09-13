@@ -40,9 +40,7 @@ public class LineTask extends RecursiveTask<Integer> {
             invokeAll(task1, task2);
             try {
                 result = groupResults(task1.get(), task2.get());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         }
@@ -65,36 +63,7 @@ public class LineTask extends RecursiveTask<Integer> {
     }
 
     private Integer groupResults(Integer number1, Integer number2) {
-        Integer result = number1 + number2;
-        return result;
-    }
-
-    public static void main(String[] args) {
-        Document mock = new Document();
-        String[][] document = mock.generateDocument(100, 1000, "the");
-        DocumentTask task = new DocumentTask(document, 0, 100, "the");
-        ForkJoinPool pool = new ForkJoinPool();
-        pool.execute(task);
-        do {
-            System.out.printf("Main: Thread Parallelism: %d\n", pool.getParallelism());
-            System.out.printf("Main: Thread Active Threads: %d\n", pool.getActiveThreadCount());
-            System.out.printf("Main: Thread Task Count: %d\n", pool.getQueuedTaskCount());
-            System.out.printf("Main: Thread Steal Count: %d\n", pool.getStealCount());
-            try {
-                TimeUnit.MILLISECONDS.sleep(5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } while (!task.isDone());
-        pool.shutdown();
-        try {
-            pool.awaitTermination(1, TimeUnit.DAYS);
-            System.out.printf("Main: The word appears %d in the document", task.get());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        return number1 + number2;
     }
 
 }
