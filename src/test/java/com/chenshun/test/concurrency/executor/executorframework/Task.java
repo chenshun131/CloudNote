@@ -27,7 +27,7 @@ public class Task implements Runnable {
 
         try {
             Long duration = (long) (Math.random() * 10);
-            System.out.printf("%s: Task %s:Doing a task during %d seconds\n", Thread.currentThread().getName(), name,
+            System.out.printf("%s: Task %s:Doing a Task during %d seconds\n", Thread.currentThread().getName(), name,
                     duration);
             TimeUnit.SECONDS.sleep(duration);
         } catch (InterruptedException e) {

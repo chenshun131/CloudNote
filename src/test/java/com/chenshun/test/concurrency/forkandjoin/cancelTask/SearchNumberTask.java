@@ -90,7 +90,7 @@ public class SearchNumberTask extends RecursiveTask<Integer> {
     }
 
     public void writeCancelMessage() {
-        System.out.printf("Task: Cancelled task from %d to %d", start, end);
+        System.out.printf("Task: Cancelled Task from %d to %d", start, end);
     }
 
     public static int[] generateArray(int size) {

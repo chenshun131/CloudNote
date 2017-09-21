@@ -62,7 +62,7 @@ public class Task extends RecursiveTask<Integer> {
         System.out.printf("Task: Start from %d to %d\n", start, end);
         if (end - start < 10) {
             if ((3 > start) && (3 < end)) {
-                throw new RuntimeException("This task throws an Exception: Task from " + start + " to " + end);
+                throw new RuntimeException("This Task throws an Exception: Task from " + start + " to " + end);
             }
             try {
                 TimeUnit.SECONDS.sleep(1);

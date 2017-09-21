@@ -14,7 +14,7 @@ public class RejectedTaskController implements RejectedExecutionHandler {
 
     @Override
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-        System.out.printf("RejectedTaskController: The task %s has been rejected\n", toString().toString());
+        System.out.printf("RejectedTaskController: The Task %s has been rejected\n", toString().toString());
         System.out.printf("RejectedTaskController: %s\n", executor.toString());
         System.out.printf("RejectedTaskController: Terminating: %s\n", executor.isTerminating());
         System.out.printf("RejectedTaskController: Terminated: %s\n", executor.isTerminated());
