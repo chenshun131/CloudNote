@@ -1,9 +1,11 @@
 package com.chenshun.test.other;
 
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.Iterator;
-import java.util.Map;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.validation.Valid;
+import java.util.*;
 
 /**
  * User: mew <p />
@@ -187,4 +189,7 @@ public class EnumTest {
         Map<PictureType, String> map = new EnumMap<>(PictureType.class);
         map.put(PictureType.BMP, "这是一个 BMP 格式图片");
     }
+
+
+
 }
