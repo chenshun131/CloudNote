@@ -30,7 +30,7 @@ public class MyWorkerThread extends ForkJoinWorkerThread {
         super.onTermination(exception);
     }
 
-    private void addTask() {
+    public void addTask() {
         int counter = taskCounter.get().intValue();
         counter++;
         taskCounter.set(counter);
