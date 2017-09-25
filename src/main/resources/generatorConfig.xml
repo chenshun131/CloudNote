@@ -15,16 +15,17 @@
             <property name="suppressDate" value="true"/>
             <!-- 是否去除自动生成的注释.true:是;false:否 自动生成代码注释是很反人类的,通常关闭注释 -->
             <property name="suppressAllComments" value="true"/>
+            <property name="addRemarkComments" value="true"/>
         </commentGenerator>
 
         <!-- 数据库链接URL、用户名、密码 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/CloudNote"
-                        userId="root" password="123456">
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://172.18.8.22:3306/ins"
+                        userId="root" password="jhj123456">
         </jdbcConnection>
 
         <!--
-        default false
-        Java type resolver will always use java.math.BigDecimal if the database column is of type DECIMAL or NUMERIC.
+             default false
+             Java type resolver will always use java.math.BigDecimal if the database column is of type DECIMAL or NUMERIC.
         -->
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -39,7 +40,7 @@
 
         <!-- 生成映射文件的包名和位置-->
         <sqlMapGenerator targetPackage="mappers" targetProject="MAVEN">
-            <property name="enableSubPackages" value="false"/>
+            <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <!-- 生成DAO的包名和位置 -->
@@ -48,63 +49,13 @@
         </javaClientGenerator>
 
         <!-- 要生成的数据库表.MYSQL可以加入主键自增、字段命名、忽略某字段等 -->
-        <table tableName="cn_user" domainObjectName="User"
-               enableUpdateByPrimaryKey="false" enableDeleteByPrimaryKey="false"
-               enableSelectByPrimaryKey="false" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="cn_notebook_type" domainObjectName="NoteBookType"
-               enableUpdateByPrimaryKey="false" enableDeleteByPrimaryKey="false"
-               enableSelectByPrimaryKey="false" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="cn_notebook" domainObjectName="NoteBook"
-               enableUpdateByPrimaryKey="false"
-               enableDeleteByPrimaryKey="false" enableSelectByPrimaryKey="false"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="cn_note" domainObjectName="Note"
-               enableUpdateByPrimaryKey="false"
-               enableDeleteByPrimaryKey="false" enableSelectByPrimaryKey="false"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="cn_share" domainObjectName="Share"
-               enableUpdateByPrimaryKey="false"
-               enableDeleteByPrimaryKey="false" enableSelectByPrimaryKey="false"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="cn_activity" domainObjectName="Activity"
-               enableUpdateByPrimaryKey="false"
-               enableDeleteByPrimaryKey="false" enableSelectByPrimaryKey="false"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="cn_activity_status" domainObjectName="ActivityStatus"
-               enableUpdateByPrimaryKey="false"
-               enableDeleteByPrimaryKey="false" enableSelectByPrimaryKey="false"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="cn_note_activity" domainObjectName="NoteActivity"
-               enableUpdateByPrimaryKey="false"
-               enableDeleteByPrimaryKey="false" enableSelectByPrimaryKey="false"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="cn_note_status" domainObjectName="NoteStatus"
-               enableUpdateByPrimaryKey="false"
-               enableDeleteByPrimaryKey="false" enableSelectByPrimaryKey="false"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="cn_note_type" domainObjectName="NoteType"
-               enableUpdateByPrimaryKey="false"
-               enableDeleteByPrimaryKey="false" enableSelectByPrimaryKey="false"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+        <table tableName="t_product" domainObjectName="ProductPo"
+               enableInsert="true" enableSelectByPrimaryKey="true"
+               enableSelectByExample="true" enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true" enableDeleteByExample="true"
+               enableCountByExample="true" enableUpdateByExample="true"
+               selectByPrimaryKeyQueryId="true" selectByExampleQueryId="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/> <!-- 主键回填 -->
+        </table>
     </context>
 </generatorConfiguration>
