@@ -26,6 +26,8 @@ public class CustomControllerExHandler implements HandlerExceptionResolver {
     public CustomControllerExHandler() {
     }
 
+    
+    
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
                                          Exception ex) {
         RestResultDTO restResultDTO = new RestResultDTO(StatusCode.INTERNAL_SERVER_ERROR);
