@@ -126,6 +126,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
@@ -145,6 +146,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+         -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -469,11 +471,13 @@
             <scope>test</scope>
         </dependency>
         <!-- JUNIT多线程测试用例框架 -->
+        <!-- 
         <dependency>
             <groupId>net.sourceforge.groboutils</groupId>
             <artifactId>groboutils-core</artifactId>
             <version>5</version>
         </dependency>
+         -->
         <!-- Test End -->
 
         <!-- ActiveMQ Start -->
