@@ -18,7 +18,6 @@ public class TestAnnotation {
     @MyAnnotation("AAAA")
     @MyAnnotation("BBBB")
     public void show(@MyAnnotation("CCCCC") String str) {
-
     }
 
     @Test
