@@ -12,9 +12,9 @@ import java.util.*;
  */
 public class TestLambda2 {
 
-    // 原来的匿名内部类
     @Test
     public void test1() {
+        // 原来的匿名内部类作为参数传递
         Comparator<Integer> comparator = new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
@@ -24,9 +24,10 @@ public class TestLambda2 {
         TreeSet<Integer> treeSet = new TreeSet<>(comparator);
     }
 
-    // Lambda 表达式
+
     @Test
     public void test2() {
+        // Lambda 表达式作为参数传递
         Comparator<Integer> comparator = (o1, o2) -> Integer.compare(o1, o2);
         TreeSet<Integer> treeSet = new TreeSet<>(comparator);
     }
@@ -138,8 +139,7 @@ public class TestLambda2 {
     // 优化方式三 : Lambda
     @Test
     public void test9() {
-        List<Employee> emps = filterEmployees3(employees, (employee -> (employee.getAge() >= 35)));
-        emps.forEach(System.out::println);
+        filterEmployees3(employees, employee -> employee.getAge() >= 35).forEach(System.out::println);
     }
 
     @Test
@@ -151,18 +151,13 @@ public class TestLambda2 {
     // 优化方式四 : Stream API
     @Test
     public void test11() {
-        employees.stream()
-                .filter((employee) -> employee.getAge() >= 35)
-                .limit(5)
-                .forEach(System.out::println);
+        employees.stream().filter((employee) -> employee.getAge() >= 35).limit(5).forEach(System.out::println);
     }
 
     @Test
     public void test12() {
         employees.stream()
-                .filter((employee) -> employee.getSalary() >= 4000)
-                .limit(5)
-                .forEach(System.out::println);
+                .filter((employee) -> employee.getSalary() >= 4000).limit(5).forEach(System.out::println);
     }
 
 }

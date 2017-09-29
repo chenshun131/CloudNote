@@ -32,18 +32,12 @@ public class TestStreamaAPI4 {
     @Test
     public void test1() {
         List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-
-        Integer sum = list.stream()
-                .reduce(0, (x, y) -> x + y);
-
+        Integer sum = list.stream().reduce(0, (x, y) -> x + y);
         System.out.println(sum);
 
         System.out.println("----------------------------------------");
 
-        Optional<Double> op = emps.stream()
-                .map(Employee::getSalary)
-                .reduce(Double::sum);
-
+        Optional<Double> op = emps.stream().map(Employee::getSalary).reduce(Double::sum);
         System.out.println(op.get());
     }
 
@@ -60,78 +54,48 @@ public class TestStreamaAPI4 {
                         return 0;
                     }
                 }).reduce(Integer::sum);
-
         System.out.println(sum.get());
     }
 
     //collect——将流转换为其他形式。接收一个 Collector接口的实现，用于给Stream中元素做汇总的方法
     @Test
     public void test3() {
-        List<String> list = emps.stream()
-                .map(Employee::getName)
-                .collect(Collectors.toList());
-
+        List<String> list = emps.stream().map(Employee::getName).collect(Collectors.toList());
         list.forEach(System.out::println);
 
-        System.out.println("----------------------------------");
-
-        Set<String> set = emps.stream()
-                .map(Employee::getName)
-                .collect(Collectors.toSet());
-
+        Set<String> set = emps.stream().map(Employee::getName).collect(Collectors.toSet());
         set.forEach(System.out::println);
 
-        System.out.println("----------------------------------");
-
-        HashSet<String> hs = emps.stream()
-                .map(Employee::getName)
-                .collect(Collectors.toCollection(HashSet::new));
-
+        HashSet<String> hs = emps.stream().map(Employee::getName).collect(Collectors.toCollection(HashSet::new));
         hs.forEach(System.out::println);
     }
 
     @Test
     public void test4() {
-        Optional<Double> max = emps.stream()
-                .map(Employee::getSalary)
-                .collect(Collectors.maxBy(Double::compare));
-
+        Optional<Double> max = emps.stream().map(Employee::getSalary).collect(Collectors.maxBy(Double::compare));
         System.out.println(max.get());
 
-        Optional<Employee> op = emps.stream()
-                .collect(Collectors.minBy((e1, e2) -> Double.compare(e1.getSalary(), e2.getSalary())));
-
+        Optional<Employee> op = emps.stream().collect(Collectors.minBy((e1, e2) ->
+                Double.compare(e1.getSalary(), e2.getSalary())));
         System.out.println(op.get());
 
-        Double sum = emps.stream()
-                .collect(Collectors.summingDouble(Employee::getSalary));
-
+        Double sum = emps.stream().collect(Collectors.summingDouble(Employee::getSalary));
         System.out.println(sum);
 
-        Double avg = emps.stream()
-                .collect(Collectors.averagingDouble(Employee::getSalary));
-
+        Double avg = emps.stream().collect(Collectors.averagingDouble(Employee::getSalary));
         System.out.println(avg);
 
-        Long count = emps.stream()
-                .collect(Collectors.counting());
-
+        Long count = emps.stream().collect(Collectors.counting());
         System.out.println(count);
 
-        System.out.println("--------------------------------------------");
-
-        DoubleSummaryStatistics dss = emps.stream()
-                .collect(Collectors.summarizingDouble(Employee::getSalary));
-
+        DoubleSummaryStatistics dss = emps.stream().collect(Collectors.summarizingDouble(Employee::getSalary));
         System.out.println(dss.getMax());
     }
 
     //分组
     @Test
     public void test5() {
-        Map<Status, List<Employee>> map = emps.stream()
-                .collect(Collectors.groupingBy(Employee::getStatus));
-
+        Map<Status, List<Employee>> map = emps.stream().collect(Collectors.groupingBy(Employee::getStatus));
         System.out.println(map);
     }
 
@@ -148,7 +112,6 @@ public class TestStreamaAPI4 {
                         return "成年";
                     }
                 })));
-
         System.out.println(map);
     }
 
@@ -164,19 +127,14 @@ public class TestStreamaAPI4 {
     //
     @Test
     public void test8() {
-        String str = emps.stream()
-                .map(Employee::getName)
+        String str = emps.stream().map(Employee::getName)
                 .collect(Collectors.joining(",", "----", "----"));
-
         System.out.println(str);
     }
 
     @Test
     public void test9() {
-        Optional<Double> sum = emps.stream()
-                .map(Employee::getSalary)
-                .collect(Collectors.reducing(Double::sum));
-
+        Optional<Double> sum = emps.stream().map(Employee::getSalary).collect(Collectors.reducing(Double::sum));
         System.out.println(sum.get());
     }
 

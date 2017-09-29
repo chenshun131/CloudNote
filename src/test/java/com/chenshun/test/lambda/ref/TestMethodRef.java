@@ -134,8 +134,8 @@ public class TestMethodRef {
     @Test
     public void test1() {
         PrintStream ps = System.out;
-        Consumer<String> con = (str) -> ps.println(str);
-        con.accept("Hello World！");
+        Consumer<String> con1 = (str) -> ps.println(str);
+        con1.accept("Hello World！");
 
         System.out.println("--------------------------------");
 
