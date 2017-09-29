@@ -56,24 +56,25 @@ public class TestLambda {
     @Test
     public void test1() {
         int num = 0; // 1.7 及其之前必须是 final，从 1.8 开始默认会添加 final
-        Runnable runnable = new Runnable() {
+        // 匿名内部类
+        Runnable runnable1 = new Runnable() {
             @Override
             public void run() {
                 System.out.println("Hello world!" + num);
             }
         };
-        runnable.run();
+        runnable1.run();
 
         System.out.println("-------------------------");
-
-        Runnable runnable1 = () -> System.out.println("Hello Lambda!");
-        runnable1.run();
+        // Lambda表达式
+        Runnable runnable2 = () -> System.out.println("Hello Lambda!");
+        runnable2.run();
     }
 
     @Test
     public void test2() {
         Consumer<String> con = (x) -> System.out.println(x);
-        con.accept("我大尚硅谷威武！");
+        con.accept("啦啦啦，我是卖报的小行家");
     }
 
     @Test
@@ -111,7 +112,7 @@ public class TestLambda {
         System.out.println(operation(200, (y) -> y + 200));
     }
 
-    public Integer operation(Integer num, MyFun mf) {
+    private Integer operation(Integer num, MyFun mf) {
         return mf.getValue(num);
     }
 
