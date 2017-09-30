@@ -96,9 +96,6 @@ public class TestOptional {
     }
 
     public String getGodnessName2(Optional<NewMan> man){
-        return man.orElse(new NewMan())
-                .getGodness()
-                .orElse(new Godness("苍老师"))
-                .getName();
+        return man.orElse(new NewMan()).getGodness().orElse(new Godness("苍老师")).getName();
     }
 }

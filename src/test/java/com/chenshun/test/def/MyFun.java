@@ -6,7 +6,9 @@ package com.chenshun.test.def;
  * Version: V1.0  <p />
  * Description:  <p />
  */
-public interface MyFun {
+public interface MyFun<T> {
+
+    T func(int a);
 
     default String getName() {
         return "哈哈哈";

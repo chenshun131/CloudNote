@@ -9,6 +9,11 @@ package com.chenshun.test.def;
 public class SubClass /*extends MyClass*/ implements MyFun, MyInterface {
 
     @Override
+    public Object func(int a) {
+        return new Object();
+    }
+
+    @Override
     public String getName() {
         return MyInterface.super.getName();
     }
